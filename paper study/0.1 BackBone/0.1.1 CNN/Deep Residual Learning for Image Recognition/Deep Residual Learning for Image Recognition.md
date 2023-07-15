@@ -44,7 +44,7 @@
 	-  그러나 실험에 따르면 현재 해결책은 구성된 솔루션보다 비교적 우수하거나 더 나은 솔루션을 찾을 수 없습니다(또는 실현 가능한 시간 내에 그렇게 할 수 없습니다).
 
 - 본 논문에서는 **deep residual learning 프레임워크를 도입하여 성능 degradation 문제를 해결**합니다. 
-	- (ResNets) 잔차(residual)가 왜 좋은지 설명
+	- [(ResNets) 잔차(residual)가 왜 좋은지 설명](../../../0.0%20참고/(ResNets)%20잔차(residual)가%20왜%20좋은지%20설명.md)
 	- 몇 개의 적층된 레이어가 원하는 기본(underlying) 매핑에 직접 적합하기를 바라는 대신, 이러한 레이어가 residual 매핑에 적합하도록 명시적으로 허용합니다. 
 	- 공식적으로, 원하는 기본 매핑을 H(x)로 표시하고, 쌓인 비선형 레이어가 F(x) := H(x) - x의 다른 매핑에 맞도록 합니다. 원래 매핑은 F(x)+x로 recast됩니다.
 	- 우리는 참조되지 않은 원래 매핑을 최적화하는 것보다 잔여 매핑을 최적화하는 것이 더 쉽다고 가정합니다. 
@@ -80,7 +80,7 @@
 	- 벡터 양자화의 경우, reisual vectors [17]을 *인코딩하는 것이 원래 벡터를 인코딩하는 것보다 더 효과적인 것으로 나타났습니다.*
 
 - low-level vision의 비전과 computer graphics에서 편미분 방정식(Partial Differential Equations PDE)을 해결하기 위해 널리 사용되는 멀티그리드 방법(Multigrid method)[3]은 시스템을 여러 규모의 하위 문제로 재구성하며, 각 하위 문제는 더 거칠고(coarser) 미세한 규모 사이(finer scale)의 residual solution을 담당합니다.
-	- **Multigrid Methods:**와 **Hierarchical Basis Preconditioning:*이 왜 수렴하는지 빠른 이유
+	- [**Multigrid Methods:**와 **Hierarchical Basis Preconditioning:*이 왜 수렴하는지 빠른 이유](../../../0.0%20참고/Multigrid%20Methods와%20Hierarchical%20Basis%20Preconditioning이%20빠른%20이유%20.md)
 	- Multigrid의 대안은 두 scale 사이의 residual vector를 나타내는 변수에 의존하는 계층적 기초 전제 조건 [44, 45]입니다. 
 	- 이러한 solver는 solution의 residual nature을 모르는 표준 solver보다 훨씬 빠르게 수렴되는 것으로 나타났습니다 [3, 44, 45].
 	-  이러한 방법은 좋은 재구성(reformulation) 또는 전제 조건을 통해 최적화를 단순화할 수 있음을 시사합니다.
