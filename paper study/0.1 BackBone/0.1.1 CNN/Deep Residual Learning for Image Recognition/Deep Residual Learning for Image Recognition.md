@@ -81,7 +81,7 @@
    - extremely deep representations은 또한 다른 인식 작업에서 우수한 일반화 성능을 가지며, ILSVRC 및 COCO 2015 대회에서 ImageNet 탐지, ImageNet 현지화, COCO 탐지 및 COCO 세분화 부문에서 추가로 1위를 차지했습니다.
    - 이 강력한 증거는 잔류 학습 원리가 일반적이라는 것을 보여주며, 우리는 그것이 다른 비전 및 비전 문제에 적용될 수 있을 것으로 기대합니다.
 
-## 1. Related Work
+## 2. Related Work
 
 **Residual Representations.**
 
@@ -92,8 +92,12 @@
 
 - low-level vision의 비전과 computer graphics에서 편미분 방정식(Partial Differential Equations PDE)을 해결하기 위해 널리 사용되는 멀티그리드 방법(Multigrid method)[3]은 시스템을 여러 규모의 하위 문제로 재구성하며, 각 하위 문제는 더 거칠고(coarser) 미세한 규모 사이(finer scale)의 residual solution을 담당합니다.
 
-   - [**Multigrid Methods:**와 **Hierarchical Basis Preconditioning:*이 왜 수렴하는지 빠른 이유](../../../0.0%20참고/Multigrid%20Methods와%20Hierarchical%20Basis%20Preconditioning이%20빠른%20이유%20.md)
+   - [Multigrid Methods:와 Hierarchical Basis Preconditioning: 이 왜 수렴하는지 빠른 이유](../../../0.0%20참고/Multigrid%20Methods와%20Hierarchical%20Basis%20Preconditioning이%20빠른%20이유%20.md)
    - Multigrid의 대안은 두 scale 사이의 residual vector를 나타내는 변수에 의존하는 계층적 기초 전제 조건 [44, 45]입니다.
    - 이러한 solver는 solution의 residual nature을 모르는 표준 solver보다 훨씬 빠르게 수렴되는 것으로 나타났습니다 [3, 44, 45].
    - 이러한 방법은 좋은 재구성(reformulation) 또는 전제 조건을 통해 최적화를 단순화할 수 있음을 시사합니다.
+
+## 3. Deep Residual Learning
+
+### 3.1. Residual Learning
 
