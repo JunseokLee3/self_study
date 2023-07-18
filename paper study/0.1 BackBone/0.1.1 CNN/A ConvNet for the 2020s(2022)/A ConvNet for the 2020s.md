@@ -1,4 +1,5 @@
 # A ConvNet for the 2020s
+**CVPR, 2022**
 
 https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_CVPR_2022_paper.html
 
