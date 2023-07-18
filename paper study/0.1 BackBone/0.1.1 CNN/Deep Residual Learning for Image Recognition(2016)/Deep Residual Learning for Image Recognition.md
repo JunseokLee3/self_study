@@ -97,7 +97,6 @@
 	-  **반대로**,* 우리의 공식은 항상 residual functions를 학습합니다. 우리의 identity shortcuts는 결코 닫히지 않으며, 모든 정보는 항상 전달되며*, additional residual functions를 학습해야 합니다. 
 	- 또한, *high-way networks는 극단적으로 증가된 깊이(e.g., over 100 layers)에서 정확도 향상을 보여주지 않았습니다*.
 
-
 ## 3. Deep Residual Learning
 
 ### 3.1. Residual Learning
