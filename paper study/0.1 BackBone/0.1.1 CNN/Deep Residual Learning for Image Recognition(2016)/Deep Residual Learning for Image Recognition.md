@@ -150,5 +150,5 @@
 
 - 우리는 다양한 일반/잔여망(plain/residual)을 테스트했고, 일관된 현상을 관찰했습니다. 
 	- 논의를 위한 사례(instance)를 제공하기 위해 ImageNet에 대한 두 가지 모델을 다음과 같이 설명합니다.
- 
+ ![Alt text](image-5.png)
 **Plain Network.**
