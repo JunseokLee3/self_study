@@ -113,3 +113,42 @@
 	- residual learning reformulation을 통해 identity mapping이 최적인 경우 솔버는 단순히 identity mapping에 접근하기 위해 여러 비선형 레이어(nonlinear layers)의 가중치를 0으로 유도할 수 있습니다.
 
 ![Alt text](image-2.png)
+
+- 실제 경우, **identity mapping이 최적일 가능성은 낮지만, 우리의 reformulation은 문제를 전제하는 데 도움**이 될 수 있습니다. 
+	- *최적의 함수가 zero mapping보다 identity mapping에 더 가까우면 solover가 identity mapping을 참조하여 섭동(perturbations)을 찾는 것이 새로운 함수로 학습하는 것보다 더 쉬울 것입니다.*   ["Perturbations"의 의미](../../../0.0%20참고/Perturbations의%20의미.md)
+	- 우리는 실험을 통해 학습된 residual 함수가 일반적으로 반응이 작다는 것을 보여주며, 이는 ID 매핑이 합리적인 전제 조건을 제공한다는 것을 시사합니다. 
+
+
+ ### 3.2. Identity Mapping by Shortcuts
+![Alt text](image-3.png)
+![Alt text](image-4.png)
+- 우리는 **몇 개의 적층된 모든 레이어에 잔여 학습을 채택**합니다.
+	- 여기서 x와 y는 고려된 레이어의 입력 및 출력 벡터입니다.
+	-  함수 F(x, {W_i})는 학습할 잔여 매핑을 나타냅니다.
+	-  두 개의 층을 갖는 그림 2의 예에서, σ가 ReLU [29]를 나타내며 표기를 단순화하기 위해 편향이 생략된 F = W_{2σ}(W_{1x}).
+	-  F + x 작업은 바로 가기 연결 및 요소별 추가에 의해 수행됩니다. 
+	- 우리는 추가 후 두 번째 비선형성을 채택합니다(즉, σ(y), 그림 2 참조)..
+
+- 방정식(1)의 shortcut connections은 extra parameter나 computation complexity을 유발하지 않습니다.
+	-  이것은 실제로 매력적일 뿐만 아니라 일반 네트워크와 residual 네트워크 간의 비교에서도 중요합니다. 
+	- 우리는 동일한 수의 매개 변수, 깊이, 폭 및 계산 비용을 동시에 갖는 일반/잔류 네트워크를 공정하게 비교할 수 있습니다(except for the negligible element-wise addition). `(비교를 할때 철저히 똑같이 비교를해야지 독자들에게 본인의 주장을 확실히 할 수 있다.)`
+- x와 F의 dimension는 방정식(1)에서 같아야 합니다.
+	-  그렇지 않은 경우(e.g., when changing the input/output channels) 바로 가기 연결로 linear projection W_s를 수행하여 dimension를 일치시킬 수 있습니다: `(이것도 엄청 친절히 답변해 주었다. 지금 medical 쪽 실험에 skip connection을 했을 때 일부러 차원을 맞추기 위해서 linear projoction을 했다.)`
+	- 우리는 또한 방정식(1)에서 사각 행렬(square matrix) W_s를 사용할 수 있습니다.  [square matrix 설명](../../../0.0%20참고/square%20matrix%20설명.md)
+	- 그러나 우리는 실험을 통해 identity mapping이 성능 저하 문제를 해결하기에 충분하고 경제적이므로 W는 치수를 일치시킬 때만 사용된다는 것을 보여줄 것입니다.
+
+- residual 함수 F의 형태는 유연(flexible)합니다. 
+	- 이 논문의 실험은 두 개 또는 세 개의 레이어를 갖는 함수 F(그림 5)를 포함하는 반면 더 많은 레이어가 가능합니다. 
+	- 그러나 F가 단일 레이어만 가지고 있다면, Eqn.(1)은 inear layer와 유사합니다: y = W1_x + x. 이에 대해 우리는 이점을 관찰하지 못했습니다.
+- 또한 위의 표기법은 단순성을 위해 fully-connected layers에 관한 것이지만 convolutional layers에 적용할 수 있습니다.
+	-  함수 F(x, {W_i})는 multiple convolutional layers를 나타낼 수 있습니다. 
+	- element-wise 추가는 채널별로 두 개의 feature maps에서 수행됩니다.
+
+
+### 3.3. Network Architectures
+
+
+- 우리는 다양한 일반/잔여망(plain/residual)을 테스트했고, 일관된 현상을 관찰했습니다. 
+	- 논의를 위한 사례(instance)를 제공하기 위해 ImageNet에 대한 두 가지 모델을 다음과 같이 설명합니다.
+ 
+**Plain Network.**
