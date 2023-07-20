@@ -27,8 +27,8 @@
 	- 최근의 증거[40, 43]는 **네트워크 깊이가 매우 중요**하다는 것을 보여주며, 까다로운 ImageNet 데이터 세트[35]에 대한 선도적인(leading) 결과[40, 43, 12, 16]는 모두 16[40]에서 30[16]까지 깊이가 있는 *"매우 깊은" [40] 모델을 이용*합니다. 
 	- *다른 많은 중요하지 않은 시각적 인식 작업[7, 11, 6, 32, 27]도 매우 깊은 모델의 혜택을 많이 받았습니다*.
 - **깊이의 중요성에 따라 다음과 같은 문제가 발생합니다: 더 나은 네트워크를 배우는 것이 더 많은 계층을 쌓는 것만큼 쉽습니까?**
-	- 이 질문에 대답하는 데 걸림돌이 된 것은 gradients(그라디언트) vanishing/exploding이라는 악명 높은 문제 [14, 1, 8]로, *처음부터 수렴(convergence)을 방해합니다. 
-	- 그러나 이 문제는 주로 normalized initialization [23, 8, 36, 12]와 intermediate normalization layers [16]에 의해 해결되었으며, 이는 수십 개의 계층을 가진 네트워크가 backpropagation로 tochastic gradient descent(SGD)을 위해 수렴을* 시작할 수 있게 합니다 [22].```(이미 이런것을 해결하기 위해 여러가지 것들이 나왔었다. 하지만 수렴은 나중에 CNN의 확장성의 문제로 다시 생기게 된다.)``` <br>
+	- 이 질문에 대답하는 데 걸림돌이 된 것은 gradients(그라디언트) vanishing/exploding이라는 악명 높은 문제 [14, 1, 8]로, 처음부터 수렴(convergence)을 방해합니다. 
+	- 그러나 이 문제는 주로 normalized initialization [23, 8, 36, 12]와 intermediate normalization layers [16]에 의해 해결되었으며, 이는 수십 개의 계층을 가진 네트워크가 backpropagation로 tochastic gradient descent(SGD)을 위해 수렴을 시작할 수 있게 합니다 [22].```(이미 이런것을 해결하기 위해 여러가지 것들이 나왔었다. 하지만 수렴(scalbilty_ 즉 데이터가 많아지면 성능이 수렴하는 현상)은 나중에 CNN의 확장성의 문제로 다시 생기게 된다.)``` <br>
   
 - 더 깊은 네트워크가 수렴을 시작할 수 있을 때, 성능 저하 문제가 노출되었습니다: 네트워크 깊이가 증가함에 따라 정확도가 포화(saturated) 상태가 되고(이는 놀라운 일이 아닐 수 있음) 급격히 저하됩니다.
 	- 예기치 않게 이러한 성능 저하가 과적합(overfitting)으로 인한 것이 아니며 적절하게 깊은 모델에 더 많은 레이어를 추가하면 [10, 41]에 보고되고 실험에 의해 철저히 검증된 바와 같이 더 높은 학습 오류가 발생합니다. ```(나는 overfitting인지 알았는데 아니였구나. 그럼 무엇일까?)```
@@ -152,3 +152,78 @@
 	- 논의를 위한 사례(instance)를 제공하기 위해 ImageNet에 대한 두 가지 모델을 다음과 같이 설명합니다.
  ![Alt text](image-5.png)
 **Plain Network.**
+- 우리의 plain baselines (그림 3, 가운데)은 주로 VGG 네트[40]의 철학에서 영감을 받았습니다(그림 3, 왼쪽).
+	-  convolutional layers는 대부분 3×3 filters를 가지며 두 가지 간단한 설계 규칙을 따릅니다. 
+		- (i) 동일한 출력 피쳐 맵 크기에 대해 레이어가 동일한 수의 필터를 가지고 있으며, 
+		- (ii) 피쳐 맵 크기가 절반으로 줄어들면 레이어당 시간 복잡성을 유지하기 위해 필터 수가 두 배가 됩니다.  `(왜 시간 복잡성을 유지하지??? 굳이 무슨 이유로) `
+	- 우리는 **2의 stride을 가진 컨볼루션 레이어에 의해 직접 다운샘플링을 수행합니다.** 
+	- 네트워크는 global average pooling layer과 softmax가 있는 1000-way 완전 연결 계층으로 끝납니다. 
+	- 총 weighted layers 수는 그림 3(가운데)에서 34개입니다.
+- 우리 모델은 VGG 네트[40]보다 필터 수가 적고 복잡성이 낮다는 점에 주목할 필요가 있습니다(그림 3, 왼쪽). 
+	- 우리의 34-layer baseline은 36억 개의 FLOP(multiply-adds)를 가지고 있으며, 이는 VGG-19(196억 개의 FLOP)의 18%에 불과합니다.
+
+
+**Residual Network.**
+- 위의 plain network를 기반으로 네트워크를 상대 residual version으로 전환하는 shortcut connections(그림 3, 오른쪽)을 삽입합니다.
+	- identity shortcuts(예: (1))은 입력과 출력이 동일한 차원일 때 직접 사용할 수 있습니다(그림 3의 실선(solid line) shortcuts). 치수가 증가할 때(그림 3의 점선(dotted line) shortcuts), 우리는 두 가지 옵션을 고려합니다.
+		-  (A) 바로 가기는 여전히 dentity mapping을 수행하고 치수를 늘리기 위해 추가 0 항목을 패딩합니다. 이 옵션은 추가 매개 변수를 도입하지 않습니다.
+		-  (B) 공식 (2)의 projection shortcut는 dimensions를 일치시키는 데 사용됩니다(1×1 convolutions에 의해 수행됨). 
+	- 두 옵션 모두 단축키가 두 가지 크기의 feature map을 교차할 때 2의 stride로 수행됩니다.
+
+
+### 3.4. Implementation
+
+- **ImageNet에 대한 당사의 구현은 [21, 40]의 사례**를 따릅니다. 
+	- 영상은 scale augmentation를 위해 [256, 480]에서 짧은 쪽을 무작위로 샘플링하여 크기를 조정합니다[40].
+	- 224×224 crop은 per-pixel 평균을 뺀 상태에서 이미지 또는 해당 horizontal flip에서 무작위로 샘플링됩니다 [21]. 
+	- [21]의 standard color augmentation가 사용됩니다. 
+	- [16]에 따라 각 convolution 직후와 activation 전에 batch normalization (BN) [16]를 채택합니다. 
+	- [12]에서와 같이 가중치를 초기화하고 모든 plain/residua을 처음부터 훈련합니다. 
+	- 우리는 미니 배치 크기가 256인 SGD를 사용합니다. 
+	- 학습 속도는 0.1에서 시작하여 오류가 발생할 때 10으로 나뉘며, 모델은 최대 60 × 10^4 반복에 대해 훈련됩니다. 
+	- 우리는 0.0001의 무게 감소(weight decay)와 0.9의 운동량(momentum)을 사용합니다. 
+	- 우리는 [16]의 관행에 따라 dropout[13]를 사용하지 않습니다.
+	- `(Resnet의 모델이 탄생이 그냥 실험하면서 만들어진것이아니라 [16]의 예시를 들어서 만들어 졌다. 그래서 하나하나 그것이 있는 의미에 대해서 무언가 건의할것이 없다.)`
+
+- **테스트에서 비교 연구를 위해 표준 10 crop 테스트를 채택**합니다[21]. 
+	- 최상의 결과를 위해 [40, 12]와 같이 fully convolutional 형식을 채택하고 여러 척도에서 점수의 평균을 냅니다(짧은 쪽이 {224, 256, 384, 480, 640}이 되도록 이미지 크기가 조정됨).
+	- `(테스트 또한 건들것이 없다. 물론 자기가 평가 모델을 만들 수 있지만, 기존에 있는 비교 평가 모델을 가져와서 비교 한다. 그러기에 더 객관적이고, 시간이 많이 save 될 수 것 같다.) `
+
+
+## 4. Experiments
+
+### 4.1. ImageNet Classification
+
+- 우리는 1000개의 클래스로 구성된 ImageNet 2012 분류 데이터 세트[35]에서 우리의 방법을 평가합니다. 모델은 128만 개의 훈련 이미지에 대해 훈련되고 50k 검증 이미지에 대해 평가됩니다. 우리는 또한 테스트 서버에서 보고한 100k 테스트 이미지에 대한 최종 결과를 얻습니다.
+- 상위 1개 오류율과 상위 5개 오류율을 모두 평가합니다.
+
+**Plain Networks.**
+- 우리는 먼저 18-layer와 34-layer의 plain nets를 평가합니다. 
+	- 34단 plain net은 그림 3(가운데)에 나와 있습니다. 
+	- 18단 plain net도 비슷한 형태입니다. 
+	- 자세한 아키텍처는 표 1을 참조하십시오.
+	- `(우선 글 구조가 전체적으로 예쁘다. Plain Networks을 시작 해서 Residual으로 단계별로 진화 그리고 논리적 구조 흐름도 좋다.)`
+	- `(plain net을 함으로써 기존에 있는 것들의 문제점을 먼저 보여주고 있다. experiments에 이미 근거를 배치하고 있다.)`
+
+![Alt text](image-6.png)
+
+- 표 2의 결과는 더 deeper 34-layer plain net가 더 얕은 18-layer plain net보다 검증 오차(validation error)가 더 높다는 것을 보여줍니다. 
+	- 그 이유를 밝히기 위해, Fig. 4 (왼쪽) 훈련 절차 중training/validation 오류를 비교합니다. 
+	- 우리는 성능 저하 문제를 관찰했습니다 
+	-  18-layer plain network의 솔루션 공간이 34-layer plain net의 솔루션 공간의 부분 공간(subspace)임에도 불구하고 34-layer plain nets는 전체 학습 절차에 걸쳐 더 높은 학습 오류를 갖습니다.
+	- `(결과에 대해서 하나씩 확인하며 보여주고 있다. 어디서 문제인지 어떤것을 해야 할지 말이다.)`
+
+![Alt text](image-7.png)
+![Alt text](image-8.png)
+
+- 우리는 이러한 **optimization 어려움이 gradients가 사라져서 발생할 가능성**이 낮다고 주장합니다. 
+	- 이러한 plain networks는 BN[16]으로 훈련되어 전방 전파(forward propagated) 신호가 0이 아닌 분산(variances)을 갖도록 보장합니다. 
+	- 우리는 또한 역방향으로 전파된(backward propagated) 그레이디언트(gradients)가 BN과 함께 건전한 규범(healthy norms)을 나타낸다는 것을 검증합니다. 
+	- 따라서 전진(forward) 또는 후진(backward) 신호는 모두 사라집니다. 
+	- 실제로 34-layer 플레인 네트는 여전히 경쟁력 있는 정확도를 달성할 수 있으며(표 3) solver가 어느 정도 작동함을 시사합니다. 
+	- 우리는 deep plain nets가 기하급수적으로 낮은 수렴률(convergence)을 가질 수 있으며, 이는 raining error^3의 감소에 영향을 미칠 것으로 추측합니다. 
+	- 이러한 최적화의 어려움에 대한 이유는 앞으로 연구될 것입니다.
+	- (raining error^3:우리는 더 많은 훈련 반복(3배)을 실험했고 여전히 degradation 문제를 관찰했으며, 이는 단순히 더 많은 반복을 사용하는 것으로는 이 문제를 실현 가능하게 해결할 수 없음을 시사합니다.)
+	- `(우선 나는 단순히 gradinet가 사라져서 성능하락이 발생했다고 생각을 했겠지만, 이런것도 다 실험을 통해서 증명을 하는 것을 보니, 그냥 추측이 아니였다. 이런 근거로 추축을 한다는 것이  내가 실험 할 때나 논문을 쓸 때 많은 참고가 된다.)`
+
+
