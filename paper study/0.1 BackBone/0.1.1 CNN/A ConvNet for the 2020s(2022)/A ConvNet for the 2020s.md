@@ -88,9 +88,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- 네트워크 복잡성은 최종 성능과 밀접한 상관관계가 있기 때문에 FLOP는 중간 단계에서 기준 모델보다 높거나 낮을 수 있지만 탐색 과정에서 대략적으로 제어됩니다.
 	- 모든 모델은 ImageNet-1K에서 교육 및 평가됩니다.
 
-![
-	
-](image-1.png)
+![Alt text](image-1.png)
  ### 2.1. Training Techniques
 
 - network architecture 설계 외에도 **train precedure는 궁극적인 성능에도 영향**을 미친다
