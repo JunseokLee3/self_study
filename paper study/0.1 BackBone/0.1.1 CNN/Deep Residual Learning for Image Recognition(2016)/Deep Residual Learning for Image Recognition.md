@@ -229,3 +229,58 @@
 ![Alt text](image-9.png)
 
 **Residual Networks.**
+- 다음으로 18layer 및 34layer residual nets(ResNets)를 평가합니다.
+	-  기본 아키텍처는 위의 plain nets와 동일합니다. 
+	- 그림 3(오른쪽)과 같이 각 3×3 필터 쌍에 바로 가기 연결이 추가됩니다. 
+	- 첫 번째 비교(표 2 및 그림 4 오른쪽)에서는 모든 단축키에 대해 ID mapping을 사용하고 dimensions 증가(옵션 A)에 대해 zero-padding을 사용합니다. dimension이 맞지 않을 때, 차원을 zero padding으로 맞추는거
+	- 따라서 일반적인 파라미터에 비해 추가 파라미터가 없습니다.
+
+- 우리는 표 2와 그림 4의 세 가지 주요 관찰 결과를 가지고 있습니다. 
+	- 첫**째, residual 학습을 통해 상황이 역전**됩니다. 
+		- 34 layer ResNet이 18 layer ResNet보다 우수합니다(2.8%).  `(plain과 비교했을때 확연히 차이가 난다)`
+		- **더 중요한 것은 34layer  ResNet이 상당히 낮은 training error를 나타내며 검증 데이터로 일반화할 수 있다는 것**입니다. 
+		- **이는 degradation 문제가 이 설정에서 잘 해결되었다는 것을 나타내며**, 우리는 increased depth에서 정확도 이득을 얻을 수 있습니다.
+		- `(이런식으로 error을 이용해서 비교했다. 따라서 plain nets와의 차별적인 이유를 설명했다. 나의 실험에서도 이런 error를 비교 해서 논문을 집어 넣을 수 있을까? 고민해야 봐야할 문제이다.)`
+	- 둘째, 34 layer ResNet은 일반적인 ResNet에 비해 상위 1개 오류를 3.5% 줄였습니다(표 2). 
+		- 이는 교육 오류를 성공적으로 줄였습니다(그림 4 오른쪽 대 왼쪽).
+		-  이 비교는 extremely deep systems에 대한 residual learning의 효과를 검증합니다.
+	- **마지막으로, 우리는 또한 18개 layer의 plain/residual 네트워크가 비교적 정확하지만(표 2), 18개 layer의 ResNet은 더 빠르게 수렴한다는 것에 주목합니다**(그림 4 오른쪽 대 왼쪽). 
+		- net가 "지나치게 깊지 않은(not overly deep)" 경우(18 layers here), 현재 SGD solver는 여전히 plain ne에 대한 좋은 솔루션을 찾을 수 있습니다. 
+		- 이 경우 **ResNet은 초기 단계에서 더 빠른 수렴(convergence)을 제공하여 최적화를 용이**하게 합니다.
+
+**Identity vs. Projection Shortcuts.**
+- 우리는 매개 변수가 없는 identity shortcuts가 훈련에 도움이 된다는 것을 보여주었습니다. 
+	- 다음으로 projection shortcuts(예: (2)))를 조사합니다. 
+	- 표 3에서 우리는 세 가지 옵션을 비교합니다. 
+		- (A) zero-padding shortcuts는 dimensions 증가에 사용되며 모든 shortcuts는 매개 변수가 없습니다(표 2 및 그림 4 오른쪽과 동일). 
+		- (B) projection shortcuts는 dimensions 증가에 사용되고 다른 바로 가기는 identity입니다. 
+		- (C) all shortcuts는 투영(projections)입니다.
+		- `(우선 실험에 있어 어떻게 실험을 할 것이니 방법과 기준을 알려주고 있다)`
+
+- **표 3은 세 가지 옵션이 모두 plain 옵션보다 상당히 우수하다는 것을 보여**줍니다. 
+	- B가 A보다 약간 낫습니다. 
+	- 우리는 이것이 **A의 zero-padded dimensions이 실제로 residual 학습이 없기 때문이라고 주장**합니다.  `(이것은 본인이 잔여 학습이 없기 떄문에 낮다고 주장을 한다. 객관적인 의견은 아니다.  경험적인 실험을 통해 본인의 주관적인 의견이다. 연구해 볼만 한 곳이다.)`
+	- C가 B보다 약간 더 낫고, 우리는 이것을 많은 (13개의) projection shortcuts에 의해 도입된 추가 매개 변수(extra parameters) 때문이라고 생각합니다. 
+	- 그러나 A/B/C 간의 작은 차이는 degradation 문제를 해결하는 데 projection shortcuts가 필수적이지 않음을 나타냅니다.
+	-  따라서 이 문서의 나머지 부분에서는memory/time 복잡성과 모델 크기를 줄이기 위해 옵션 C를 사용하지 않습니다. Identity shortcuts기는 아래에서 소개하는 병목 현상 아키텍처의 복잡성(complexity)을 증가시키지 않기 위해 특히 중요합니다.
+	- `(Resnet과 convnet와 의 차이가 신기하다 Resnet은 병목현상을 안 증가 시키기 위해 C를 사용하지 않았다)`
+	- [ResNet의 skip connection 3가지 옵션](../../../0.0%20참고/ResNet의%20skip%20connection%203가지%20옵션.md)
+
+**Deeper Bottleneck Architectures.**
+
+- 다음으로 ImageNet에 대한 보다 deeper nets에 대해 설명합니다. 
+	- 우리가 감당할 수 있는 훈련 시간에 대한 우려 때문에, 우리는 building block을 bottleneck design ^4로 수정합니다.
+	-  각 residual Function F에 대해, 우리는 2 대신 3개의 layer stack을 사용합니다(그림 5).
+	-  3개의 layer는 1×1, 3×3 및 1×1 convolution이며, 여기서 1×1 layer는 dimensions를 줄인 다음 증가(복원)하여 3×3 layer는 더 작은 input/output dimensions를 가진 bottleneck 현상을 남깁니다. 
+	- 그림 5는 두 설계 모두 시간 complexity가 유사한 예를 보여줍니다. 
+	- bottleneck design ^4 : Deeper non-bottleneck ResNets (e.g., Fig. 5 left) also gain accuracy from increased depth (as shown on CIFAR-10), but are not as economical as the bottleneck ResNets. So the usage of bottleneck designs is mainly due to practical considerations. We further note that the degradation problem of plain nets is also witnessed for the bottleneck designs.
+	- `(진정한 ResNet의 형태가 만들어지고 있다. 위에서는 여러가지 비교 실험을 하고 여기서 왜 이렇게 했는지 알려주고 있다.)`
+
+![Alt text](image-10.png)
+
+- parameter-free identity shortcuts는 병목 현상 아키텍처에 특히 중요합니다. 
+	- 그림 5(오른쪽)의 identity shortcut를 projection으로 대체하면 shortcut가 high-dimensional 끝단에 연결되므로 time complexity와 model size가 두 배로 증가함을 알 수 있습니다. 
+	- 따라서 identity shortcuts는 bottleneck designs를 위한 보다 효율적인 모델로 이어집니다.
+	- `(이 부분 헷갈렸지만 Fig 5. 을 자세 보면 64에서 256으로 채널 수가 바뀌고 있다. 이는 모델 복잡도와 시간 복잡도가 증가한다. 즉 원래 Resnet과는 다르지만 왜 identity shorcut을 projection을 하지 않는 이유이다.)`
+	- [ResNet 그림 5에 대해서 이해 안되는 부분](../../../0.0%20참고/ResNet%20그림%205에%20대해서%20이해%20안되는%20부분.md)
+
