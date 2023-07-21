@@ -151,3 +151,90 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 ### 2.4. Inverted Bottleneck(반전 병목 현상)
 
 ![Alt text](image-2.png)
+
+- 모든 Transformer 블록에서 중요한 설계 중 하나는 **역 병목(inverted bottleneck) 현상**이 발생한다는 것입니다.  즉, **MLP 블록의 hidden dimension가 입력 dimension보다 4배 넓다는 것**입니다(그림 4 참조).
+	- 흥미롭게도, 이 transformer **디자인은 ConvNets**에서 사용되는 4의 확장 비율로 역 병목 디자인(inverted bottleneck) 과 연결되어 있습니다. 이 아이디어는 MobileNetV2[61]에 의해 대중화되었으며, 이후 여러 고급 ConvNet 아키텍처에서 인기를 얻었습니다[70, 71]
+	- 여기서는 **inverted bottleneck** 설계를 살펴봅니다.  그림 3 (a) 내지 (b)는 구성을 설명한다. **depthwise convolution layer에 대한 FLOP가 증가했음에도 불구**하고, **downsampling residual blocks’ shortcut의 1x1 변환 계층에서 FLOP가 크게 감소했기 때문에 이러한 변경으로 인해 전체 네트워크 FLOP가 4.6G**로 감소합니다.
+	- 흥미롭게도, 이 결과 성능이 약간 향상되었습니다(80.5% - 80.6%). ResNet-200/Swin-B 체제에서 이 단계는 FLOP 감소로 훨씬 더 많은 이득(81.9% - 82.6%)을 가져옵니다.
+	- 이제 **inverted bottleneck**을 사용하겠습니다.
+
+![Alt text](image-3.png)
+
+### 2.5. Large Kernel Sizes
+
+- 탐색의 이 부분에서, 우리는 큰 convolutional kernels의 행동에 초점을 맞춥니다. 
+	- 비전 트랜스포머의 가장 구별되는 측면 중 하나는 각 레이어가 global receptive field를 가질 수 있도록 하는 non-local self-attention입니다
+	- 과거에 ConvNets[40, 68]에서 큰 kernel sizes가 사용되었지만, 골드 표준(VGGNet[65]에 의해 대중화됨)은 최신 GPU에서 효율적인 하드웨어 구현을 가진 작은kernel sizes(3x3) conv를 스택하는 것입니다[41].
+	- Swin Transformers가 local window to the self-attention block에 다시 도입했지만 window 크기는 **최소 7x7로 ResNe(X)t 커널 크기인 3x3보다 훨씬 큽니**다.
+	-  여기서는 ConvNets에 대한 큰 kernel-sized convolutions **사용을 다시 검토합니다**
+
+
+**Moving up depthwise conv layer.**
+- large kernels을 탐색하기 위한 한 가지 전제 조건은 depthwise conv layer의 위치를 위로 이동하는 것입니다(그림 3 (b)에서 (c)까지). 
+	- 이는 Transformers에서도 분명하게 드러나는 설계 결정으로, MSA 블록은 MLP 레이어 앞에 배치됩니다.
+	- inverted bottleneck 블록이 있기 때문에, 이것은 자연스러운 설계 선택입니다. 복잡하고 비효율적인 모듈(MSA, 대형 커널 컨버스)은 채널 수가 적은 반면 효율적이고 밀도가 높은 1x1 계층은 많은 양을 차지할 것입니다.
+	- 이 중간 단계에서는 FLOP가 4.1G로 감소하여 일시적으로 성능이 79.9%로 저하됩니다.
+
+**Increasing the kernel size.**
+- 이러한 모든 준비로 인해 더 larger kernel-sized convolutions을 채택하는 이점이 상당합니다. 
+	- 우리는 3, 5, 7, 9, 11을 포함한 여러 커널 크기로 실험했습니다.
+	-  네트워크 성능은 79.9%(3x3)에서 80.6%(7x7)로 증가하는 반면 네트워크의 FLOP는 거의 동일하게 유지됩니다.
+	-  또한, 우리는 더 큰 커널 크기의 이점이 7x7에서 포화점에 도달한다는 것을 관찰합니다.
+	- 우리는 대용량 모델에서도 이 동작을 확인했습니다.  ResNet-200 체제 모델은 커널 크기를 7x7 이상으로 증가시킬 때 추가적인 이득을 나타내지 않습니다.
+	- **우리는 각 블록에서 7⁄7 depthwise conv를 사용할 것입니다.**
+	- 이 시점에서, 우리는 거시적 규모의 네트워크 아키텍처에 대한 검토를 마쳤습니다.  흥미롭게도 **vision Transformer에서 선택한 설계 선택의 상당 부분이 ConvNet 인스턴스에 매핑될 수 있습니다**
+
+### 2.6. Micro Design
+
+- 이 섹션에서는 micro 스케일로 몇 가지 다른 아키텍처 차이를 조사합니다. 여기서는 활성화 기능 및 정규화 계층의 특정 선택에 초점을 맞춰 계층 레벨에서 대부분의 탐색을 수행합니다.
+	- 여기서는 activation functions 및 normalization 계층의 특정 선택에 초점을 맞춰 계층 레벨에서 대부분의 탐색을 수행합니다.
+
+**Replacing ReLU with GELU**
+- NLP와 비전 아키텍처 간의 한 가지 차이점은 사용할 activation functions의 세부 사항입니다.
+- 시간이 지나면서 수많은 activation functions이 개발되었지만, ReLU(Recomated Linear Unit)[49]는 단순성과 효율성 때문에 여전히 ConvNets에서 광범위하게 사용되고 있습니다. ReLU는 original Transformer 논문[77]에서도 activation function으로 사용됩니다.
+- ReLU의 보다 부드러운 변형으로 생각할 수 있는 Gaussian Error Linear Unit 또는 GELU [32]는 Google의 BERT [18]와 OpenAI의 GPT-2 [52]를 포함한 가장 진보된 transformer 및 가장 최근의 ViT에 사용됩니다. 
+	- 정확도는 변하지 않지만(80.6%) ConvNet에서도 ReLU를 GELU로 대체할 수 있습니다.
+  
+**Fewer activation functions.**
+- Transformer와 ResNet 블록의 한 가지 **사소한 차이점은 Transformer의activation functions이 적다**는 것입니다.
+	-  MLP 블록에 key/query/value linear embedding layer, procjection layer, and two linear layer가 있는 Transformer 블록을 생각해 보십시오. **MLP 블록에는 활성화 기능이 하나만 있습니다**.
+	-  이에 비해 1 x 1 convs를 포함하여 각 convolutional layer에 activation function을 추가하는 것이 일반적입니다. 
+	- 여기에서는 동일한 전략을 고수할 때 성능이 어떻게 변화하는지 살펴봅니다.
+	-  그림 4에 나와 있는 것처럼, 우리는 **두 개의 1 x 1** layer에 있는 하나를 제외한 나머지 블록에서 **모든 GELU 레이어를 제거**하여 Transformer 블록의 스타일을 복제합니다. 
+	- 이 프로세스는 결과를 0.7% - 81.3% 향상시켜 Swin-T의 성능과 실질적으로 일치시킵니다.
+	- **이제 각 블록에서 단일 GELU 활성화를 사용합니다**.
+
+![Alt text](image-4.png)
+
+**Fewer normalization layers.**
+- 변압기 블록에는 일반적으로 정규화 계층이 더 적습니다. 
+	- 여기서 우리는 두 개의 배치 표준(BN) 레이어를 제거하고 conv 1x1 레이어 앞에 하나의 BN 레이어만 남깁니다.
+	-  이는 성능을 81.4%까지 향상시켜 Swin-T의 결과를 이미 능가합니다.
+	-  블록 시작 부분에 BN 레이어를 **하나 추가한다고 해서 성능이 향상되지는 않는다는 것을 경험적으로 알 수 있기** 때문에 블록당 정규화 계층이 Transformer보다 훨씬 적습니다.
+
+**Substituting BN with LN**
+- **BatchNorm [38]은 컨버전스를 개선하고 과적합을 줄이기 때문에 ConvNets의 필수 구성 요소**입니다. 그러나 BN은 또한 모델의 성능에 **해로운 영향을 미칠 수 있는 많은 복잡성**을 가지고 있습니다 [84].
+	-  대안적인 정규화 기법을 개발하려는 수많은 시도가 있었지만, BN은 대부분의 비전 작업에서 선호되는 옵션으로 남아 있습니다. 
+	- 반면에, Transformer에는 더 단순한 계층 표준화[5](LN)가 사용되어 여러 애플리케이션 시나리오에서 우수한 성능을 보였습니다.
+- 원래 **ResNet에서 BN 대신 LN을 직접 대체하면 성능이 최적화**되지 않습니다 [83]. 
+	- 네트워크 아키텍처 및 교육 기술의 모든 수정 사항과 함께, 여기서는 BN 대신 LN을 사용하는 것의 영향에 대해 다시 논의합니다. 
+	- 우리는 ConvNet 모델이 **LN으로 훈련하는 데 어려움**이 없다는 것을 관찰했습니다. 
+	- 실제로 성능이 **약간 향상**되어 81.5%의 정확도를 얻었습니다.
+	- **이제부터는 각 잔여 블록에서 하나의 LayerNorm을 정규화 선택 항목으로 사용**합니다.
+
+**Separate downsampling layers.**
+- ResNet에서 spatial downsampling은 stride  2가 있는 3x3 conv(shortcut 연결에서 stride 2가 있는 1x1 conv)를 사용하여 각 단계 시작 시 residual 블록에 의해 달성됩니다.
+	- Swin Transformers에서는 별도의 downsampling layer가 stage 사이에 추가됩니다. 
+	-** 우리는 spatial downsampling을 위해 stride  2가 있는 2x2 conv를 사용하는 유사한 전략을 탐구**합니다. 
+	- 이러한 수정은 놀랍게도 다양한 훈련으로 이어집니다. 
+	- 추가 조사에 따르면 공간 해상도가 변경될 때마다 normalization 계층을 추가하면 교육을 안정화하는 데 도움이 될 수 있습니다.
+	-  여기에는 Swin Transformers에도 사용되는 여러 LN 레이어가 포함됩니다. 
+	- 각 다운샘플링 레이어 이전, 스템 이후, 최종 글로벌 평균 풀링 이후에 하나씩.
+	-  정확도를 82.0%로 향상시킬 수 있습니다. Swin-T의 81.3%를 크게 초과합니다.
+- **우리는 별도의 downsampling layers를 사용할 것입니다.**
+	- 이를 통해 ConvNeXt라고 하는 최종 모델로 이동합니다.
+	- ResNet, Swin 및 ConvNeXt 블록 구조의 비교는 그림 4에서 확인할 수 있습니다. ResNet-50, Swin-T 및 ConvNeXt-T의 자세한 아키텍처 사양 비교는 표 9에서 확인할 수 있습니다.
+
+
+![Alt text](image-5.png)
+
