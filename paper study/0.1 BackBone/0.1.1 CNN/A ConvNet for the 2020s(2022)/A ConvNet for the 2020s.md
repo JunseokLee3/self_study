@@ -238,3 +238,133 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 
 ![Alt text](image-5.png)
 
+**Closing remarks.**
+- 우리는 첫 번째 **"playthrough"를 마치고 이 컴퓨팅 체제에서 ImageNet-1K 분류용 Swin Transformer를 능가할 수 있는 순수 ConvNet인 ConvNeXt를 발견**했습니다.
+	-  지금까지 **논의된 모든 설계 선택은 vision Transformers에서 채택**된 것입니다.
+	-  또한 이러한 설계는 ConvNet 문헌에서도 새로운 것이 아닙니다. 
+	- 지난 10년 동안 모두 개별적으로 연구되었지만 집단적으로 연구되지는 않았습니다. 
+	- ConvNeXt 모델은 FLOP, #params., 처리량(throughput) 및 메모리 사용이 Swin Transformer와 거의 동일하지만 shifted window attention 또는 relative position biases과 같은 특수 모듈이 필요하지 않습니다.
+- 이러한 연구 결과는 고무적이지만 아직 완전히 설득력은 없습니다. 
+	- 지금까지 우리의 연구는 소규모로 제한되었지만 비전 트랜스포머의 확장 동작이 이들을 진정으로 구별하는 것입니다.
+	-  또한 ConvNet이 객체 감지 및 의미 세분화와 같은 다운스트림 작업에서 Swin Transformers와 경쟁할 수 있는지 여부에 대한 질문은 컴퓨터 비전 실무자의 중심 관심사입니다. 
+	- 다음 섹션에서는 데이터와 모델 크기 측면에서 ConvNeXt 모델을 확장하고 다양한 시각적 인식 작업 세트에서 평가할 것입니다.
+
+
+## 3. Empirical Evaluations on ImageNet
+
+- 우리는 Swin-T/S/B/L과 유사한 복잡성을 갖도록 다양한 ConvNeXt 변형인 ConvNeXtT/S/B/L을 구성합니다 [45].
+	- ConvNeXt-T/B는 각각 ResNet-50/200 체제에서 "현대화" 절차의 최종 산물입니다. 또한 ConvNeXt의 확장성을 추가로 테스트하기 위해 더 큰 ConvNeXt-XL을 구축합니다. 변형은 채널 C의 수와 각 단계의 블록 B의 수에서만 다릅니다.
+	- ResNets와 Swin Transformers 모두에 이어 각 새로운 단계에서 채널 수가 두 배가 됩니다. 다음은 구성을 요약한 것입니다:
+
+![Alt text](image-6.png)
+
+- 검증 세트에 대한 ImageNet-1K top-1 정확도를 보고합니다. 
+	- 또한 우리는 사전 교육을 위해 ~14M개의 이미지를 가진 21841개 클래스(1000개의 ImageNet-1K 클래스의 상위 세트)의 더 큰 데이터 세트인 ImageNet-22K에 대한 사전 교육을 실시한 다음 평가를 위해 ImageNet-1K에서 사전 교육된 모델을 미세 조정합니다. 
+	- 우리는 224^2 해상도에서 사전 훈련을 수행하고 224^2 및 384^2 해상도 모두로 미세 조정을 수행합니다. 
+	- 자세한 교육 설정은 부록 A에서 확인할 수 있습니다.
+
+### 3.1. Results
+
+![Alt text](image-7.png)
+
+**ImageNet-1K.**
+- 표 1(위)은 아키텍처 검색에서 나온 RegNets [54], EfficientNets [71] 및 EfficientNets V2 [72]와 같은 두 가지 최신 트랜스포머 변형인 DeiT [73] 및 Swin Transformers [45] 및 두 가지 ConvNets와 결과 비교를 보여줍니다.
+	-  ConvNeXt는 정확도-계산 트레이드오프 및 추론 처리량 측면에서 두 가지 강력한 ConvNet 기준선(RegNet [54] 및 EfficientNet [71])과 유리하게 경쟁합니다. 
+	- 또한 ConvNeXt는 전체적으로 유사한 complexities의 Swin Transformer를 능가하며, 때로는 상당한 마진(예: ConvNeXt-T의 경우 0.8%)을 기록합니다.
+	-  shifted windows 또는 relative position bias와 같은 특수 모듈이 없는 ConvNeXts는 Swin Transformers에 비해 향상된 처리량을 제공합니다.
+
+**ImageNet-22K.**
+- 우리는 표 1(아래)에서 ImageNet-22K pre-training에서 fine-tune 모델로 결과를 제시합니다. 
+	- vision Transformers는 **inductive biases이 적기 때문에 더 큰 규모로 사전 교육을 받았을 때 ConvNets보다 더 나은 성능을 발휘할 수 있다는 것이 널리 알려진 견해**이기 때문에 이러한 실험이 중요합니다.
+	- 우리의 결과는 적절하게 설계된 ConvNets가 대규모 데이터 세트로 사전 훈련되었을 때 vision Transformers보다 뒤지지 않는다는 것을 보여줍니다.
+	-  ConvNeXt는 여전히 비슷한 크기의 Swin Transformers와 **동등하거나 더 나은 성능을 발휘하며 처리량**이 약간 더 높습니다.
+	-  이는 384^2에서 ConvNeXt-L보다 상당한 개선이며 **ConvNeXt가 확장 가능한 아키텍처**임을 보여줍니다.
+- ImageNet-1K, EfficientNetV2-L에서는 고급 모듈(예: Squeeze-and Excitation [35])과 점진적인 교육 절차가 장착된 검색 아키텍처가 최고의 성능을 달성합니다. 
+	- 그러나 ImageNet-22K 사전 교육을 통해 ConvNeXt는 EfficientNetV2를 능가할 수 있어 **대규모 교육의 중요성을 더욱 입증**합니다.
+	- 부록 B에서는 ConvNeXt에 대한 견고성 및 도메인 외부 일반화 결과에 대해 설명합니다.
+
+
+### 3.2. Isotropic ConvNeXt vs. ViT
+
+- 이 절제에서는 ConvNeXt 블록 설계가 다운샘플링 층이 없고 모든 깊이에서 **동일한 기능 해상도(예: 14x14)를 유지하는 ViT 스타일 [20] 등방성(isotropic) 아키텍처로 일반화 가능한지 검토**합니다. 
+	- ViT-S/B/L(384/768/1024)과 동일한 기능 치수를 사용하여 등방성 ConvNeXt-S/B/L을 구성합니다.
+	- 깊이는 **매개변수 및 FLOP 수와 일치하도록 18/18/36**으로 설정됩니다. 
+	- **블록 구조는 동일**하게 유지됩니다(그림 4). 
+	- **ViT-S/B의 경우 DeiT[73], ViT-L의 경우 MAE[26]의 지도 교육 결과**를 사용합니다.  원래 ViTs[20]보다 개선된 교육 절차를 사용하기 때문입니다.
+	- **ConvNeXt 모델은 이전과 동일한 설정으로 학습되지만 워밍업(epochs) 기간이 더 깁니다**.
+	-  224^2 해상도에서 ImageNet-1K에 대한 결과는 표 2에 나와 있습니다. 
+	- 우리는 ConvNeXt가 ViT와 대체로 동등한 성능을 발휘할 수 있다는 것을 관찰하여, ConvNeXt 블록 설계가 non-hierarchical models에 사용될 때 경쟁력이 있음을 보여줍니다.
+
+![Alt text](image-8.png)
+
+## 4. Empirical Evaluation on Downstream Tasks
+
+**Object detection and segmentation on COCO.**
+- ConvNeXt 백본을 사용하여 COCO 데이터 세트에서 Mask R-CNN [27] 및 Cascade Mask R-CNN [9]을 미세 조정합니다. 
+	- Swin Transformer[45]에 이어 다중 스케일 교육, AdamW 최적화 프로그램 및 3배 schedule을 사용합니다. 
+	- 자세한 내용과 하이퍼 파라미터 설정은 부록 A.3에서 확인할 수 있습니다.
+- 표 3은 Swin Transformer, ConvNeXt 및 ResNeXt와 같은 기존 ConvNet을 비교한 객체 감지 및 인스턴스 분할 결과를 보여줍니다. 
+	- 다양한 모델 복잡성에서 ConvNeXt는 Swin Transformer보다 동등하거나 더 나은 성능을 달성합니다. 
+	- ImageNet-22K에서 사전 교육을 받은 더 큰 모델(ConvNeXt-B/L/XL)로 확장하면 대부분의 경우 ConvNeXt가 박스 및 마스크 AP 측면에서 Swin Transformers보다 훨씬 우수합니다(예: +1.0 AP).
+
+![Alt text](image-9.png)
+
+**Semantic segmentation on ADE20K**
+- 또한 UperNet[85]을 사용하여 ADE20K 시맨틱 분할 작업에서 ConvNeXt 백본을 평가합니다.
+	-  모든 모델 변형은 배치 크기가 16인 160K 반복에 대해 훈련됩니다. 다른 실험 설정은 [6]을 따릅니다(자세한 내용은 부록 A.3 참조).
+	- 표 4에서는 다중 스케일 테스트를 통한 검증 mIoU를 보고합니다. 
+	- ConvNeXt 모델은 다양한 모델 용량에서 경쟁력 있는 성능을 달성하여 아키텍처 설계의 효과를 더욱 검증할 수 있습니다.
+
+![Alt text](image-10.png)
+
+**Remarks on model efficiency.**
+- 유사한 FLOP에서 depthwise convolutions이 있는 모델은 밀도가 dense convolutions만 있는 ConvNet보다 느리고 **메모리를 더 많이 소비하는 것으로 알려져 있습니다.** 
+	- ConvNeXt의 설계가 **실질적으로 비효율적으로 만들 것인지 묻는 것은 당연합니다.**`(무조건 depthwise convolution이 좋은 것은 아니구나 그래서 u-net구조에서 detpth wise convolution을 할 때 더 고민을 해야 겠다.)`
+	- 본 논문에서 입증된 바와 같이 ConvNeXt의 추론 처리량은 Swin Transformers와 비슷하거나 그 이상입니다. 
+	- 이는 분류 및 고해상도 입력이 필요한 기타 작업 모두에 해당됩니다(처리량/FPS 비교는 표 1,3 참조). 
+	- 또한 ConvNeXts를 훈련시키는 것이 Swin Transformers를 훈련시키는 것보다 적은 메모리를 필요로 한다는 것을 알게 되었습니다. 
+	- 예를 들어 ConvNeXt-B 백본을 사용하여 Cascade 마스크-RCNN을 훈련하면 GPU당 배치 크기가 2인 17.4GB의 최대 메모리가 사용되지만 Swin-B의 참조 번호는 18.5GB입니다.
+
+
+## 5. Related Work
+
+**Hybrid models.**
+- ViT 이전 및 이후 시대 모두에서 컨볼루션과 자기 주의를 결합한 하이브리드 모델이 활발히 연구되었습니다. 
+	- ViT 이전에는 장거리 종속성을 포착하기 위해 self-attention/non-local 모듈[8, 55, 66, 79]로 ConvNet을 보강하는 데 중점을 두었습니다. 
+	- 원래의 ViT[20]는 먼저 하이브리드 구성을 연구했으며, ViT 이전에 명시적인 [15, 16, 21, 82, 86, 88] 또는 암시적인 [45] 방식으로 convolutional을 재도입하는 데 초점을 맞춘 많은 후속 작업을 수행했습니다.
+  
+**Recent convolution-based approaches.**
+- Han et al. [25]는 **local Transformerattention가 inhomogeneous dynamic depthwise conv과 동일**하다는 것을 보여줍니다. 
+	- 그런 다음 Swin의 MSA 블록은 dynamic 또는 regular depthwise convolution으로 대체되어 Swin과 유사한 성능을 달성합니다.
+- 동시 작업 **ConvMixer [4]는 소규모 설정에서depthwise convolution이 유망한 혼합 전략**으로 사용될 수 있음을 보여줍니다.
+	- ConvMixer는 최적의 결과를 얻기 위해 더 작은 패치 크기를 사용하여 처리량을 다른 기준보다 훨씬 낮춥니다.
+- GFNet[56]은 **token mixing을 위해 FFT(Fast Fourier Transform)를 채택**합니다. 
+	- FFT도 convolution의 한 형태이지만 global kernel size와 circular padding을 사용합니다.
+- 최근의 많은 Transformer 또는 ConvNet 설계와 달리, 우리 연구의 주요 목표 중 하나는 표준 ResNet을 현대화하고 최첨단 성능을 달성하는 프로세스를 심층적으로 살펴보는 것입니다.
+
+## 6. Conclusions
+
+2020년대에 비전 트랜스포머, 특히 스윈 트랜스포머와 같은 계층적인 것들이 일반적인 비전 백본을 위한 선호되는 선택으로서 ConvNets를 추월하기 시작했습니다.
+비전 트랜스포머가 ConvNets보다 더 정확하고 효율적이며 확장 가능하다는 것이 널리 믿어지고 있습니다. 우리는 표준 ConvNets의 단순성과 효율성을 유지하면서 여러 컴퓨터 비전 벤치마크에서 최첨단 계층적 비전 Transformers와 호의적으로 경쟁할 수 있는 순수 ConvNet 모델인 ConvNeXts를 제안합니다. 어떤 면에서, ConvNeXt 모델 자체가 완전히 새로운 것은 아니지만, 우리의 관찰은 놀랍습니다. 많은 설계 선택 사항이 지난 10년 동안 모두 개별적으로 검토되었지만, 전체적으로는 그렇지 않습니다. 우리는 이 연구의 새로운 결과가 널리 알려진 몇 가지 견해에 도전하고 사람들이 컴퓨터 비전에서 컨볼루션의 중요성을 다시 생각하도록 촉구하기를 바랍니다.
+
+# 나의 의견
+
+: 일단은 나의 생각에는 순수한 CNN으로 swin Transformer와 유사하게 구현 했다는 것이 정말 신기했다.
+depth wise convolution이 self-attention 과 작동이 비슷하다고 해석 한것도 이렇게 볼 수 있구나 라고 생각했다.(물론 related work에서 증명 했다.)
+또한 linear와 point-wise convolution이 유사하다는 것도 신기하다.
+하지만 유사한 것이지 완전 연산이 똑같이 작용한다는 것은 아니다.
+직접 그림을 그려 보면 그렇다.  
+
+코드를 직접 확인해 보면, 이 저자의 코드는 linear으로 되어 있다.
+왜 pointwise convolutional으로 되어 있지 않을까?
+
+내 개인적인 생각으로는 저자가 직접 돌려 보았을때 point wise convolution이랑 nn.linear을 비교했을때 linear가 더 강력했을 것으로 예상한다.
+(최근에 medical model관려해서 point wise convolution과 linear을 바꾸어 가면서 해보았을때, linear가 더 강한것을 확인했다. 물론 domain마다 다른 데이터 세트과 모델에 따라 영향을 받을 것으로 예상한다)
+
+또한 마지막에 depth wise convolution이 만병 통치약이냐?
+또 그것은 아니다.
+저자가 마지막에 언급을 했다. dept convolution은 실질적으로 비효율을 달성 할 수 있다고 언급했다.
+추가로 조사해 보니 depth conv으로 이루진 경우, 계산 효율과 그리고 cnn보다 더 낮은 정확성이 만들 수 있을 것 같다는 언급을 했다.
+
+그래서 이런 것들을 고려 해야 할것 같다.
+일단은 이런 점들을 알고 실험할 때 대비를 해야 한다.
