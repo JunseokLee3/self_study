@@ -355,7 +355,7 @@
 
 **Analysis of Layer Responses.**
 - 그림 7은 레이어 response의 표준 편차(std)를 보여줍니다.
-	-  response은 BN 다음과 다른 비선형성(ReLU/추가) 이전의 각 3×3 계층의 출력입니다. 
+	-  response은 BN 다음과 다른 비선형성(ReLU/추가) 이전의 각 3×3 계층의 출력입니다. [The standard deviation 표준편차 쓰는 이유](../../../0.0%20참고/The%20standard%20deviation%20표준편차%20쓰는%20이유.md)
 	- ResNets의 경우 이 분석을 통해 잔차 함수의 response 강도가 표시됩니다.
 	- 그림 7은 ResNets의 일반 response보다 일반 응답이 더 작다는 것을 보여줍니다. 
 	- 이러한 결과는 잔차 함수가 비잔차 함수보다 일반적으로 0에 가까울 수 있다는 기본 동기(3.1항)를 뒷받침합니다.
