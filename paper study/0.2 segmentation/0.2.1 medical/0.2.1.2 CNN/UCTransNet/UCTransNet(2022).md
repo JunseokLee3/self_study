@@ -1,14 +1,15 @@
 # UCTransNet: Rethinking the Skip Connections in U-Net from a Channel-Wise Perspective with Transformer
 
 https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
+## 정보(저널, 저자)
 
-## 저널 : AAAI 2022
+### 저널 : AAAI 2022
 **The Thirty-Sixth AAAI Conference on Artificial Intelligence (AAAI-22)**
 
-## 저자 : 
+### 저자 :
 ![Alt text](image.png)
 
-### Abstract
+## Abstract
 
 - 대부분 최신 s**emantic segmentation은 U-net 구조를 채택**한다.
 - 간단한(simple) s**kip connection을 가진 U-Net이 글로벌(global)  멀티 스케일  컨텍스트(context)를 모델링 하는 것은 여전히 어렵다**.
@@ -16,9 +17,11 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
   1. **인코더와 디코더의 비호환(incompatible) 기능 세트 문제로 인해 각(each) skip connection은 효과 적이지 않다**.
   2. **U-net이 일부 데이터 세트에서 skip connection이 없는것**이 더 효과가 있을 때가 있다.
 
-- 연구 결과를 바탕으로 그들은 새로운 segmentation framework를 제안한다. (UCTransNet with a proposed CTrans moduel in U-net). (채널 관점에서 attention 메커니즘)  
-- 특히 CTrnas (Channel Transformer) 모듈은 U-net skip connection의 대안이다. 이것은 Transformer으로 이루어진 multi-scale Channel cross fusion (CCT)인 하위 모듈과 함께  구성되다. 그리고 하위 모듈 Channel-wise cross-Attention (named CCA) 는 합성된 multiscale channel-wise 정보(infromation)을 효율적으로 디코더(decoder)와 모호성(ambiguity)을 제거하기위해 연결하는데 가이드를 해준다.   
-- 따라서 제안되 CCT와 CCA로 구성된 연결은 기존(original) skip connection을 대체한다. 그것은 정확한 자동 메디컬 이미지 segmentation에서의 semantic gap(의미론적 차이)를 해결해 준다.  
+- 연구 결과를 바탕으로 그들은 **새로운 segmentation framework를 제안**한다. (UCTransNet with a proposed CTrans moduel in U-net). **(채널 관점에서 attention 메커니즘)**  
+- 특히 **CTrnas(Channel Transformer) 모듈은 U-net skip connection의 대안**이다. 
+  - 이것은 Transformer으로 이루어진 multi-scale Channel cross fusion (CCT)인 하위 모듈과 함께  구성되다. 
+  - 그리고 하위 모듈 **Channel-wise cross-Attention (named CCA) 는 합성된 multiscale channel-wise 정보(infromation)을 효율적으로 디코더(decoder)와 모호성(ambiguity)을 제거하기위해 연결하는데 가이드**를 해준다.   
+  - 따라서 제안되 **CCT와 CCA로 구성된 연결은 기존(original) skip connection을 대체**한다. 그것은 정확한 자동 메디컬 이미지 segmentation에서의 semantic gap(의미론적 차이)를 해결해 준다.  
 - 실험 결과에 따르면 그들의 UCTransNet은 더 정확한 segmentation성능과 최신 성능을 뛰어넘는 일관된 상승을 보여준다. (기존 아키텍처와 다른 데이터 세트에서 의미론적 분류에서)
 
 ## Introduction
@@ -82,3 +85,7 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 3. **우리의 방법은 U-Net과 Transformer의 적합한 조합을 제공하여 계산 비용을 낮추고 성능**을 향상시킨다. 
    - 다른 최첨단 세분화 방법과  할때, 우리의 실험 결과는 세 가지 공개 데이터 세트 모두에서 우수한 성능을 보여 준다.
 `각각 contribution이 method와 experiments에 잘 녹아 있을 것 같다. 그러니 하나씩 체크해야 한다.`
+
+## Related works
+
+**Transformers for Medical Image Segmentation**
