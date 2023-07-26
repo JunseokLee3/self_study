@@ -2,6 +2,8 @@
 
 # UCTransNet: Rethinking the Skip Connections in U-Net from a Channel-wise Perspective with Transformer
 
+![Alt text](image-4.png)
+
 이 논문은 최근 의미론적 분할 방법에 대해 다루고 있습니다. 이 방법들은 대부분 U-Net 프레임워크를 사용하며, 이는 인코더-디코더 아키텍처를 가지고 있습니다. U-Net은 간단한 스킵 연결 구조를 가지고 있지만, 이로 인해 전역 다중 스케일 컨텍스트를 모델링하는 것이 여전히 도전적입니다.
 
 ## 주요 발견
