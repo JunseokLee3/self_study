@@ -1,6 +1,19 @@
-self_study
- ┣ coding test
- ┣ english study
- ┣ paper study
-
- ┗ README.md
+self study
+├── coding test
+│   └── 연습문제
+├── english study
+│   └── movie
+│       └── 인턴
+└── paper study
+    ├── 0.0 참고
+    │   └── 0.0.1
+    ├── 0.1 BackBone
+    │   ├── 0.1.1 CNN
+    │   │   ├── A ConvNet for the 2020s(2022)
+    │   │   └── Deep Residual Learning for Image Recognition(2016)
+    │   └── 0.1.2 Transformer
+    └── 0.2 segmentation
+        ├── 0.2.1 Transformer
+        │   └── 0.2.1.1 medical
+        └── 0.2.2 CNN
+            └── 0.2.2.2 medical
