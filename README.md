@@ -7,8 +7,8 @@
 (물론 바빠서 빠르게 답 못할 수도 있습니다)
 
 ```
-    ├── self_study
-          ├── code test
-          ├── paper study
-          ├── english study
+self study
+├── coding test
+├── english study
+└── paper study
 ```
