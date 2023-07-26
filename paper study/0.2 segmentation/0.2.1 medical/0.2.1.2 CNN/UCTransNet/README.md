@@ -1,4 +1,4 @@
-#### [UCTransNet: Rethinking the Skip Connections in U-Net from a Channel-Wise Perspective with Transformer 자세한 설명](./)
+#### [UCTransNet: Rethinking the Skip Connections in U-Net from a Channel-Wise Perspective with Transformer 자세한 설명](./UCTransNet_자세한%20설명용.md)
 
 # UCTransNet: Rethinking the Skip Connections in U-Net from a Channel-wise Perspective with Transformer
 
