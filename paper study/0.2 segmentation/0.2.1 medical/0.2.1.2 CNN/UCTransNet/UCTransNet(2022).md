@@ -89,3 +89,77 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 ## Related works
 
 **Transformers for Medical Image Segmentation**
+- 최근 비전 **트랜스포머(ViT)는 전체 크기 이미지에 글로벌 셀프 주의를 가진 트랜스포머를 직접 적용하여 이미지넷 분류에서 최첨단을 달성**했습니다. 
+	- 많은 컴퓨터 비전 분야에서 트랜스포머의 성공으로 인해 최근 의료 이미지 분할에 대한 새로운 패러다임이 발전했습니다.
+	- TransUNet(Chen et al. 2021)은 최초의 Transformer 기반 의료 영상 분할 프레임워크입니다. 
+	- Valanarasu 등은 의료 영상에서 낮은 데이터 샘플 수를 극복하기 위해 Gated AxialAttention model–MedT (Valanarasu 등 2021)를 제안했습니다. 
+	- 최첨단 성능을 달성한 Swin Transformer(Luu et al. 2021)에 영감을 받아 Swin-Unet은 U-Net의 컨볼루션 블록을 대체하기 위해 Swin Transformer를 도입한 최초의 순수 Transformer 기반 U자형 아키텍처를 제안했습니다.
+	- 그러나 위에서 언급한 방법은 주로 U-Net  자체보다는 컨볼루션(convolution) 작동(operation)의 결함에 초점을 맞추고 있으므로 구조적( structural) 중복성(redundancy)과 금지된(prohibitive) 계산 비용을 초래할 수 있다.
+
+**Skip Connections in U-shaped Nets**
+- **skip connection(스킵 연결) 메커니즘은 인코더(encoder)와 디코더(decoder)  사이의 의미적(semantic) 격차(gap)를 해소(bridge)하도록 설계된 U-Net 에서 처음 제안 되었으며 대상(target) 개체의 세부 정보를 복구(recoviering)하는 데 효과적인(effective) 것으로 입증** 되었다.
+	- Unet의 인기에 따라, UNet+, Attention U-Net, Dense와 같은 많은 새로운 모델이 제안되었습니다.  UNet, R2U-Net 및 UNet 3+는 의료 영상 분할을 위해 특별히 설계되었으며 표현 성능을 달성합니다
+  - Zhou 라는 저자는 인코더(encdoer)와 디코더(decoder) 네트워크의 동일한(same-scale)의 특징 맵이 의미적으로 다르다(dissimilar)고 믿었고, 따라서 격차를 더 줄이기(bridge the gap) 위해 다중 규모의 특징(mutli-scale features)을 캡처하는  UNet++라는 중첩된(nested)  구조를 설계했다.
+  - Attention-UNet은 거친(coarse) 스케일 기능을 게이트 신호(gating signals)로 사용하여 스킵 연결에서 관련이 없고(irrelevant)  노이즈가 많은 응답(reponses)을 명확하게(disambiguate) 하는 교차 주의 모듈(cross attention module)을 제안했다.
+  - MultiResUnet skipped 인코더 기능과 디코더 기능 사이에 발생할 수 있는 의미적(semantic) 차이(gap)를 동일한(same) 수준(level)에서 관찰하여 skip connection을 개선하기 위해 잔류 구조(residual structure)를 가진 ResPath를 도입했다.
+  - 이러한 방법은 각 스킵 연결의 기여도가 동일하다고 가정하지만, 다음 섹션에서 우리는 모든 스킵 연결 간에 기여도가 다르며,일부는 최종 성능을 해칠 수도 있다.
+
+![Alt text](image-1.png)
+
+## The Analysis of Skip Connection 
+
+- 이 섹션에서는 세 개의 데이터 세트에서 분할 성능에 대한 건너뛰기 연결의 기여도를 철저히 분석합니다. 
+- 분석 결과 세 가지 결과가 다음과 같이 강조됩니다:
+
+![Alt text](image-2.png)
+
+**Finding 1:**
+- 스킵 연결(skip connecntion)이 **없는 U-Net 의 성능은 어떤 경우에는 원래의 U-Net보다 놀라울 정도로 우**수하다.
+	- 그림 3의 결과를 비교해 보면, MoNuSeg 데이터 세트의 거의 모든 메트릭에 대한 알고리즘 중 'U-Net-none'의 성능이 가장 좋지 않습니다. 
+	- 그러나 GlaaS 데이터 세트에서 'U-Net-none'은 아무런 제약 없이 'U-Net-all'에 비해 경쟁력(competitive) 있는 성능을 달성합니다. 
+	- 이 관찰은 연결 건너뛰기가 분할 작업에 항상 도움이 되는 것은 아님을 나타냅니다.
+
+**Finding 2:**
+- **UNet-all은 Unetnone보다 성능이 우수하지만, 단순 복사(simple copying)이 분할(segmentation)에 유용한(useful) 것은 아니다.**
+	- 각 스킵 연결의 기여도는 다릅니다. 우리는 MoNuSeg 데이터 세트의 Dice 및 IOU와 관련하여 각 스킵 연결의 성능 범위가 [67.5%, 76.44%] 및 [52.2%, 62.73%]임을 발견했습니다.
+	- 서로 다른 단일 스킵 연결(different single skip connection)에 대한 영향 변동(variation)이 큽니다. 
+	- 또한 인코더 및 디코더 단게의 비호환(incomptible) 기능 세트 문제로 인해 일부 스킵 연결은 분할 성능에 부정적인 영향을 미친다.
+	- 서로 다른 단일 스킵 연결에 대한 영향 변동이 큽니다. 
+	- 또한 인코더 및 디코더 단계의 비호환 기능 세트 문제로 인해 일부 스킵 연결은 분할 성능에 부정적인 영향을 미칩니다.
+	- 예를 들어, L1은 GlaaS 데이터 세트에서 Dice 및 IOU 측면에서 UNet-none보다 성능이 좋지 않습니다. 
+	- 결과는 인코더 단계의 많은 기능이 정보를 제공하지 않는다는 것을 보여주지 않습니다. 단순 복사가 피쳐 융합에 적합하지 않기 때문일 수 있습니다.
+
+**Finding 3:**
+- **스킵 기여의 최적 조합은 대상 병변(lesion)의 크기와 모양에 영향을 받기 때문에 데이터 세트에 따라 달라**집니다. 
+	- 최적의 측면 출력 설정을 탐색하기 위해 몇 가지 절제 실험을 수행했습니다. 
+	- 공간이 제한되어 있기 때문에 스킵 연결이 두 개뿐인 조합은 고려하지 않았습니다. 
+	- 우리의 관찰에 따르면 연결을 건너뛰는 것이 항상 성능을 향상시키는 것은 아닙니다. 
+	- L4가 없는 모델은 MoNuSeg 데이터 세트에서 가장 잘 수행되는 반면, 흥미롭게도 L3은 하나의 건너뛰기 연결만으로 GlaaS 데이터 세트에서 가장 잘 수행됩니다.
+	-  이러한 결과는 최적의 조합이 데이터 세트에 따라 다르다는 것을 나타내며, 단순한 연결에만 의존하는 대신 기능 융합을 위한 보다 적절한 방법이 필요하다는 것을 더욱 강조합니다.
+
+
+## UCTransNet for Medical Image Segmentation
+
+![Alt text](image-3.png)
+
+- 그림 2는 UCTransNet 프레임워크의 개요를 보여줍니다. 
+	- 우리가 아는 한, 현재 **Transformer 기반 분할 방법은 주로 장거리 정보를 캡처하는 이점을 기반으로 U-Net의 인코더를 개선하는 데 중점**을 둡니다.
+	- 변**환과 같은 방법UNet 또는 TransFuse는 Transformer 모듈을 인코더에 통합하거나 두 개의 독립 분기(branch)를 모두 융합**하여 간단한 방법으로 Transformer와 U-Net을 결합합니다.
+- 그러나 현재 **U-Net 모델의 잠재적 한계는 대부분의 작업에 충분한 원래 U-Net의 인코더가 아닌 스킵 연결 문제**에 있다고 생각합니다.
+	- 스킵 연결 분석 섹션에서 논의된 바와 같이, 우리는 **인코더의 기능이 디코더의 기능과 일치하지 않음**을 관찰합니다.
+	-  경우에 따라 **의미 정보가 적은 얕은 계층 기능은 단순 스킵 연결을 사용할 때 얕은 수준의 인코더와 디코더 사이의 의미 격차로 인해 최종 성능에 부정적인 영향**을 미칠 수 있습니다. 
+	- 이에 영감을 받아 **바닐라 U-Net 인코더와 디코더 사이의 채널별 Transformer 모듈을 설계하여 인코더 기능을 더 잘 융합하고 의미론적 격차를 줄임**으로써 UCTransNet 프레임워크를 구성합니다.
+	- 구체적으로, **우리는 U-Net의 스킵 연결을 대체하기 위한 채널 변환기(CTrans)를 제안합니다. 이는 멀티 스케일 인코더 기능 융합을 위한 CCT(Channel-wise Cross Fusion Transformer)와 향상된 CCT 기능으로 디코더 기능을 융합**하기 위한 CCA(Channel-wise Cross Attention)의 두 모듈로 구성됩니다.
+
+
+## CCT: Channel-wise Cross Fusion Transformer for Encoder Feature Transformation
+
+- 앞에서 언급한 건너뛰기 연결 문제를 해결하기 위해 Transformer의 긴 종속성 모델링의 장점과 멀티 스케일 인코더 기능을 융합하는 새로운 채널별 교차 융합 변압기(Channel-wise Cross Fusion Transformer, CCT)를 제안합니다.
+- CCT 모듈은 멀티 스케일 피쳐 임베딩(multi-scale featuer embedding), 멀티 헤드 채널 방향(multi-head channel-wise) 크로스 어텐션(cross attention) 및 MLP(Multi-Layer Perceptron)의 세 단계로 구성됩니다.
+
+**Multi-scale Feature Embedding**
+- 네 개의 스킵 연결 레이어의 출력이 주어지면 E ∈ R
+- 먼저 패치 크기가 각각 P, P/2, P/4, P/8인 평평한 2D 패치 시퀀스로 기능을 재구성하여 토큰화를 수행하여 패치를 4개의 스케일로 인코더 기능의 동일한 영역에 매핑할 수 있습니다.
+- 우리는 이 과정을 통해 원래의 채널 치수를 유지합니다. 그런 다음 4개 레이어 Ti(i = HWi 2 × Ci를 키로 하고 값 TΩ = Concat(T1, T2, T3, T4)의 토큰을 연결합니다.
+
+![Alt text](image-4.png)
