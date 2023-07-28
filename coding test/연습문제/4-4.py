@@ -31,18 +31,34 @@ while True:
     turn_left()
     nx = x + dx[direction]
     ny = y + dy[direction]
+    # 여기는 nx, ny를 함으로써 탐색
     # 회전한 이후 정면에 가보지 않은 칸이 존재하는 경우 이동
     if d[nx][ny] == 0 and array[nx][ny] == 0 :
         d[nx][ny] = 1
         x = nx
         y = ny
+        # x, y로 받아주면서 공식적인 이동
         count += 1
         turn_time = 0
-        continue
+        continue # 건너 뛰고 반복함
     # 회전한 이후 정면에 가보지 않은 칸이 없거나 바다인 경우
     else:
         turn_time += 1
     # 네 방향 모두 갈 수 없는 경우
     if turn_time == 4:
-        nx = x - dx
+        nx = x - dx[direction]
+        ny = y - dy[direction]
+        # 뒤로 갈 수 있다면 이동하기
+        if array[nx][ny] == 0:
+            x = nx
+            y = ny
+        # 뒤가 바다로 막혀있는 경우
+        else:
+            break
+        turn_time = 0
 
+# 정답출력
+print(count)
+
+# 나의 의견
+# 시뮬레이션은 우선 익혀 두고 생각과 반복을 하면서 익혀 나가야 겠다.
