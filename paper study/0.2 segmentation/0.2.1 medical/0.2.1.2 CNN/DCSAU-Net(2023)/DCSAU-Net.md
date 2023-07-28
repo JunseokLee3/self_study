@@ -74,3 +74,57 @@ https://arxiv.org/abs/2202.00972
 	- 사소한 변경 U-Net으로 **23개의 공개 데이터 세트에서 평가되었으며 다른 알고리듬에 비해 뛰어난 성능**을 보여주었습니다.
 	-  반대로, 우리의 접근 방식은 네트워크 자체의 향상에 초점을 맞추고 있습니다. 
 	- 이러한 기술은 모든 아키텍처에도 적용되고 성능을 향상시킬 수 있기 때문입니다 [30], [31].
+
+### 2.2. Attention mechanisms
+
+- **채널 주의(channel attention) 사항 중 하나인 SENet [32]는 의료 영상 분할에 널리 적용**되었습니다.
+	- 글로벌 평균 풀링이 있는 스퀴즈 모듈을 사용하여 글로벌 공간 정보를 수집하고 여기 모듈을 사용하여 피처 맵에서 **각 채널 간의 관계를 얻습니다. 공간 주의는 적응형 공간 위치 선택 메커니즘**이라고 할 수 있습니다.
+	- **글로벌 평균 풀링(global average pooling)이 있는 스퀴즈(squeeze) 모듈을 사용하여 글로벌 공간 정보(global spatial information)를 수집하고 여기 모듈(excitation module)을 사용하여 피처 맵에서 각 채널 간의 관계**를 얻습니다.
+	-  **공간 주의(spatial attention)는 적응형(adaptive) 공간 위치 선택 메커니즘**이라고 할 수 있습니다.
+	- 예를 들어,**Oktay 등. 추가 계산 비용과 모델 매개 변수 없이 유용한 기능을 강조하는 특정 영역에 정확하게 초점을 맞출 수 있는 상향식 주의 게이트를 사용하는 attention U-Net**을 도입했습니다
+- 또한, 일련의  ViT는 더 광범위한 분야에서 사용되고 있습니다. 
+	- XU 외 **LeViT-UNET은 기능에서 먼 공간 정보(distant spatial information)를 수집할 것을 제안**했습니다. 
+	- 또한 변**압기는 CNN과 통합되었을 때 강력한 성능**을 보여주었습니다.
+	-  Chen 외, 제공된 트랜스이미지 패치를 얻기 위해 CNN을 인코더의 전반부(first half)로 선택하고 트랜스포머 모델을 사용하여 글로벌 컨텍스트(global context)를 추출하는 TransUNet. 디코더의 최종 혼합 기능은 보다 정확한 현지화를 달성할 수 있습니다. 
+	- 그러나 transformer-based networks는 일반적(usually)으로 많은 수의 매개 변수를 포함(contain)하며 더 많은 컴퓨팅 소스를 소비합니다. 
+	- **기존 주의 아키텍처를 최적화하고 가벼운 주의 모듈을 제안**합니다
+
+### 2.3. Depthwise separable convolution
+
+- **Depthwise separable convolution은 Howard 외 연구진이 제안한 효율적인 신경망 아키텍처**입니다. 
+	- 이 아키텍처의 각 컨볼루션 필터는 하나의 입력 채널을 담당합니다.
+	- **standard convolution과 비교하여 깊이별 컨볼루션(depthwise covlution)은 동일한 효과를 달성할 수 있을 뿐만 아니라 매개 변수와 계산 비용이 더 적게** 듭니다.
+- 그러나 모든 입력 채널의 기능만 추출(extract)합니다. 
+	- 채널 간의 정보를 결합하고 새 피쳐 맵을 만들기 위해 포인트별(point-wise) 컨볼루션이라고 하는 1×1 컨볼루션은 깊이별 컨볼루션(depth wise convolution)을 따릅니다. 
+	- 최종 MobileNets 모델은 딥 러닝의 새로운 백본으로 확립(established)되고 고려되었습니다.
+	- 이미지 분류 작업에서 Chollet은 깊이별 분리 가능한 (depthwise separable) 컨볼루션을 사용하여 이전 SOTA 방법을 능가하고 더 낮은 복잡성을 나타내는 Xception 모델을 구성했습니다. 
+- 그러나 **Sandler 외 연구진 낮은 채널 특징 맵에서 깊이별 컨볼루션이 제대로 수행되지 않음을 관찰**했습니다..
+	- 앞서 언급한 문제를 해결하기 위해, **그들은 형상의 차원을 미리 증가시키기 위해 깊이별 컨볼루션 앞에 1×1 컨볼루션을 추가하는 새로운 MobileNetV2 모델을 제안**했습니다.
+	-  MobileNets와 비교하여 MobileNetV2는 매개 변수 수를 증가시키지 않고 성능 저하를 감소시킵니다.
+- 의료 영상 분할에서 Qi 등. [43] 3D 뇌중풍(brain stroke) 병변 분할을 위한 X-net 모델을 도입했습니다. 
+	- **깊이별 분리 가능한 컨볼루션을 사용하여 피처 맵에서 거리 공간 정보를 캡처하기 위해 피처 유사성 모듈(feature similarity module FSM)이 만들**어졌습니다. 
+	- 실험 결과는 X-net 모델이 더 높은 성능을 달성하기 위해 다른 SOTA 모델의 매개 변수 수의 절반만 비용이 든다는 것을 보여줍니다.
+
+## 3. Method
+
+![Alt text](image-1.png)
+
+### 3.1. Primary feature conservation
+
+- **대부분의 의료 이미지 분할 네트워크에서 첫 번째 다운샘플링 블록 작업에 사용되는 컨볼루션은 이미지에서 낮은 수준의 의미 정보를 추출**하는 것입니다. 
+	- 그림 1(a)의 **U-Net 아키텍처[22]는 다양한 모델[25], [35]에서 널리 사용**되었습니다. 
+	- 그림 1(b)의 스**템 블록 [44]은 일반적으로 7×7 컨볼루션과 동일한 수용 필드를 얻고 파라미터의 수를 줄이도록 설계**됩니다. 
+	- Res의 첫 번째 피쳐 스케일 다운샘플링 도면층UNet++ [27]은 그림 1(c)에 나타난 바와 같이 기울기 소실의 잠재적 영향을 완화(mitigate)하기 위해 스킵 연결(skip connection) 전략을 추가합니다.
+- 더 **많은 컨볼루션 블록을 쌓으면 신경망의 수용 영역을 확장할 수 있지만, 매개 변수의 수와 계산량은 빠르게 증가**할 것입니다. 
+	- 모델의 안정성이 손상될 수 있습니다. 
+- 또한, **최근의 연구에 따르면 적층된 3 × 3 컨볼루션의 수가 계속 증가할 때 유효한 수용 필드가 어느 정도 감소**할 것이라고 합니다 [45].
+	- 이 문제를 해결하기 위해 그림 1(d)에 제공된 첫 번째 다운샘플링 블록에서 새로운 기본 기능 보존(primary feature conservation PFC) 전략을 소개합니다. 
+	- 우리 모듈의 **주요 개선(refinement)은 깊이별 분리 가능한(depthwise separable convolution) 컨볼루션을 채택하며, 7 × 7 깊이별 컨볼루션(depthwise convolution)과 1 × 1 점별(pointwise convolution) 컨볼루션으로 구성**됩니다.
+- **depthwise separable convolution이 standard convoultion를 비교했을 때 parameter 수와 계산 비용을 감소시키기 떄문에, 우리는 distant(먼) 공간(spatial) 정보를 병합하고 가능한 주요(primary) features를 보존하기 위해  큰 크기의 kernel 크기의 depthwise convolution을 적용할 기회**를 가졌다.
+	- **1x1 pointwise convolution은 채널 정보를 융합**하는데 사용됩니다.
+	- `Convnext 역시 swin transfomer을 모방하지만 1x1을 channel 융합 하는데 사용한다.` 
+	- 또한 **3x3 convolution은 이 모듈의 head에 더해진다. (feature channel 을 증가하기 위해 그 이유는 depthwise separable convolution이 low-dimensional feature에서 낮은 성능을 보이기 때문에)**
+	- **모든 convolution은 ReLU 활성화와 BatchNOrm을 따른다**. 
+	- **gradient vanish를 피하기 위해 PFC 블럭을 residual style**로 구성한다.
+- 이를 위해 제안된 PFC 모듈은 parameters와 계산 커스트 증가없이 성능을 높일 수 있다. 게다가 우리는 7x7 kernel size의 depthwise convoltion을 사용한 이유는 Section 5에 설명된다.
+
