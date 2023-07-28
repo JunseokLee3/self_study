@@ -20,7 +20,6 @@ https://arxiv.org/abs/2202.00972
 더 자세한 기술적 세부 사항은 다음 링크에서 확인할 수 있습니다: [https://github.com/xq141839/DCSAU-Net](https://github.com/xq141839/DCSAU-Net)
 
 
-
 # 나의 의견
 - 이미지 분할을 위해 본인의 모델을 만들었따.
 - 많이 참고하는 것은 Resnext였다.
