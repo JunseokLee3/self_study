@@ -104,3 +104,65 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 - 여기서 전자는 패치 번호 hw 에 2차이고, M이 고정된 경우 후자는 선형이다.( 기본값으로 7로 설정)
 - 글로벌 자기 주의(global self attenton) 게싼은 일반적으로 대규모 하드웨어에 대해 감당할 수 없는 반면, window(창) 기반 자기 주의(self attention)은 확장 가능하다.
+
+
+**Shifted windo partitioning in successive block**
+- 창(window) 기반 self-attention 모듈은  윈도우간의 연결이 부족하여 모델링 능력이 제한된다. 
+	- 중복되지 않은(non-overlapping) 창의 효율적인 계산을 유지하면서 교차 창(cross-window)  연결을 도입하기 위해 연속적인(consecutive) Swin Transformer block 제안한다.
+
+![Alt text](image-2.png)
+
+- 그림 2와 같이, 첫 번째 모듈은 왼쪽 위 픽셀 부터 시작하는 일반적인 창 분할을 씁니다. 
+	- 8x8  혀상 맵은 4x4 크기의 2x2 창으로 고르게 분할 됩니다.(M=4)
+	- 그런 다음 모듈이 창을 교체하여 정기적으로 분할된 창에서 이전 계층([M/2],[M/2]) 픽셀의 창 구성을 쳬택 합니다.
+
+
+- 전환된(shifted widnow) 분할 접근법은 연속적인(consecutive) Swin Trnasformer block은 다음과 같이 계산:
+![Alt text](image-5.png)
+
+- Shifted window partitioning 접근 방식은 이전 계층에서 중첩되지 않는 인접 window(창) 사이의 연결을 도입하며 표4와 같이 효과적으로 보임
+
+![Alt text](image-6.png)
+
+**Efficient batch computation for shifted confiuration**
+
+- 창 분할 할 때 생기는 문제는 [h/M] x [w/M]에서 ([h/M]+1) x([w/M]+1)으로  변환 특성은 더 많은 창을 만들게 된다. 
+	- 그리고 몇몇은 window(창)은 M x M 보다 더 작다.
+- 간단한 해결책으로는  window를 계산할때 작은 창을 M x M 크기로 패딩하고 패딩 된 값을 마스크하는 것이다. 
+
+![Alt text](image-7.png)
+
+- 여기서, 우리는 그림 4에 나타난 바와 같이 왼쪽 상단 방향으로 주기적으로 이동함으로써 보다 효율적인 배치 계산법을 제안 한다.
+	- 이러한 이동 후 배치된 창은 형상 맵에서 인접하지 않은 여러 하위 창으로 구성될 수 있으므로 마스킹 메커니즘을 사용하여 각 하위 창 내에서 자체 주의 계산을 제한한다.
+	- 순환 시프트를 사용하면 배치된 창 수가 일반 창 준할의 창 수와 동일하므로 효율적이다. 
+
+![Alt text](image-8.png)
+
+- 표 5에 우리는 속도가 나와있다.
+
+
+**Relative position bias**
+- self-attention 에서 우리는 계산 유사성에서 각 헤드에 대한 상대적 위치 편향 B \in R 를 포함 시킴으로써 [a] 따른다.
+
+![Alt text](image-9.png)
+
+- 표4에 나타난 바와 같이, 우리는 이 편향 항이 없거나 절대 위치 임배딩(absolute position embedding) 을 사용하는 상대에 비해 상당한 개선을 관찰한다. 
+	- [19]와 같이 절대 위치 임베딩을 입력에 추가하면 성능이 약간 저하되므로 구현에 채택되지 않는다.
+	- 사전 훈련에서 학습된 상대 위치 편향(relative position bias) bi-cubic 보간을 통해 다른 창 크기로 미세 조정을 위한 모델을 초기화하는데 사용될 수 있다.
+
+
+### 3.3. Architecture Variants
+
+- 우리는 Swin-B라고 하는 기본 모델을 ViTB/DeiT-B와 유사한 모델 크기와 계산 복잡성을 갖도록 구축합니다. 
+	- 또한 각각 모델 크기와 계산 복잡도가 약 0.25배, 0.5배, 2배인 Swin-T, Swin-S 및 Swin-L을 소개합니다.
+- Swin-T와 Swin-S의 복잡성은 각각 ResNet-50(DeiT-S)과 ResNet-101의 복잡성과 유사합니다. 
+	- 윈도우 크기는 기본적으로 M = 7로 설정됩니다. 
+	- 모든 실험에서 각 헤드의 쿼리 차원은 d = 32이고 각 MLP의 확장 레이어는 α = 4입니다. 
+	- 이러한 모델 변형의 아키텍처 하이퍼 파라미터는 다음과 같습니다:
+
+![Alt text](image-10.png)
+
+- 여기서 C는 첫 번째 단계에서 숨겨진 레이어의 채널 번호입니다. ImageNet 이미지 분류를 위한 모델 변형의 모델 크기, 이론적 계산 복잡도(FLOP) 및 처리량은 표 1에 나와 있습니다.
+
+
+## 4. Experiments
