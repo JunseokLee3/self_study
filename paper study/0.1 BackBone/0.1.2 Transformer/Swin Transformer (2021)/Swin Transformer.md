@@ -166,3 +166,25 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 
 ## 4. Experiments
+
+- 우리는 ImageNet-1K 이미지 분류 [18], COCO 객체 검출 [39] 및 ADE20K 시맨틱 분할 [74]에 대한 실험을 수행합니다.
+	-  다음에서는 먼저 제안된 Swin Transformer 아키텍처를 세 가지 작업에 대한 이전의 최신 기술과 비교합니다. 
+	- 그런 다음 Swin Transformer의 중요한 설계 요소를 자세히 설명합니다.
+
+### 4.1. Image Classification on ImageNet-1K
+
+**Settings**
+
+- 이미지 분류를 위해 1,000개 클래스의 1.28M 훈련 이미지와 50K 검증 이미지를 포함하는 ImageNet-1K [18]에서 제안된 Swin Transformer를 벤치마크합니다. 
+	- single crop에 대한 상위 1개 정확도가 보고됩니다. 
+	- 우리는 두 가지 훈련 설정을 고려합니다:
+		- 정규 ImageNet-1K 훈련. 이 설정은 대부분 [57]을 따릅니다. 
+			- cosine decay learning rate scheduler와 20개의 linear warm-up을 사용하여 300개의 epoch에 대해 AdamW [33] 최적화기를 사용합니다.
+			-  배치 크기 1024, initial learning rate 0.001 및 weight decay 0.05가 사용됩니다. 
+			- 성능을 향상시키지 않는 반복 증강 [28] 및 EMA [41]를 제외하고 [57]의 대부분의 증강 및 정규화 전략을 훈련에 포함합니다. 
+			- 이는 반복 증강이 ViT 훈련을 안정화하는 데 중요한 [57]과는 상반됩니다.
+		- ImageNet-22K에 대한 사전 훈련 및 ImageNet-1K에 대한 fine-tuning. 
+			- 또한 1420만 개의 이미지와 22K 클래스를 포함하는 ImageNet-22K 데이터 세트에 대한 pre-train을 실시합니다. 
+			- 우리는 5- epoch  linear warm-up을 가진 cosine decay learning rate scheduler를 사용하여 90개의 epcoh에 대해 AdamW 최적화기를 사용합니다.
+			-  배치 크기 4096, 초기 learning rate 0.001, 가 weight decay 0.01이 사용됩니다. 
+			- ImageNet-1K 미세 조정에서는 배치 크기 1024, constant learning rate 10^-5, weight decay 10^-8로 30개의 epcoh를 훈련합니다.
