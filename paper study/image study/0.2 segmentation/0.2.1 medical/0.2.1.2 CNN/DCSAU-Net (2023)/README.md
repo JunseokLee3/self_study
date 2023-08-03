@@ -2,7 +2,7 @@
 
 https://arxiv.org/abs/2202.00972
 
-# [DCSAU-Net 자세한 설명](./DCSAU-Net.md)
+# [DCSAU-Net 자세한 설명](./DCSAU-Net%20(2023).md)
 
 ## 저널 :  Computers in Biology and Medicine (q1, 2023)
 ## 저자 : ![Alt text](image.png)
