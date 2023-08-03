@@ -296,3 +296,10 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 - 본 논문에서는 계층적 특징 표현을 생성하고 입력 영상 크기에 대해 선형 계산 복잡성을 갖는 새로운 비전 트랜스포머인 Swin Transformer를 제시합니다. 
 	- Swin Transformer는 COCO 객체 검출 및 ADE20K 시맨틱 분할에 대한 최첨단 성능을 달성하여 이전의 최고 방법을 크게 능가합니다.
 	-  다양한 비전 문제에 대한 Swin Transformer의 강력한 성능이 시각과 언어 신호의 통합 모델링을 장려하기를 바랍니다.
+
+# 나의 의견 :
+- Transformer에서 single scale 으로 이루어진 patch 계산은 이미지와 어울리지 않은 방법이라는 지적에서 시작했다.
+- 왜냐 하면 언어는 차원이 어느정도 정해져 있지만, 이미지의 경우 고차원 이기 때문이다.
+- 그리고 single scale은 계산 복잡성이 2배수로 증가함으로 효율 문제 가 있었다.
+- 계산 복잡성과 메모리의 효율성을 달성하기 위해 CNN과 같은 계층적 구조를 이용하였다.
+- 그 결과 속려과 메모리 효율을 달성 헀으면, 일부 부분에서 좋은 성능을 달성 했다.
