@@ -174,7 +174,6 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 ### 4.1. Image Classification on ImageNet-1K
 
 **Settings**
-
 - 이미지 분류를 위해 1,000개 클래스의 1.28M 훈련 이미지와 50K 검증 이미지를 포함하는 ImageNet-1K [18]에서 제안된 Swin Transformer를 벤치마크합니다. 
 	- single crop에 대한 상위 1개 정확도가 보고됩니다. 
 	- 우리는 두 가지 훈련 설정을 고려합니다:
@@ -188,3 +187,112 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 			- 우리는 5- epoch  linear warm-up을 가진 cosine decay learning rate scheduler를 사용하여 90개의 epcoh에 대해 AdamW 최적화기를 사용합니다.
 			-  배치 크기 4096, 초기 learning rate 0.001, 가 weight decay 0.01이 사용됩니다. 
 			- ImageNet-1K 미세 조정에서는 배치 크기 1024, constant learning rate 10^-5, weight decay 10^-8로 30개의 epcoh를 훈련합니다.
+
+![Alt text](image-11.png)
+
+**Results with regular ImageNet-1K training**
+
+- Table  1(a)는 regular ImageNet-1K 교육을 사용하여 트랜스포머 기반 및 ConvNet 기반을 포함한 다른 백본과 비교합니다.
+- 이전의 최첨단 트랜스포머 기반 아키텍처(즉 DeiT[57])와 비교하면, Swin Transformer는 유사한 복잡성을 가진 DeiT 아키텍처를 눈에 띄게 능가합니다. 
+	- 224^2 입력을 사용하는 DeiT-S(79.8%)보다 Swin-T(81.3%)가 +1.5%, 224^2/384^2 입력을 사용하는 DeiT-B(81.8%/83.1%)보다 Swin-B(83.3%/84.5%)가 +1.5%/1.4%입니다.
+	- 최신 ConvNets(즉 RegNet[44])와 비교하여 Swin Transformer는 약간 더 나은 속도-정확도 trade-off를 달성합니다. 
+	- RegNet[44]는 철저한 아키텍처 검색( obtained via a thorough architecture search)을 통해 얻었지만 Swin Transformer는 표준 Transformer에서 수동으로 조정되어 추가 개선 가능성이 있습니다. obtained via a thorough architecture search 에 대한 설명
+
+**Results with ImageNet-22K pre-training**
+- 또한 ImageNet-22K에서 대용량 Swin-B 및 Swin-L을 사전 훈련합니다.
+	-  ImageNet-1K 이미지 분류에서 미세 조정된 결과는 표 1(b)에 나와 있습니다.
+	-  Swin-B의 경우 ImageNet-22K 사전 훈련은 ImageNet-1K 훈련보다 처음부터 1.8%~1.9% 향상됩니다. 
+	- 이전의 ImageNet-22K 사전 훈련의 최상의 결과와 비교하여 모델은 훨씬 더 나은 속도-정확도 트레이드오프를 달성합니다:
+	- Swin-B는 86.4%의 상위 1개 정확도를 얻는데, 이는 유사한 추론 처리량(throughput)(84.7 대 85.9 이미지/초)과 약간 낮은 FLOP(47.0G 대)로 ViT(55.4G)보다 2.4% 더 높습니다.
+	- 더 큰 Swin-L 모델은 Swin-B 모델보다 +0.9% 향상된 87.3%의 상위 1 정확도를 달성합니다.
+
+ ### 4.2. Object Detection on COCO
+
+**Settings**
+- Object detection 및 instance segmentation 실험은 118K 훈련, 5K validation 검사 및 20K test-dev images를 포함하는 COCO 2017에서 수행됩니다. 
+	- validation set를 사용하여 ablation study가 수행되고, 테스트 개발에서system-level comparison가 보고됩니다. 
+	- ablation study의 경우, 우리는 네 가지 일반적인 object detection frameworks를 고려합니다: Cascade Mask R-CNN [26, 6], ATSS [71], RepPoints v2 [12], 및 Sparse RCNN [52] in mmdetection [10]. 
+	- 이러한 네 가지 프레임워크에 대해 동일한 설정을 활용합니다.
+	-  multi-scale training [8, 52] (단편은 480에서 800 사이이고 긴 편은 최대 1333이 되도록 입력 크기를 multi-scale training), AdamW [40] optimizer (initial learning rate 0.0001, weight decay 0.05, batch size 16), x schedule (36 epoch).
+	-  system-level comparison를 위해, instaboost [20], stronger multi-scale training [7], 6x schedule (72 epoch), soft-NMS [5] 및 ImageNet-22K pre-trained model을 initialization.로 채택합니다.
+
+- 우리는 Swin Transformer를 표준 ConvNets, 즉 ResNe(X)t 및 이전 Transformer 네트워크(예: DeiT)와 비교합니다. 
+	- 비교는 다른 설정을 변경하지 않은 백본만 변경하여 수행합니다. 
+	- Swin Transformer와 ResNe(X)t는 hierarichical feature map 때문에 위의 모든 frame work에 직접 적용할 수 있지만 DeiT는 특징 맵의 단일 해상도만 생성하고 직접 적용할 수 없습니다. 
+	- 공정한 비교를 위해 [73]을 따라 deconvolution layers 계층을 사용하여 DeiT를 위한 hierarchical feature maps을 구성합니다.
+
+![Alt text](image-12.png)
+
+**Comparison to ResNe(X)t**
+- 표 2(a)는 4개의 object detection frameworks에 대한 Swin-T 및 ResNet-50의 결과를 나열합니다. 
+	- 우리의 Swin-T 아키텍처는 ResNet-50보다 일관된 +3.4~4.2 박스 AP 이득을 가져오며, 모델 크기, FLOP 및 latency이 약간 더 큽니다.
+
+- 표 2(b)는 Cascade Mask RCNN을 사용하여 서로 다른 모델 용량 하에서 Swin Transformer와 ResNe(X)t를 비교합니다. 
+	- Swin Transformer는 유사한 모델 크기, FLOP 및 latency을 가진 ResNext101-64004d에 비해 +3.6 박스 AP 및 +3.3 마스크 AP의 상당한 이점인 51.9 박스 AP 및 45.0 마스크 AP의 높은 검출 정확도를 달성합니다.
+	- 개선된 HTC 프레임워크를 사용하는 52.3 박스 AP 및 46.0 마스크 AP의 더 높은 기준선에서 Swin Transformer의 이득도 +4.1 박스 AP 및 +3.1 마스크 AP로 높습니다(표 2(c) 참조). 
+	- 추론 속도와 관련하여 ResNe(X)t는 고도로 최적화된 Cudnn 함수에 의해 구축되지만 아키텍처는 모두 잘 최적화되지 않은 내장 PyTorch 함수로 구현됩니다. 
+	- 철저한 커널 최적화는 본 논문의 범위를 벗어납니다.
+
+**Comparison to DeiT**
+
+- Cascade Mask R-CNN 프레임워크를 사용한 DeiT-S의 성능은 표 2(b)에 나와 있습니다. 
+	- Swin-T의 결과는 유사한 모델 크기(86M 대 80M)와 상당히 높은 추론 속도(15.3FPS 대 10.4FPS)를 가진 DeiT-S보다 +2.5박스 AP와 +2.3마스크 AP입니다. 
+	- DeiT의 추론 속도가 더 낮은 것은 주로 입력 이미지 크기에 대한 2차 complexity 때문입니다.
+
+**Comparison to previous state-of-the-art**
+- 표 2(c)는 이전의 최첨단 모델의 결과와 최고의 결과를 비교합니다. 
+	- COCO 테스트 개발에서 최고의 모델은 58.7 박스 AP와 51.1 마스크 AP를 달성하여 이전의 최고의 결과를 +2.7 박스 AP(외부 데이터 없이 복사 붙여넣기 [23])와 +2.6 마스크 AP(DetectoRS [42])만큼 능가합니다.
+
+### 4.3. Semantic Segmentation on ADE20K
+**Settings**
+- ADE20K[74]는 널리 사용되는 의미론적 분할 데이터 세트로, 150개의 다양한 의미론적 범주를 포함합니다. 
+	- 총 25,000개의 이미지를 가지고 있으며, 훈련용은 20,000개, 검증용은 2,000개, 테스트용은 또 다른 3,000개입니다. 
+	- 우리는 높은 효율성을 위해 mmseg[16]의 UperNet[63]을 기본 프레임워크로 사용합니다. 자세한 내용은 부록에 나와 있습니다
+
+![Alt text](image-13.png)
+
+
+**Results**
+
+- 표 3에는 서로 다른 method/backbone 쌍에 대한 mIoU, 모델 크기(#param), FLOP 및 FPS가 나열되어 있습니다. 
+	- 이러한 결과를 통해 유사한 계산 비용을 가진 DeiT-S보다 Swin-S가 +5.3 mIoU 더 높음(49.3 대 44.0)을 알 수 있습니다.
+	- 또한 ResNet-101보다 +4.4mIoU 더 높고 ResNeSt-101[70]보다 +2.4mIoU 더 높습니다. 
+	- ImageNet-22K 사전 훈련이 포함된 당사의 Swin-L 모델은 밸브 세트에서 53.5mIoU를 달성하여 이전 최고의 모델을 +3.2mIoU(SETR [73]에 의해 50.3mIoU) 능가합니다.
+
+
+![Alt text](image-14.png)
+
+###  4.4. Ablation Study
+
+- 이 섹션에서는 제안된 Swin Transformer에서 ImageNet-1K 이미지 분류, COCO 객체 검출의 Cascade Mask R-CNN 및 ADE20K 시맨틱 분할의 UperNet을 사용하여 중요한 설계 요소를 설명합니다.
+
+**Shifted windows**
+
+- 세 가지 작업에 대한 시프트된 윈도우 접근 방식의 완화는 표 4에 보고되어 있습니다.
+	-  Shifted windows 분할이 있는 Swin-T는 각 단계에서 단일 윈도우 분할에 구축된 상대보다 ImageNet-1K에서 +1.1% 상위 1% 정확도, COCO에서 +2.8 박스 AP/+2.2 마스크 AP, ADE20K에서 +2.8 mIoU의 성능을 능가합니다. 
+	- 결과는 Shifted windows를 사용하여 이전 계층의 윈도우 간에 연결을 구축하는 효과를 나타냅니다.
+	- 표 5와 같이 Shifted windows에 의한 지연 시간 오버헤드도 작습니다.
+
+![Alt text](image-15.png)
+
+**Relative position bias**
+- 표 4는 서로 다른 위치 임베딩 접근 방식의 비교를 보여줍니다. 
+	- 상대적 위치 편향이 있는 Swin-T는 ImageNet-1K에서 +1.2%/+0.8% top-1 정확도를, COCO에서는 +1.3/+1.5 박스 AP와 +1.1/+1.3 마스크 AP, ADE20K에서는 +2.3/+2.9 mIoU가 각각 위치 인코딩이 없는 것과 절대 위치 임베딩이 있는 것과 관련하여 산출되며, 이는 상대적 위치 편향의 효과를 나타냅니다. 
+	- 또한 절대 위치 임베딩을 포함하면 이미지 분류 정확도(+0.4%)가 향상되지만, 객체 감지 및 의미론적 분할(-COCO에서는 0.2 박스/마스크 AP, ADE20K에서는 -0.6 mIoU)을 해칩니다.
+
+**Different self-attention methods**
+- 다양한 self-attention computation 방법과 구현의 실제 속도는 표 5와 비교됩니다. 
+	- 우리의 순환 구현은 특히 더 깊은 단계에서 순진한 패딩보다 하드웨어 효율성이 높습니다. 
+	- 전체적으로, 그것은 Swin-T, Swin-S 및 Swin-B에 각각 13%, 18% 및 18%의 속도 향상을 가져다줍니다.
+
+- 제안된 시프트 윈도우 접근법에 구축된 셀프 어텐션 모듈은 네 개의 네트워크 스테이지에서 naive/kernel 구현에서 슬라이딩 윈도우보다 각각 40.8×/2.5×, 20.2×/2.5×, 9.3×/2.1×, 7.6×/1.8배 더 효율적입니다. 
+	- 전체적으로 시프트 윈도우에 구축된 Swin Transformer 아키텍처는 Swin-T, Swin-S 및 Swin-B용 슬라이딩 윈도우에 구축된 변형보다 각각 4.1/1.5, 4.0/1.5, 3.6/1.5배 더 빠릅니다.
+	-  표 6은 세 가지 작업에 대한 정확도를 비교하여 시각적 모델링에서도 유사하게 정확하다는 것을 보여줍니다.
+
+![Alt text](image-16.png)
+
+ ## 5. Conclusion
+
+- 본 논문에서는 계층적 특징 표현을 생성하고 입력 영상 크기에 대해 선형 계산 복잡성을 갖는 새로운 비전 트랜스포머인 Swin Transformer를 제시합니다. 
+	- Swin Transformer는 COCO 객체 검출 및 ADE20K 시맨틱 분할에 대한 최첨단 성능을 달성하여 이전의 최고 방법을 크게 능가합니다.
+	-  다양한 비전 문제에 대한 Swin Transformer의 강력한 성능이 시각과 언어 신호의 통합 모델링을 장려하기를 바랍니다.
