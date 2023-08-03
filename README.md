@@ -15,9 +15,9 @@ self study
 ```
 
 ```
-Total paper : 5
-
-Subdirectory counts:
+Total paper : 6
+Subdirectory counts: 
 0.1 BackBone: 3
 0.2 segmentation: 2
+0.3 ZSL: 1
 ```
