@@ -13,3 +13,11 @@ self study
 ├── paper study
 └── reading book
 ```
+
+```
+Total paper : 5
+
+Subdirectory counts:
+0.1 BackBone: 3
+0.2 segmentation: 2
+```
