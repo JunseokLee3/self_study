@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap:https://github.com/JunseokLee3/self_study/sitemap.xml
