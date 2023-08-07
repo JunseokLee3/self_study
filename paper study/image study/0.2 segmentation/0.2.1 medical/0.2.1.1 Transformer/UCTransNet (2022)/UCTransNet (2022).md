@@ -7,7 +7,7 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 **The Thirty-Sixth AAAI Conference on Artificial Intelligence (AAAI-22)**
 
 ### 저자 :
-![Alt text](image.png)
+![Alt text](images/image.png)
 
 ## Abstract
 
@@ -104,14 +104,14 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
   - MultiResUnet skipped 인코더 기능과 디코더 기능 사이에 발생할 수 있는 의미적(semantic) 차이(gap)를 동일한(same) 수준(level)에서 관찰하여 skip connection을 개선하기 위해 잔류 구조(residual structure)를 가진 ResPath를 도입했다.
   - 이러한 방법은 각 스킵 연결의 기여도가 동일하다고 가정하지만, 다음 섹션에서 우리는 모든 스킵 연결 간에 기여도가 다르며,일부는 최종 성능을 해칠 수도 있다.
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 ## The Analysis of Skip Connection 
 
 - 이 섹션에서는 세 개의 데이터 세트에서 분할 성능에 대한 건너뛰기 연결의 기여도를 철저히 분석합니다. 
 - 분석 결과 세 가지 결과가 다음과 같이 강조됩니다:
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 **Finding 1:**
 - 스킵 연결(skip connecntion)이 **없는 U-Net 의 성능은 어떤 경우에는 원래의 U-Net보다 놀라울 정도로 우**수하다.
@@ -140,7 +140,7 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 
 ## UCTransNet for Medical Image Segmentation
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
 - 그림 2는 UCTransNet 프레임워크의 개요를 보여줍니다. 
 	- 우리가 아는 한, 현재 **Transformer 기반 분할 방법은 주로 장거리 정보를 캡처하는 이점을 기반으로 U-Net의 인코더를 개선하는 데 중점**을 둡니다.
@@ -162,19 +162,19 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
   - 먼저 패치 크기가 각각 P, P/2, P/4, P/8인 평평한 2D 패치 시퀀스로 기능을 재구성하여 토큰화를 수행하여 패치를 4개의 스케일로 인코더 기능의 동일한 영역에 매핑할 수 있습니다.
   - 우리는 이 과정을 통해 원래의 채널 치수를 유지합니다. 그런 다음 4개 레이어 Ti(i = HWi 2 × Ci를 키로 하고 값 TΩ = Concat(T1, T2, T3, T4)의 토큰을 연결합니다.
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
   - Qi ∈ R C i ×d, K ∈ R C σ X d, V ∈ R C σ X d를 사용하면 유사성 행렬 Mi가 생성되고 값 V는 교차 주의(CA) 메커니즘을 통해 Mi에 의해 가중치가 부여됩니다:
 
-![Alt text](image-5.png)
-![Alt text](image-6.png)
+![Alt text](images/image-5.png)
+![Alt text](images/image-6.png)
 
   - 원래의 자체 주의와 다른 점은 패치 축(그림 4 참조)이 아닌 채널 축을 따라 주의 작업을 수행한다는 점이며, 기울기가 원활하게 전파될 수 있도록 유사성 맵의 각 인스턴스에 대한 유사성 매트릭스를 정규화할 수 있는 인스턴스 정규화를 사용합니다.
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
   - N-헤드 주의 상황에서 다중 헤드 교차 주의 후 출력은 다음과 같이 계산됩니다:
 
-![Alt text](image-8.png)
+![Alt text](images/image-8.png)
 
   - 우리는 단순성을 위해 방정식에서 레이어 정규화(LN)를 생략했습니다. 
   - Eq. (4)의 작업을 L회 반복하여 L-레이어 변압기를 구축합니다. 
@@ -185,7 +185,7 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 - **채널 트랜스포머와 U-Net 디코더 사이에 일관성 없는 의미론의 기능을 더 잘 융합하기 위해, 우리는 트랜스포머 기능의 채널 및 정보 필터링을 안내하고 디코더 기능과의 모호성을 제거할 수 있는 채널별 교차 주의 모듈**을 제안합니다.
 
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 
 **squeeze(압축)**
 - **채널 주의 학습에 차원 감소를 피하는 것이 중요하다는 것을 경험적으로 보여준 ECA-Net(Wang et al. 2020)에 이어 단일 선형 레이어 및 시그모이드 함수를 사용하여 채널 주의 맵을 구축**합니다. 
@@ -221,9 +221,9 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 		- 1) 합동(jointly) 교육: U-Net의 회선 및 CTrans 매개변수와 두 개의 채널별 교차 주의 매개변수를 단일 손실과 함께 최적화합니다. 
 		- 2) 사전(pre-training) 훈련. 먼저 U-Net을 교육한 다음 UCTransNet의 매개변수를 동일한 데이터로 추가 교육합니다.
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
-![Alt text](image-11.png)
+![Alt text](images/image-11.png)
 
 - 실험 결과는 표 1에 보고되어 있으며 최상의 결과는 굵게 표시되어 있습니다. 
 	- 표 1은 우리의 방법이 선행 기술에 비해 일관된 개선 사항을 가지고 있음을 보여줍니다. 
@@ -234,9 +234,9 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 	- 또한 우리 모델이 효과와 효율성 사이에서 적절한 균형을 이루고 있음을 보여주는 매개변수 번호를 제공합니다.
 	- `(조금 말이랑 표가 이상한데, 결과적으로 GLas, MoNUSeg는 pre train을 쓴다는 의미_코드를 확인하면 된다.)`
 
-![Alt text](image-12.png)
+![Alt text](images/image-12.png)
 
-![Alt text](image-13.png)
+![Alt text](images/image-13.png)
 
 - 우리는 그림 6과 그림 7에서 비교 가능한 모델의 분할 결과를 시각화합니다.
 	-  빨간색 상자는 UCTransNet이 다른 방법보다 성능이 우수한 영역을 강조 표시합니다.
@@ -251,14 +251,14 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 - **표 3과 같이 'Base+'CCT+CCA'는 일반적으로 모든 데이터 세트의 다른 기준보다 낮으며, 이는 두 모듈의 조합의 효과**를 나타냅니다. 
 	- 우리의 결과는 분할 성능을 향상시키기 위해 인코더-디코더 프레임워크에서 다중 스케일 멀티 채널 기능 융합의 중요성을 새롭게 조명합니다.
 
-![Alt text](image-14.png)
+![Alt text](images/image-14.png)
 
 **Ablation Studies on the Number of Queries and Keys**
 
 - 이전 실험은 **우리 모델의 CCT 모듈이 스킵 연결을 향상시키는 데 효과적**이라는 것을 보여줍니다. 
 	- 이전 실험에서 모든 인코더 수준의 다중 스케일 기능이 CCT 모듈에 관여하므로 쿼리 수는 4개이며 핵심은 4개의 스케일 기능으로 구성된 연결된 표현입니다.
 
-![Alt text](image-15.png)
+![Alt text](images/image-15.png)
 
 - 우리는 그림 8과 같이 **인코더와 디코더 사이의 스킵 연결의 양과 관련하여 일련의 실험**을 수행합니다.
 	-  **키 벡터는 고정되어 있으며, 이는 여전히 4개의 스케일 기능**으로 구성되어 있습니다.
@@ -273,7 +273,7 @@ https://ojs.aaai.org/index.php/AAAI/article/view/20144/19903
 
 
 **The Cross Attention Matrix in CCT Module**
-![Alt text](image-16.png)
+![Alt text](images/image-16.png)
 
 - UCTransNet에 대한 철저한 평가를 수행하기 위해 그림 9의 CCT 모듈에서 교차 주의 분포를 시각화합니다.
 	- 어떤 인코더 레벨이 더 신뢰할 수 있는 **상관관계를 가지며 분할에 더 중요한지 조사하는 것도 흥미**롭습니다.

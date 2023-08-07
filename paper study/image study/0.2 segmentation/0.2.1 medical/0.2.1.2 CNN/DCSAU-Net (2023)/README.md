@@ -5,9 +5,9 @@ https://arxiv.org/abs/2202.00972
 # [DCSAU-Net 자세한 설명](./DCSAU-Net%20(2023).md)
 
 ## 저널 :  Computers in Biology and Medicine (q1, 2023)
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
 "DCSAU-Net: A deeper and more compact split-attention U-Net for medical image segmentation" 논문은 의료 영상 분할을 위한 더 깊고 간결한 U-Net 아키텍처를 제안합니다. 이 논문에서 제안하는 DCSAU-Net은 두 가지 새로운 프레임워크를 기반으로 저수준 및 고수준 의미 정보를 효율적으로 활용합니다: 기본 피처 보존(primary feature conservation)과 간결한 분할 주의 블록(compact split-attention block).
 

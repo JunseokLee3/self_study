@@ -24,7 +24,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 
 이 논문은 심층 신경망을 훈련하는 데 있어서 중요한 도전 과제를 해결하였으며, 이로 인해 딥러닝 분야에 큰 영향을 미쳤습니다. 특히, 이 논문에서 제안한 잔차 학습과 단축 연결의 개념은 현재 많은 딥러닝 모델에서 사용되고 있습니다.
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
 # 나의 의견
 

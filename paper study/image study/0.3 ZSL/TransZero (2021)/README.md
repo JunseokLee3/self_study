@@ -3,9 +3,9 @@
 https://ojs.aaai.org/index.php/AAAI/article/view/19909
 
 ## 컨퍼런스 :  Proceedings of the AAAI Conference on Artificial Intelligence (2021)
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 ## Abstract
 Zero-shot learning (ZSL)은 본적 없는 클래스를 인식하기 위해 본 클래스에서 본적 없는 클래스로 의미론적 지식을 전달하는 것을 목표로 합니다. 이 논문에서는 TransZero라는 속성 안내 Transformer 네트워크를 제안합니다. 이 네트워크는 ZSL에서 시각적 특징을 세밀화하고 속성 지역화를 학습하여 구별력 있는 시각적 임베딩 표현을 만듭니다. TransZero는 세 가지 ZSL 벤치마크에서 최신 기술을 달성합니다.
 
@@ -44,7 +44,7 @@ TransZero는 주어진 이미지에서 각 속성과 가장 관련 있는 이미
 2. **특징 증가 인코더의 제안**: ImageNet과 ZSL 벤치마크 간의 교차 데이터셋 편향을 완화하고, 다른 영역 간의 엉킨 상대 기하 관계를 줄이기 위해 특징 증가 인코더를 제안합니다.
 3. **성능 향상**: TransZero가 세 가지 ZSL 벤치마크에서 새로운 최첨단 성능을 달성함을 실험적으로 보여줍니다.
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 ## Method
 
@@ -64,7 +64,7 @@ TransZero는 주어진 이미지에서 각 속성과 가장 관련 있는 이미
 ## Zero-Shot Prediction
 TransZero 훈련 후, 테스트 인스턴스의 의미 공간에서 임베딩 특징을 얻고, 명시적 보정을 사용하여 테스트 레이블을 예측합니다.
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
 ## Experiments
 
@@ -86,8 +86,8 @@ TransZero의 다양한 구성 요소의 효과를 평가하기 위해 실시한 
 
 ### Qualitative Results
 TransZero의 효과를 직관적으로 보여주기 위해 주의 맵을 시각화합니다.
-![Alt text](image-4.png)
-![Alt text](image-5.png)
+![Alt text](images/image-4.png)
+![Alt text](images/image-5.png)
 
 ### Hyperparameter Analysis
 속성 회귀 손실의 중요성을 평가하기 위해 다양한 하이퍼파라미터를 사용합니다.

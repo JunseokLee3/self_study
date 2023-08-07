@@ -15,9 +15,11 @@ self study
 ```
 
 ```
-Total paper : 6
+Total paper: 8       
+
 Subdirectory counts: 
-0.1 BackBone: 3
-0.2 segmentation: 2
+0.1 BackBone: 3      
+0.2 segmentation: 3  
+0.3 image capture: 1 
 0.3 ZSL: 1
 ```

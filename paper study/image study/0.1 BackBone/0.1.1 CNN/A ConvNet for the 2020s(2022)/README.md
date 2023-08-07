@@ -6,10 +6,10 @@
 
 https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_CVPR_2022_paper.html
 
-![Alt text](image.png)
+![Alt text](images/image.png)
 "A ConvNet for the 2020s" 논문은 2020년대의 컴퓨터 비전 분야에서 Convolutional Neural Networks (ConvNets 또는 CNNs)의 역할과 발전에 대해 다루고 있습니다. 이 논문에서는 Vision Transformers (ViTs)의 등장 이후 ConvNets의 역할이 어떻게 변화하고 있는지, 그리고 ConvNets가 어떻게 현대화되고 있는지에 대해 탐구합니다.
 
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
 
 
 주요 내용은 다음과 같습니다:

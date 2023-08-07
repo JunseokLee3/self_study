@@ -4,7 +4,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 ## 저널 및 학회 : ICCV (2021)
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 ## [Swin Transformer 자세한 설명](./Swin%20Transformer%20(2021).md)
 

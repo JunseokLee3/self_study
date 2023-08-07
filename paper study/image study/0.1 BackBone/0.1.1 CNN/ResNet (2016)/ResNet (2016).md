@@ -37,7 +37,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- 예기치 않게 이러한 성능 저하가 과적합(overfitting)으로 인한 것이 아니며 적절하게 깊은 모델에 더 많은 레이어를 추가하면 [10, 41]에 보고되고 실험에 의해 철저히 검증된 바와 같이 더 높은 학습 오류가 발생합니다. ```(나는 overfitting인지 알았는데 아니였구나. 그럼 무엇일까?)```
 	- Fig 1은 전형적인 예를 나타낸다.
   
-  ![Alt text](image.png)
+  ![Alt text](images/image.png)
 
   - (훈련 정확도의) degradation는 모든 시스템이 비슷하게 최적화하기 쉬운 것은 아니라는 것을 나타냅니다. 
 	- 더 얕은 아키텍처와 더 많은 계층을 추가하는 더 깊은 아키텍처를 고려해 보겠습니다.
@@ -53,7 +53,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- 우리는 참조되지 않은 원래 매핑을 최적화하는 것보다 잔여 매핑을 최적화하는 것이 더 쉽다고 가정합니다. 
 	- 극단적으로, identity mapping이 최적인 경우, nonlinear layers 스택에 의해 identity mapping을 적합시키는 것보다 residual를 0으로 푸시하는 것이 더 쉬울 것입니다.
 	- `(논문을 자세히 보면, 저자의 주장하는 이론과 그것을 설명하는 논리력이 굉장히 매력있다. 예를들어 skip connenctio의 왜 좋은 설명하려 할떄, 나는 그냥 이전 정보를 주니깐 이렇게 생각하지만, 이게 gradient관점 그리고 학습에 관점에서 설명을 해주었다. 물론 모델이 black box라서 이 설명이 또 완벽한 인과관계를 가지는 것은 아니다. 하지만 경험적인 이유를 들어서 이러한 이유다. 라는 방식으로 설명이 굉장히 매력있고 이해가 잘 된다. )`
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 - F(x) + x의 공식화는 **"shortcut connections"**을 가진 feedforward 신경망을 통해 실현될 수 있습니다(그림 2).
 	- shortcut connections [2, 33, 48]은 하나 이상의 레이어를 건너뛰는(skipping) 연결입니다. `(Resnet이 나오기 전에 이미 여러 논문에서 나오고 있었다)`
@@ -115,7 +115,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- 성능 저하 문제는 솔버(solvers)가 여러 비선형 레이어(multiple nonlinear layers)에 의한 ID 매핑을 근사화하는 데 어려움이 있을 수 있음을 시사합니다. 
 	- residual learning reformulation을 통해 identity mapping이 최적인 경우 솔버는 단순히 identity mapping에 접근하기 위해 여러 비선형 레이어(nonlinear layers)의 가중치를 0으로 유도할 수 있습니다.
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 - 실제 경우, **identity mapping이 최적일 가능성은 낮지만, 우리의 reformulation은 문제를 전제하는 데 도움**이 될 수 있습니다. 
 	- *최적의 함수가 zero mapping보다 identity mapping에 더 가까우면 solover가 identity mapping을 참조하여 섭동(perturbations)을 찾는 것이 새로운 함수로 학습하는 것보다 더 쉬울 것입니다.*   ["Perturbations"의 의미](../../../0.0%20참고/Perturbations의%20의미.md)
@@ -123,8 +123,8 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 
 
  ### 3.2. Identity Mapping by Shortcuts
-![Alt text](image-3.png)
-![Alt text](image-4.png)
+![Alt text](images/image-3.png)
+![Alt text](images/image-4.png)
 - 우리는 **몇 개의 적층된 모든 레이어에 잔여 학습을 채택**합니다.
 	- 여기서 x와 y는 고려된 레이어의 입력 및 출력 벡터입니다.
 	-  함수 F(x, {W_i})는 학습할 잔여 매핑을 나타냅니다.
@@ -153,7 +153,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 
 - 우리는 다양한 일반/잔여망(plain/residual)을 테스트했고, 일관된 현상을 관찰했습니다. 
 	- 논의를 위한 사례(instance)를 제공하기 위해 ImageNet에 대한 두 가지 모델을 다음과 같이 설명합니다.
- ![Alt text](image-5.png)
+ ![Alt text](images/image-5.png)
 **Plain Network.**
 - 우리의 plain baselines (그림 3, 가운데)은 주로 VGG 네트[40]의 철학에서 영감을 받았습니다(그림 3, 왼쪽).
 	-  convolutional layers는 대부분 3×3 filters를 가지며 두 가지 간단한 설계 규칙을 따릅니다. 
@@ -208,7 +208,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- `(우선 글 구조가 전체적으로 예쁘다. Plain Networks을 시작 해서 Residual으로 단계별로 진화 그리고 논리적 구조 흐름도 좋다.)`
 	- `(plain net을 함으로써 기존에 있는 것들의 문제점을 먼저 보여주고 있다. experiments에 이미 근거를 배치하고 있다.)`
 
-![Alt text](image-6.png)
+![Alt text](images/image-6.png)
 
 - 표 2의 결과는 더 deeper 34-layer plain net가 더 얕은 18-layer plain net보다 검증 오차(validation error)가 더 높다는 것을 보여줍니다. 
 	- 그 이유를 밝히기 위해, Fig. 4 (왼쪽) 훈련 절차 중training/validation 오류를 비교합니다. 
@@ -216,8 +216,8 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	-  18-layer plain network의 솔루션 공간이 34-layer plain net의 솔루션 공간의 부분 공간(subspace)임에도 불구하고 34-layer plain nets는 전체 학습 절차에 걸쳐 더 높은 학습 오류를 갖습니다.
 	- `(결과에 대해서 하나씩 확인하며 보여주고 있다. 어디서 문제인지 어떤것을 해야 할지 말이다.)`
 
-![Alt text](image-7.png)
-![Alt text](image-8.png)
+![Alt text](images/image-7.png)
+![Alt text](images/image-8.png)
 
 - 우리는 이러한 **optimization 어려움이 gradients가 사라져서 발생할 가능성**이 낮다고 주장합니다. 
 	- 이러한 plain networks는 BN[16]으로 훈련되어 전방 전파(forward propagated) 신호가 0이 아닌 분산(variances)을 갖도록 보장합니다. 
@@ -229,7 +229,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- **(raining error^3:우리는 더 많은 훈련 반복(3배)을 실험했고 여전히 degradation 문제를 관찰했으며, 이는 단순히 더 많은 반복을 사용하는 것으로는 이 문제를 실현 가능하게 해결할 수 없음을 시사합니다.)**
 	- `(우선 나는 단순히 gradinet가 사라져서 성능하락이 발생했다고 생각을 했겠지만, 이런것도 다 실험을 통해서 증명을 하는 것을 보니, 그냥 추측이 아니였다. 이런 근거로 추축을 한다는 것이 더 객관적으로 남을 설득할때 더 좋은것 같다. 내가 실험 할 때나 논문을 쓸 때 많은 참고가 된다.)`
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 
 **Residual Networks.**
 - 다음으로 18layer 및 34layer residual nets(ResNets)를 평가합니다.
@@ -279,7 +279,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- bottleneck design ^4 : Deeper non-bottleneck ResNets (e.g., Fig. 5 left) also gain accuracy from increased depth (as shown on CIFAR-10), but are not as economical as the bottleneck ResNets. So the usage of bottleneck designs is mainly due to practical considerations. We further note that the degradation problem of plain nets is also witnessed for the bottleneck designs.
 	- `(진정한 ResNet의 형태가 만들어지고 있다. 위에서는 여러가지 비교 실험을 하고 여기서 왜 이렇게 했는지 알려주고 있다.)`
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
 - parameter-free identity shortcuts는 병목 현상 아키텍처에 특히 중요합니다. 
 	- 그림 5(오른쪽)의 identity shortcut를 projection으로 대체하면 shortcut가 high-dimensional 끝단에 연결되므로 time complexity와 model size가 두 배로 증가함을 알 수 있습니다. 
@@ -300,7 +300,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- 우리는 열화 문제를 관찰하지 않기 때문에 상당히 증가된 깊이에서 상당한 정확도 향상을 누릴 수 있습니다. 
 	- 깊이의 이점은 모든 평가 지표에서 확인할 수 있습니다(표 3 및 4).
 
-![Alt text](image-11.png)
+![Alt text](images/image-11.png)
 
 **Comparisons with State-of-the-art Methods.**
 - 표 4에서는 이전의 최상의 단일 모델 결과와 비교합니다.
@@ -323,7 +323,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- 필터 수는 각각 {16, 32, 64}개입니다.
 	-  서브샘플링은 2의 stride을 가진 컨볼루션에 의해 수행됩니다. 
 	- 네트워크는 glober average polling,  10-way 완전 연결 계층 및 소프트맥스로 끝납니다. 총 6n+2개의 가중 레이어가 쌓여 있습니다. 다음 표는 아키텍처를 요약한 것입니다:
-![Alt text](image-12.png)
+![Alt text](images/image-12.png)
 
 - shortcut connections을 사용하면 3×3 레이어 쌍((totally 3n shortcuts)에 연결됩니다. 
 	- 이 데이터 세트에서 우리는 모든 경우(즉, 옵션 A)에 identity shortcuts를 사용하므로, 우리의 residual models은 일반 모델과 정확히 동일한 깊이, 너비 및 매개 변수 수를 갖습니다.
@@ -335,7 +335,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	-  각 면에 4개의 픽셀이 패딩되고 32×32 크롭이 패딩된 이미지 또는 수평 플립에서 무작위로 샘플링됩니다. 
 	- 테스트의 경우 원본 32x32 이미지의 single view만 평가합니다.
 
-![Alt text](image-13.png)
+![Alt text](images/image-13.png)
 
 - n = {3, 5, 7, 9}을 비교하여 20, 32, 44 및 56 레이어 네트워크로 연결합니다. 
 	- 그림 6(왼쪽)은 일반 그물의 행동을 보여줍니다. 
@@ -345,7 +345,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 - 그림 6(가운데)은 ResNets의 동작을 보여줍니다.
 	-  또한 ImageNet 사례(그림 4, 오른쪽)와 유사하게 ResNet은 최적화 어려움을 극복하고 깊이가 증가할 때 정확도 향상을 보여줍니다.
 
-![Alt text](image-14.png)
+![Alt text](images/image-14.png)
 
 - 110 layer ResNet으로 이어지는 = 18에 대해 자세히 알아봅니다. 
 	- 이 경우 초기 학습률 0.1이 너무 커서 5를 수렴하기가 어렵다는 것을 알 수 있습니다. 
@@ -354,7 +354,7 @@ https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/He_Deep_Residu
 	- 이 110 계층 네트워크는 잘 수렴합니다(그림 6, 중간). 
 	- FitNet [34] 및 Highway [41](표 6)과 같은 다른 심층 및 씬 네트워크보다 매개 변수가 적지만 최첨단 결과(6.43%, 표 6)에 속합니다.
 
-![Alt text](image-15.png)
+![Alt text](images/image-15.png)
 
 **Analysis of Layer Responses.**
 - 그림 7은 레이어 response의 표준 편차(std)를 보여줍니다.

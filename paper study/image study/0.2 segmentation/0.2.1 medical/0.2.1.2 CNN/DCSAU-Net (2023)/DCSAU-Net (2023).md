@@ -3,7 +3,7 @@
 https://arxiv.org/abs/2202.00972
 
 ## 저널 :  Computers in Biology and Medicine (q1, 2023)
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 ## ABSTRACT
 
@@ -108,7 +108,7 @@ https://arxiv.org/abs/2202.00972
 
 ## 3. Method
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 ### 3.1. Primary feature conservation (PFC)
 
@@ -139,7 +139,7 @@ https://arxiv.org/abs/2202.00972
 	- 최근에는 Resnest와 같이 cross-channel feature을 통해 표현을 학습하는 다양한 모델이 쳬택 되었다.
 - 그것들을 영감받아 우리는 새로운 compact split-attention (CSA) 구조를 개발했다.
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 - CSA 블록의 개요는 그림 2에 나와 있다. 
 	- ResNest 는 기능 추출을 위해 large channel-split 그룹을 사용한다. 
@@ -151,22 +151,22 @@ https://arxiv.org/abs/2202.00972
 	- ( 나누어진 groups으로 부터 semantic information을 수렴 할수 있게 그리고 네트워크의 수용(receptive) 필드를 넓힐 수 있다.) 
 	- 그러므로 CSA block은 feature map으로 부터 global과 local 정보의 강한 능력을 가진다. 수학적으로 fusion feature map을 정의 할 수 있다.
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
 - H,W, 그리고 C는출력 feature maps의  척도 이다. 
   - global average pooling에 의해 생성된 channel-wise statistics(통계)는 global한 공간(spatial) 정보를 모은다.
   -  (이것은 spatial dimension과 계산된 c번째 구성요소로 부터 압축된 변환에 의해 생성된다.)
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
 
 - channel-wise soft attention은 기본(cardinal) 그룹 표현으로 표현 되는 weighted 융합(fusion) 집께(aggregating)으로 사용됩니다. 
   - (분할 가중치 조합이 featur map에서 결정 정보를 잡을 수 있게 해줍니다.)  그런다음 c 번째 feature map 채널에 계산 된다.
 
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
 
 - a_i 는 soft 집계 가중 디자인 이다: 
 
-![Alt text](image-6.png)
+![Alt text](images/image-6.png)
 
 - Y_i^c 는 c번재  처낼에 대한 global spatial information S의 가중치를 나타내며 BatchNorm과 ReLU 활성화 함수로 이루어진 2개의 1x1 convolutions을 사용하여 정량화 한다.
 	- 결과적으로 전체 CSA 블록은 출력 Y가 스킵 연결을 사용하여 계산되는 표준 residual architecture로 설계된다. 
@@ -174,7 +174,7 @@ https://arxiv.org/abs/2202.00972
 	- 그렇지 않으면, 동일한 모양을 얻기 위해 추가 변환이 적용된다. 
 	- 예를 들어 strixe 또는 convolution 그리고 pooling 혼합된 컨볼루션일 수 있다.
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
 ### 3.3. DCSAU-Net architecture
 
@@ -191,7 +191,7 @@ https://arxiv.org/abs/2202.00972
 
 ## 4. Experiments and results
 
-![Alt text](image-8.png)
+![Alt text](images/image-8.png)
 
 ### 4.2. Evaluation metrics
 
@@ -221,14 +221,14 @@ https://arxiv.org/abs/2202.00972
 
 #### 4.5.1. Comparison on CVC-ClinicDB dataset
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 
 - 표 2에서 DCSAU-Net은 DSC 0.916과 mIoU 0.861을 달성하여 DSC 측면에서 DoubleU-Net을 2.0%, mIoU 2.5% 능가합니다. 
 - 특히, 제안된 모델은 DCSAU-Net의 MioU가 6.2%, Trans7% 이상인 두 개의 최근 변압기 기반 아키텍처에 비해 크게 개선되었습니다UNet과 LeViT-UNet, DCSAU-Net의 DSC는 이 두 모델보다 각각 4.9%, 8.8% 높습니다.
 
 #### 4.5.2. Comparison on SegPC-2021 dataset
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
 - 의료 영상 분석을 위해 일부 의료 영상에는 분할이 필요한 다중 클래스 개체가 있을 수 있습니다. 
 	- 이러한 요구를 충족시키기 위해, 우리는 두 가지 다른 종류의 셀로 SegPC-2021 데이터 세트의 모든 모델을 평가합니다. 정량적 결과는 표 3에 나와 있습니다.
@@ -243,9 +243,9 @@ https://arxiv.org/abs/2202.00972
 	- 결과는 DCSAU-Net이 Trans보다 1.9% 높은 0.914의 DSC를 달성한다는 것을 보여줍니다
 	- UNet 및 mIoU는 UNet3+보다 2.5% 높은 0.850입니다.
 
-![Alt text](image-11.png)
+![Alt text](images/image-11.png)
 
-![Alt text](image-12.png)
+![Alt text](images/image-12.png)
 
 #### 4.5.4. Comparison on ISIC-2018 dataset
 
@@ -255,7 +255,7 @@ https://arxiv.org/abs/2202.00972
 	- 나머지 메트릭 내에서 우리 모델은 0.922의 리콜과 0.960의 정확도를 달성하여 다른 기준 방법보다 우수합니다. 
 	- 또한, 높은 리콜 점수는 임상 애플리케이션에서 더 유리합니다.
 
-![Alt text](image-13.png)
+![Alt text](images/image-13.png)
 
 #### 4.5.5. Comparison on BraTS-2021 dataset
 
@@ -266,7 +266,7 @@ https://arxiv.org/abs/2202.00972
 	- 차선의 2D 아키텍처를 사용하지만 제안된 모델에는 여전히 상당한 개선 사항이 있습니다.
 	-  전반적으로, 제안된 모델은 정밀도와 정확도를 포함한 대부분의 평가 지표에서 가장 높은 점수를 보여줍니다.
 
-![Alt text](image-14.png)
+![Alt text](images/image-14.png)
 
 ### 4.6. Ablation study
 
@@ -274,7 +274,7 @@ https://arxiv.org/abs/2202.00972
 	- 매개변수 수, 부동소수점 연산(FLOP) 및 초당 프레임 수(FPS)를 계산하여 각 모듈의 효과를 더 자세히 조사합니다. 
 	- 표 5는 5개 데이터 세트 모두에서 5개 구성의 절제 결과를 제공합니다.
 
-![Alt text](image-15.png)
+![Alt text](images/image-15.png)
 
 #### 4.6.1. Significance of PFC strategy
 
@@ -292,7 +292,7 @@ https://arxiv.org/abs/2202.00972
 	- 따라서 CSA 블록이 U-Net 모델보다 성능이 우수하고 PFC 전략보다 영향이 크다고 주장할 수 있습니다. 
 	- DCSAU-Net 모델(U-Net + PFC + CSA)은 두 모듈을 모두 활용하여 단일 PFC 또는 CSA 모듈을 사용하는 U-Net에 비해 DSC를 0.6% - 3.5%, mIoU를 1.1% - 3.3% 더 향상시킬 수 있습니다.
 
-![Alt text](image-16.png)
+![Alt text](images/image-16.png)
 
 ## 5. Discussion
 
@@ -309,15 +309,15 @@ https://arxiv.org/abs/2202.00972
 - 두 모듈의 효과는 표 5에 나와 있으며 절제 연구를 통해 입증되었습니다. 
 	- U-Net은 DCSAU-Net 모델보다 추론 시간이 짧지만, 우리의 접근 방식은 동일한 출력 기능 채널에서 소수의 매개 변수를 사용하고 허용 가능한 추론 시간을 소비하므로 메모리가 제한된 기계에 배포하는 데 더 적합합니다.
 
-![Alt text](image-17.png)
+![Alt text](images/image-17.png)
 
 - **의료 이미지 분할 작업에 대한 DCSAU-Net 모델의 상당한 개선이 있음을 추가로 입증하기 위해, 우리는 그림 4에 제공된 도전적인 이미지에 대한 모든 모델을 사용하여 분할 결과의 일부를 시각화**합니다.
 	- **정성적 결과로부터, 제안된 모델에 의해 생성된 분할 마스크는 다른 SOTA 방법에 비해 불완전한 염색(staining)이나 모호성(obscurity)과 같은 낮은 품질의 이미지에서 더 적절한 전경 정보를 캡처**할 수 있습니다.
 	- **DCSAU-Net의 분할 결과가 완전히 정확하지는 않지만, 형상 정보가 더 많은 이 불완전한 마스크는 조건부 무작위 필드를 적용하는 것과 같은 이미지 후 처리 알고리즘을 사용하여 수정**될 가능성이 있습니다.
 
-![Alt text](image-18.png)
+![Alt text](images/image-18.png)
 
-![Alt text](image-19.png)
+![Alt text](images/image-19.png)
 
 - 그림 6에서, **우리는 DCSAU-Net이 작은 크기의 핵 또는 전경과 배경 사이의 높은 유사성으로 인해 대상을 이미지에서 분리하지 못하는 일부 분할 결과를 시각화**합니다. 
 	- 우리의 실험에서, 우리는 표준 주사위 손실 함수를 기반으로 모든 모델을 훈련시킵니다. 

@@ -3,7 +3,7 @@
 
 https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_CVPR_2022_paper.html
 
-![Alt text](image.png)
+![Alt text](images/image.png)
 
 ## Abstract
 
@@ -88,7 +88,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- 네트워크 복잡성은 최종 성능과 밀접한 상관관계가 있기 때문에 FLOP는 중간 단계에서 기준 모델보다 높거나 낮을 수 있지만 탐색 과정에서 대략적으로 제어됩니다.
 	- 모든 모델은 ImageNet-1K에서 교육 및 평가됩니다.
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
  ### 2.1. Training Techniques
 
 - network architecture 설계 외에도 **train precedure는 궁극적인 성능에도 영향**을 미친다
@@ -150,7 +150,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 
 ### 2.4. Inverted Bottleneck(반전 병목 현상)
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 - 모든 Transformer 블록에서 중요한 설계 중 하나는 **역 병목(inverted bottleneck) 현상**이 발생한다는 것입니다.  즉, **MLP 블록의 hidden dimension가 입력 dimension보다 4배 넓다는 것**입니다(그림 4 참조).
 	- 흥미롭게도, 이 transformer **디자인은 ConvNets**에서 사용되는 4의 확장 비율로 역 병목 디자인(inverted bottleneck) 과 연결되어 있습니다. 이 아이디어는 MobileNetV2[61]에 의해 대중화되었으며, 이후 여러 고급 ConvNet 아키텍처에서 인기를 얻었습니다[70, 71]
@@ -158,7 +158,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- 흥미롭게도, 이 결과 성능이 약간 향상되었습니다(80.5% - 80.6%). ResNet-200/Swin-B 체제에서 이 단계는 FLOP 감소로 훨씬 더 많은 이득(81.9% - 82.6%)을 가져옵니다.
 	- 이제 **inverted bottleneck**을 사용하겠습니다.
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
 ### 2.5. Large Kernel Sizes
 
@@ -204,7 +204,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- 이 프로세스는 결과를 0.7% - 81.3% 향상시켜 Swin-T의 성능과 실질적으로 일치시킵니다.
 	- **이제 각 블록에서 단일 GELU 활성화를 사용합니다**.
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
 
 **Fewer normalization layers.**
 - 변압기 블록에는 일반적으로 정규화 계층이 더 적습니다. 
@@ -236,7 +236,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- ResNet, Swin 및 ConvNeXt 블록 구조의 비교는 그림 4에서 확인할 수 있습니다. ResNet-50, Swin-T 및 ConvNeXt-T의 자세한 아키텍처 사양 비교는 표 9에서 확인할 수 있습니다.
 
 
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
 
 **Closing remarks.**
 - 우리는 첫 번째 **"playthrough"를 마치고 이 컴퓨팅 체제에서 ImageNet-1K 분류용 Swin Transformer를 능가할 수 있는 순수 ConvNet인 ConvNeXt를 발견**했습니다.
@@ -256,7 +256,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- ConvNeXt-T/B는 각각 ResNet-50/200 체제에서 "현대화" 절차의 최종 산물입니다. 또한 ConvNeXt의 확장성을 추가로 테스트하기 위해 더 큰 ConvNeXt-XL을 구축합니다. 변형은 채널 C의 수와 각 단계의 블록 B의 수에서만 다릅니다.
 	- ResNets와 Swin Transformers 모두에 이어 각 새로운 단계에서 채널 수가 두 배가 됩니다. 다음은 구성을 요약한 것입니다:
 
-![Alt text](image-6.png)
+![Alt text](images/image-6.png)
 
 - 검증 세트에 대한 ImageNet-1K top-1 정확도를 보고합니다. 
 	- 또한 우리는 사전 교육을 위해 ~14M개의 이미지를 가진 21841개 클래스(1000개의 ImageNet-1K 클래스의 상위 세트)의 더 큰 데이터 세트인 ImageNet-22K에 대한 사전 교육을 실시한 다음 평가를 위해 ImageNet-1K에서 사전 교육된 모델을 미세 조정합니다. 
@@ -265,7 +265,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 
 ### 3.1. Results
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
 **ImageNet-1K.**
 - 표 1(위)은 아키텍처 검색에서 나온 RegNets [54], EfficientNets [71] 및 EfficientNets V2 [72]와 같은 두 가지 최신 트랜스포머 변형인 DeiT [73] 및 Swin Transformers [45] 및 두 가지 ConvNets와 결과 비교를 보여줍니다.
@@ -295,7 +295,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	-  224^2 해상도에서 ImageNet-1K에 대한 결과는 표 2에 나와 있습니다. 
 	- 우리는 ConvNeXt가 ViT와 대체로 동등한 성능을 발휘할 수 있다는 것을 관찰하여, ConvNeXt 블록 설계가 non-hierarchical models에 사용될 때 경쟁력이 있음을 보여줍니다.
 
-![Alt text](image-8.png)
+![Alt text](images/image-8.png)
 
 ## 4. Empirical Evaluation on Downstream Tasks
 
@@ -307,7 +307,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- 다양한 모델 복잡성에서 ConvNeXt는 Swin Transformer보다 동등하거나 더 나은 성능을 달성합니다. 
 	- ImageNet-22K에서 사전 교육을 받은 더 큰 모델(ConvNeXt-B/L/XL)로 확장하면 대부분의 경우 ConvNeXt가 박스 및 마스크 AP 측면에서 Swin Transformers보다 훨씬 우수합니다(예: +1.0 AP).
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 
 **Semantic segmentation on ADE20K**
 - 또한 UperNet[85]을 사용하여 ADE20K 시맨틱 분할 작업에서 ConvNeXt 백본을 평가합니다.
@@ -315,7 +315,7 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Liu_A_ConvNet_for_the_2020s_
 	- 표 4에서는 다중 스케일 테스트를 통한 검증 mIoU를 보고합니다. 
 	- ConvNeXt 모델은 다양한 모델 용량에서 경쟁력 있는 성능을 달성하여 아키텍처 설계의 효과를 더욱 검증할 수 있습니다.
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
 **Remarks on model efficiency.**
 - 유사한 FLOP에서 depthwise convolutions이 있는 모델은 밀도가 dense convolutions만 있는 ConvNet보다 느리고 **메모리를 더 많이 소비하는 것으로 알려져 있습니다.** 

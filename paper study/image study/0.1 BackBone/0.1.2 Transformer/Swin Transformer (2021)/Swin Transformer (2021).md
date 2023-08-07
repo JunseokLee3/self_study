@@ -4,7 +4,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 ## 저널 및 학회 : ICCV (2021)
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 ## Abstract
 
@@ -18,7 +18,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 - 계층적 설계와 시프트된 윈도우 접근 방식은 또한 모든 MLP 아키텍처에 유익한 것으로 입증되었습니다. 
 - 코드와 모델은 https://github.com/microsoft/Swin-Transformer.에서 공개적으로 사용할 수 있습니다.
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 ## 1. Introduction
 
@@ -30,7 +30,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 - 이러한 장점은 Swin-transformer를 다양한 비전 으로 적합하게 만든다. (vit의 2차 복잡성을 갖는 single resolution(단일 해상도)에 비해)
 	- 또한 shifted widow 접근은  sliding window보다 낮은 latency를 보인다.
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 - Swin Trnsformer의 핵심 설계는 Figure 2.와 같이 연속적인(consecutive) self-attention간의(between) 창(window) 파티션의 이동시키는 것이다. 전환된(shifted) 창(window)은  이전 layer의 창들과 연결해주며, 모델링 power(능력)을 크게 향상 시킨다. [Sliding Window와 Shifted Window](../../../0.0%20참고/Sliding%20Window와%20Shifted%20Window.md)
 	- 이 전략은 실제 세계(real-world)에서 효율적이다. query 패치는 동일한 key set1 을 공유한다. 이는 하드웨어 메모리를 용이하게 한다.
@@ -66,7 +66,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 ### 3.1. Overall Architecture
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
 - Swin-Transformer은 RGB 이미지를 Vit와 같이 패치 분할 모듈에 중복되지 않게 분할 한다.
 	- 각 패치는 ''token" 으로 처리되며  픽셀 RGB 값의 연결로 설정 된다.
@@ -100,7 +100,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- 각 창에 MxM 패치가 포함되어 있다고 가정하면 글로벌 MSA 모듈과 h x w 패치의 이미지를 기반으로 한 창의 복잡도는 3이다.
 - 우리는 복잡성을 판달할때 softmax를 제외한다.
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
 
 - 여기서 전자는 패치 번호 hw 에 2차이고, M이 고정된 경우 후자는 선형이다.( 기본값으로 7로 설정)
 - 글로벌 자기 주의(global self attenton) 게싼은 일반적으로 대규모 하드웨어에 대해 감당할 수 없는 반면, window(창) 기반 자기 주의(self attention)은 확장 가능하다.
@@ -110,7 +110,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 - 창(window) 기반 self-attention 모듈은  윈도우간의 연결이 부족하여 모델링 능력이 제한된다. 
 	- 중복되지 않은(non-overlapping) 창의 효율적인 계산을 유지하면서 교차 창(cross-window)  연결을 도입하기 위해 연속적인(consecutive) Swin Transformer block 제안한다.
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 - 그림 2와 같이, 첫 번째 모듈은 왼쪽 위 픽셀 부터 시작하는 일반적인 창 분할을 씁니다. 
 	- 8x8  혀상 맵은 4x4 크기의 2x2 창으로 고르게 분할 됩니다.(M=4)
@@ -118,11 +118,11 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 
 - 전환된(shifted widnow) 분할 접근법은 연속적인(consecutive) Swin Trnasformer block은 다음과 같이 계산:
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
 
 - Shifted window partitioning 접근 방식은 이전 계층에서 중첩되지 않는 인접 window(창) 사이의 연결을 도입하며 표4와 같이 효과적으로 보임
 
-![Alt text](image-6.png)
+![Alt text](images/image-6.png)
 
 **Efficient batch computation for shifted confiuration**
 
@@ -130,13 +130,13 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- 그리고 몇몇은 window(창)은 M x M 보다 더 작다.
 - 간단한 해결책으로는  window를 계산할때 작은 창을 M x M 크기로 패딩하고 패딩 된 값을 마스크하는 것이다. 
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
 - 여기서, 우리는 그림 4에 나타난 바와 같이 왼쪽 상단 방향으로 주기적으로 이동함으로써 보다 효율적인 배치 계산법을 제안 한다.
 	- 이러한 이동 후 배치된 창은 형상 맵에서 인접하지 않은 여러 하위 창으로 구성될 수 있으므로 마스킹 메커니즘을 사용하여 각 하위 창 내에서 자체 주의 계산을 제한한다.
 	- 순환 시프트를 사용하면 배치된 창 수가 일반 창 준할의 창 수와 동일하므로 효율적이다. 
 
-![Alt text](image-8.png)
+![Alt text](images/image-8.png)
 
 - 표 5에 우리는 속도가 나와있다.
 
@@ -144,7 +144,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 **Relative position bias**
 - self-attention 에서 우리는 계산 유사성에서 각 헤드에 대한 상대적 위치 편향 B \in R 를 포함 시킴으로써 [a] 따른다.
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 
 - 표4에 나타난 바와 같이, 우리는 이 편향 항이 없거나 절대 위치 임배딩(absolute position embedding) 을 사용하는 상대에 비해 상당한 개선을 관찰한다. 
 	- [19]와 같이 절대 위치 임베딩을 입력에 추가하면 성능이 약간 저하되므로 구현에 채택되지 않는다.
@@ -160,7 +160,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- 모든 실험에서 각 헤드의 쿼리 차원은 d = 32이고 각 MLP의 확장 레이어는 α = 4입니다. 
 	- 이러한 모델 변형의 아키텍처 하이퍼 파라미터는 다음과 같습니다:
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
 - 여기서 C는 첫 번째 단계에서 숨겨진 레이어의 채널 번호입니다. ImageNet 이미지 분류를 위한 모델 변형의 모델 크기, 이론적 계산 복잡도(FLOP) 및 처리량은 표 1에 나와 있습니다.
 
@@ -188,7 +188,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 			-  배치 크기 4096, 초기 learning rate 0.001, 가 weight decay 0.01이 사용됩니다. 
 			- ImageNet-1K 미세 조정에서는 배치 크기 1024, constant learning rate 10^-5, weight decay 10^-8로 30개의 epcoh를 훈련합니다.
 
-![Alt text](image-11.png)
+![Alt text](images/image-11.png)
 
 **Results with regular ImageNet-1K training**
 
@@ -221,7 +221,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- Swin Transformer와 ResNe(X)t는 hierarichical feature map 때문에 위의 모든 frame work에 직접 적용할 수 있지만 DeiT는 특징 맵의 단일 해상도만 생성하고 직접 적용할 수 없습니다. 
 	- 공정한 비교를 위해 [73]을 따라 deconvolution layers 계층을 사용하여 DeiT를 위한 hierarchical feature maps을 구성합니다.
 
-![Alt text](image-12.png)
+![Alt text](images/image-12.png)
 
 **Comparison to ResNe(X)t**
 - 표 2(a)는 4개의 object detection frameworks에 대한 Swin-T 및 ResNet-50의 결과를 나열합니다. 
@@ -249,7 +249,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- 총 25,000개의 이미지를 가지고 있으며, 훈련용은 20,000개, 검증용은 2,000개, 테스트용은 또 다른 3,000개입니다. 
 	- 우리는 높은 효율성을 위해 mmseg[16]의 UperNet[63]을 기본 프레임워크로 사용합니다. 자세한 내용은 부록에 나와 있습니다
 
-![Alt text](image-13.png)
+![Alt text](images/image-13.png)
 
 
 **Results**
@@ -260,7 +260,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- ImageNet-22K 사전 훈련이 포함된 당사의 Swin-L 모델은 밸브 세트에서 53.5mIoU를 달성하여 이전 최고의 모델을 +3.2mIoU(SETR [73]에 의해 50.3mIoU) 능가합니다.
 
 
-![Alt text](image-14.png)
+![Alt text](images/image-14.png)
 
 ###  4.4. Ablation Study
 
@@ -273,7 +273,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- 결과는 Shifted windows를 사용하여 이전 계층의 윈도우 간에 연결을 구축하는 효과를 나타냅니다.
 	- 표 5와 같이 Shifted windows에 의한 지연 시간 오버헤드도 작습니다.
 
-![Alt text](image-15.png)
+![Alt text](images/image-15.png)
 
 **Relative position bias**
 - 표 4는 서로 다른 위치 임베딩 접근 방식의 비교를 보여줍니다. 
@@ -289,7 +289,7 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 	- 전체적으로 시프트 윈도우에 구축된 Swin Transformer 아키텍처는 Swin-T, Swin-S 및 Swin-B용 슬라이딩 윈도우에 구축된 변형보다 각각 4.1/1.5, 4.0/1.5, 3.6/1.5배 더 빠릅니다.
 	-  표 6은 세 가지 작업에 대한 정확도를 비교하여 시각적 모델링에서도 유사하게 정확하다는 것을 보여줍니다.
 
-![Alt text](image-16.png)
+![Alt text](images/image-16.png)
 
  ## 5. Conclusion
 

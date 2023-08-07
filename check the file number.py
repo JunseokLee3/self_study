@@ -45,7 +45,7 @@ def count_md_files(directory):
         total_count += count
 
         # "0.1 Backbone", "0.2 segmentation" 등의 키에 대한 카운트를 업데이트 합니다.
-        for key in ["0.1 BackBone", "0.2 segmentation", "0.3 ZSL"]:
+        for key in ["0.1 BackBone", "0.2 segmentation", "0.3 image capture", "0.3 ZSL"]:
             if key in root:
                 subdirectory_summary[key] = subdirectory_summary.get(key, 0) + count
 
