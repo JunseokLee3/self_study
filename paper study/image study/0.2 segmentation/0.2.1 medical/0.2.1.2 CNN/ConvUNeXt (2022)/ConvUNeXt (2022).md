@@ -4,6 +4,9 @@
 
 ## 저자 : ![Alt text](image.png)
 
+https://www.sciencedirect.com/science/article/pii/S0950705122007572
+
+
 ## Abstract :
 - 최근 ConvNexTs 경쟁력있는 다양한 이미지 성능을 생산하기 위해 표준 ConvNet (CNN 기반 모델)로부터 만들었다.
 - 이 논문은 classic UNet 기반 효율적인 모델이다. 
@@ -101,6 +104,8 @@ Convolution neural network, Deep learning, Medical image processing, Semantic se
 - **본 논문의 목적은 순수 심층학습을 적용하여 매개변수의 양과 정밀도의 균형을 맞출 뿐만 아니라 정확성을 잃지 않고 매개변수의 양을 최대한 줄이는 것입니다.**
 
 ## 3. Method
+
+
 
 # 나의 의견 :
 - Convnext라는 논문을 읽을 때, 내가 먼저 이것을 제안하려고 했다.
