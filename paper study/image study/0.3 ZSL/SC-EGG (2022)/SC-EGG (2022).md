@@ -2,7 +2,7 @@
 
 ## 학회 : Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence (IJCAI-22), A+
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 https://www.researchgate.net/profile/Shiming-Chen-7/publication/362044667_Semantic_Compression_Embedding_for_Generative_Zero-Shot_Learning/links/6356500d12cbac6a3eee75cd/Semantic-Compression-Embedding-for-Generative-Zero-Shot-Learning.pdf
 
@@ -19,7 +19,7 @@ https://www.researchgate.net/profile/Shiming-Chen-7/publication/362044667_Semant
   - EGN은 클래스 수준의 의미론적 공간에서 조밀한 의미론적 시각적 공간으로의 매핑을 학습하여 합성된 조밀한 의미론적 보이지 않는 시각적 특징의 판별성을 향상시킵니다. 
 - CUB, SUN 및 AWA2와 같은 세 가지 벤치마크 데이터 세트에 대한 광범위한 실험은 현재의 최첨단 방법과 기준에 비해 SC-EGG의 상당한 성능 향상을 보여줍니다.
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 ## 1 Introduction
 
@@ -127,21 +127,21 @@ https://www.researchgate.net/profile/Shiming-Chen-7/publication/362044667_Semant
 - **비교 기준**: SC-EGG는 귀납적 방법이므로, 다른 귀납적 방법들과의 공정한 비교를 위해 이를 다른 방법들과 비교합니다.
 - **결과**: CZSL 및 GZSL 설정에서 CUB, SUN, AWA2에서 최첨단 방법들과의 비교 결과를 보여줍니다. CZSL 설정에서 SC-EGG는 SUN에서 69.2% 및 AWA2에서 78.2%의 최고 정확도를 달성하며, 다른 모든 방법들과 비교했을 때 3.2% 및 4.6%의 중요한 이득을 얻습니다. CUB에서는 SC-EGG가 여전히 75.1%의 top-1 정확도로 경쟁력 있는 성능을 보여줍니다. GZSL 설정에서 SC-EGG는 CUB에서 68.5%, SUN에서 44.3%, AWA2에서 72.4%의 조화 평균 (H)으로 최고의 성능을 달성합니다.
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
 
 ### **4.2 Ablation Study**:
 - **목적**: SC-EGG의 다양한 구성 요소의 효과를 평가하기 위해 수행됩니다.
 - **결과**: SC-EGG의 기본 버전 (즉, TF-V AEGAN)의 결과는 SC-EGG의 전체 버전보다 훨씬 나쁘며, CUB에서 Acc=H가 6.8% 및 8.2%, SUN에서 2.0% 및 1.1% 감소합니다. SCEN의 지역 분류 제약 없이 SCEN을 포함하면 (즉, SC-EGG w/o LLCE), 모델은 CUB에서 4.1% 및 4.3%, SUN에서 1.4% 및 1.9%의 Acc=H 감소로 전체 SC-EGG에 비해 나쁜 ZSL 성능을 보여줍니다.
 
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 ### **4.3 Qualitative Results**:
 - **시각화**: 그림 3에서는 두 개의 임의로 선택된 샘플의 SCEN의 주의 지도의 시각화를 보여줍니다. 첫 번째 열은 입력 이미지를 보여주고, 두 번째 열은 GEN의 전역 주의 지도를 보여줍니다.
 
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
 - **t-SNE 시각화**: 그림 4에서는 CNN 백본 시각 공간과 밀도가 높은 의미 시각 공간에서 실제 본질적/보이지 않는 및 합성 보이지 않는 시각 특징의 t-SNE 시각화를 보여줍니다. 
   - 결과는 밀도가 높은 의미 시각 공간에서의 시각 특징이 CNN 백본보다 실제 본질적, 실제 보이지 않는, 및 합성 보이지 않는 클래스에서 더 구별력 있음을 보여줍니다.
