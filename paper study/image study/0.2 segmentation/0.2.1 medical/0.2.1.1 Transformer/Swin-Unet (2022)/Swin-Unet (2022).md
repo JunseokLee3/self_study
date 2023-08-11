@@ -145,7 +145,20 @@
 
 ## 4 Experiments
 
+### 4.1 Datasets
 
+**Synapse multi-organ segmentation dataset (Synapse)**
+- 데이터 세트에는 3779개의 축방향 복부 임상 CT 이미지와 함께 30개의 사례가 포함되어 있습니다. 
+  - [2,34]에 이어 18개의 샘플을 훈련 세트로, 12개의 샘플을 테스트 세트로 나눕니다. 
+  - 그리고 평균 Dice-유사성 계수(DSC)와 평균 Hausdorff Distance(HD)를 평가 메트릭으로 사용하여 8개의 복부 장기(대동맥, 담낭, 비장, 좌측 신장, 우측 신장, 간, 췌장, 비장, 위)에 대한 방법을 평가합니다.
+
+**Automated cardiac diagnosis challenge dataset (ACDC)**
+- ACDC 데이터 세트는 MRI 스캐너를 사용하여 서로 다른 환자로부터 수집됩니다. 
+  - 각 환자 MR 이미지에 대해 좌심실(LV), 우심실(RV) 및 심근(MYO)이 레이블로 표시됩니다. 
+  - 데이터 세트는 70개의 훈련 샘플, 10개의 유효성 검사 샘플 및 20개의 테스트 샘플로 분할됩니다. 
+  - [2]와 유사하게, 이 데이터 세트에서 방법을 평가하는 데 평균 DSC만 사용됩니다.
+
+### 4.2 Implementation details
 
 # 나의 의견
 - Unet에서 swin transformer을 합친것이다.
