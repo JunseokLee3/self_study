@@ -9,7 +9,6 @@
 ```
 self study
 ├── coding test
-├── english study
 ├── paper study
 └── reading book
 ```
