@@ -101,3 +101,6 @@ https://www.sciencedirect.com/science/article/pii/S0957417422020425
     - 컨볼루션 레이어는 ICA의 채널 주의를 통해 병변 영역에 주의를 기울이도록 향상됩니다. 
     - SFF를 사용하여 디코딩 하위 네트워크의 특징 보완을 실현합니다. 
     - 이어서 디코딩 중간 레이어에 BD를 도입하여 유방 병변 윤곽을 캡처하고 고품질 경계 정보로 분할 특징을 획득합니다.
+
+### 2.1. Residual Swin Transformer block
+
