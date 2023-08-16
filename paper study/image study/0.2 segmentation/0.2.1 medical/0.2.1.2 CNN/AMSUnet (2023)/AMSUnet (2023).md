@@ -1,0 +1,1 @@
+# AMSUnet: A neural network using atrous multi-scale convolution for medical image segmentation
