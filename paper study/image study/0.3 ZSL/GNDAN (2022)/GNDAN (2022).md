@@ -125,6 +125,50 @@ https://ieeexplore.ieee.org/abstract/document/9768177
   - 주의 기반 그래프 네트워크는 노드 집합 [52], [55], [65], [66]에 대한 전역 정보를 캡처하는 데 유익하기 때문에, RGAT는 명시적인 전역 특징 표현을 위해 속성 기반 영역 그래프에서 속성 기반 영역 특징 사이의 관계를 활용하기 위해 GAT [55]를 추가로 사용합니다. 
   - 마지막으로, 글로벌 비주얼 임베딩 인코더는 이러한 글로벌 기능 표현의 글로벌 컨텍스트를 글로벌 임베딩에 통합합니다.
 
+#### 1) Attribute-Based Attention
+- RGAT는 단일 이미지에서 속성 기반 영역 특징을 추출하기 위해 속성과 가장 관련이 많은 이미지 영역을 현지화하기 위해 속성 기반 주의를 사용합니다. 
+  - 속성 시맨틱 벡터 v_a를 기반으로 a번째 속성에 대한 속성 기반 영역 특징 h_a를 다음과 같이 정의합니다
+
+![Alt text](image-5.png)
+
+![Alt text](image-6.png)
+
+
+##### 2) Graph Attention Network: 
+
+![Alt text](image-7.png)
+
+![Alt text](image-8.png)
+
+![Alt text](image-9.png)
+
+- 정규화된 주의력 계수를 기반으로 GAT는 이웃 노드의 변환된 특징의 가중 평균(비선형성 η 다음)을 노드 i의 새로운 표현으로 계산합니다
+
+![Alt text](image-10.png)
+
+![Alt text](image-11.png)
+
+### C. Optimization
+
+- GNDAN 모델을 지속적으로 최적화하기 위해 similar loss을 사용하여 RAN [예: (15)]과 RGAT [예: (16)]를 공동으로 최적화합니다.
+
+#### 1) Attribute-Based Cross-Entropy Loss:
+
+- 속성이 이미지에 시각적으로 존재할 때 관련 이미지 임베딩은 클래스 의미 벡터 z_c 근처에 투영됩니다. 
+  - 이와 같이 속성 기반 교차 엔트로피 손실 L_{CE}는 GNDAN 모델의 매개 변수를 최적화하는 데 사용됩니다. 
+  - 특히 시각적 임베딩 [즉, ψ loc (x) 또는 ψ glo (x))]과 각 클래스 의미 벡터 사이의 점 곱이 계산되어 클래스 로짓을 생성합니다. 
+  - 이는 표준 교차 엔트로피 손실을 따르는데, 이는 이미지가 해당 클래스 의미 벡터와 가장 높은 호환성 점수를 갖도록 장려합니다. 
+  - 따라서 해당 클래스 의미 벡터 z_c를 가진 n개의 훈련 이미지 {x_i^s} 배치가 주어지면 L_{CE}는 다음과 같이 공식화됩니다
+
+![Alt text](image-12.png)
+
+![Alt text](image-13.png)
+
+![Alt text](image-14.png)
+
+## IV. EXPERIMENTS AND EVALUATION
+
+### C. Comparison With State of the Arts
 
 
 # 나의 의견
@@ -135,3 +179,5 @@ https://ieeexplore.ieee.org/abstract/document/9768177
 
 - 총평: GNDAN은 ZSL에 대한 새로운 접근 방식을 제안하며, 그래프 기반의 주의 메커니즘을 사용하여 복잡한 이미지 관계를 모델링하는 데 성공적입니다.
 - GNN의 기반으로 ZSL의 특징적인 부분을 캐치 할 수 있다는 점이 흥미롭습니다.
+
+- 일단 GNN을 모르니 method 파트에서 잘 안 읽힙니다. 기초적인 것들을 따로 공부가 필요합니다.
