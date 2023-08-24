@@ -3,8 +3,9 @@
 ## 저널 : COMPUTERS IN BIOLOGY AND MEDICINE, 2022년 기준 Q1, 14%
 
 https://www.sciencedirect.com/science/article/pii/S0010482523005851
+https://github.com/llluochen/AMSUnet
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](image/image.png)
 
 
 ## Highlights
@@ -88,7 +89,7 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   - 일반 컨볼루션에서는 확장 속도를 1로 간주합니다. 
   - 물론 패딩은 다음 식과 같이 구멍과 확장 속도의 추가로 인해 변경됩니다:
 
-![Alt text](image-1.png)
+![Alt text](image/image-1.png)
 
 - 지각 영역을 확장하는 것 외에도 아톰 컨볼루션은 다단계 상황 정보도 포착할 수 있으며, 서로 다른 확장률을 구성할 때 지각 변화와 다단계 정보의 장이 수집됩니다. 
   - 요약하면 아톰 컨볼루션은 데이터 손실 없이 수용적 영역의 확장을 가능하게 합니다. 
@@ -127,11 +128,11 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   - 그림 2(d)와 같이, AMS는 지역 정보를 수집하기 위한 아톰 깊이별 분리 가능 컨볼루션, 멀티 스케일 정보를 캡처하기 위한 멀티 브랜치 깊이별 스트립 컨볼루션, 멀티 스케일 정보를 수집하기 위한 1×1 컨볼루션의 세 부분을 포함합니다. 
   - 수학적으로, AMS는 다음과 같이 설명할 수 있습니다:
 
-![Alt text](image-2.png)
+![Alt text](image/image-2.png)
 
-![Alt text](image-3.png)
+![Alt text](image/image-3.png)
 
-![Alt text](image-4.png)
+![Alt text](image/image-4.png)
 
 #### 3.1.1. Introduction of atrous convolution
 
@@ -167,11 +168,11 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   - 그림 3과 같이, 우리는 전통적인 트랜스포머 인코더 및 SegNext의 MSAN 모듈 [24]과는 달리, 정규화 계층, 잔여 연결 [1] 및 활성화 함수의 사용을 재설계합니다. 수학적으로, AMSE는 다음과 같이 설명될 수 있습니다:
   - `이것 역시 SegNext의 MSAN 모듈 을 이용했지만 redesign 했다고 밝히고 있다.`
 
-![Alt text](image-5.png)
+![Alt text](image/image-5.png)
 
-![Alt text](image-6.png)
+![Alt text](image/image-6.png)
 
-![Alt text](image-7.png)
+![Alt text](image/image-7.png)
 
 `attention 쓴줄 알았는데 그게 아니ㄷ네. 그냥 구조에서 redesign 한거였어. 흠.... `
 `근데 Transformer 구조의 강력함은 이미 증명이 됬어 'meta former'에서 안에 mixer만 다를 뿐이지 그렇게 생각하면 또 다른 것일 수 있어. 또한 Convnext에서 역시 Trnasformer의 구조에서 활동하는 모델이였지`
@@ -211,12 +212,12 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   - 최종 RSC가 획득되고 RSC는 높은 수준의 의미 정보와 피쳐 융합을 위한 낮은 수준의 의미 정보로 사용됩니다. 
   - 수학적으로 RSC는 다음과 같이 설명할 수 있습니다:
 
-![Alt text](image-8.png)
+![Alt text](image/image-8.png)
 
 
 - Spatial Attention이 공간 주의 모듈을 나타내고 Channel Attention이 채널 주의 모듈을 나타내고 최종 출력이 Out로 표시됩니다.
 
-![Alt text](image-9.png)
+![Alt text](image/image-9.png)
 
 
 ## 4. Experimental results
@@ -229,7 +230,7 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   -  다행히 일부 연구자와 연구 기관은 의료 영상 분할 작업 개발을 위해 일부 공개 데이터 세트를 다른 연구자에게 제공했습니다. 
   -  표 1과 같이 모델의 효과와 유용성을 검증하기 위해 DRIVE [59], Kvasir-SEG [60], ISIC 2018 [61]이라는 세 가지 공개 데이터 세트에 대해 테스트 평가를 수행합니다.
 
-![Alt text](image-10.png)
+![Alt text](image/image-10.png)
 
 
 - DRIVE[59]는 혈관 추출을 위한 디지털 망막 이미지 데이터 세트로, 해상도 565 × 584인 40개의 이미지로 구성되어 있으며 20개의 트레이닝 이미지와 20개의 테스트 이미지로 균등하게 나뉩니다.
@@ -248,15 +249,15 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
 
 ### 4.2. Experimental results
 
-![Alt text](image-12.png)
+![Alt text](image/image-12.png)
 
-![Alt text](image-13.png)
+![Alt text](image/image-13.png)
 
-![Alt text](image-14.png)
+![Alt text](image/image-14.png)
 
-![Alt text](image-16.png)
+![Alt text](image/image-16.png)
 
-![Alt text](image-15.png)
+![Alt text](image/image-15.png)
 
 - 세 가지 공개 데이터 세트에 대한 교육 및 검증을 통해 AMSUnet이 다른 Unets 및 그 변형보다 우수한 분할 성능을 가지고 있음을 입증할 수 있습니다. 
   - 분명히 이는 우리 모델의 구조가 정확하고 실행 가능하다는 것을 증명합니다. 
@@ -290,7 +291,7 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   - Table 5와 같이 AMSE의 아키텍처 모드는 다른 아키텍처와 비교하여 최적이며 성능이 명백하게 향상되었습니다. 
   - Fig. 3(b)와 Table 5에서 보는 바와 같이 Bb는 배치 정규화가 어텐션과 FFN 뒤에 있음을 의미하고 Bf는 배치 정규화가 어텐션과 FFN 앞에 있음을 의미하고 O는 원래 잔여 연결 모드, N은 새로운 잔여 연결 모드를 의미합니다.
 
-![Alt text](image-11.png)
+![Alt text](image/image-11.png)
 
 ### 5.2. RSC module
 
@@ -299,7 +300,7 @@ https://www.sciencedirect.com/science/article/pii/S0010482523005851
   - 따라서, 우리는 원래의 스킵 연결을 대체할 주의 메커니즘 모듈을 설계하려고 합니다. 
   - 표 6과 같이, 새로운 스킵 연결 또한 모델에 상당한 성능 향상을 가져다줍니다.
 
-![Alt text](image-17.png)
+![Alt text](image/image-17.png)
 
 
 ## 6. Conclusion and discussion
