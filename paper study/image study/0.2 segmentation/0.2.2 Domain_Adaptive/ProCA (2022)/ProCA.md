@@ -79,6 +79,9 @@ https://github.com/jiangzhengkai/ProCA
 
 - 기존 semantic segmentation의 UDA에서 크게 3가지로 나누어진다.
   - style transfer, feature alignmnet 그리고 self-training
+    - 최근 unpaired image-to-image translation 작업의 발전에 힘입어[55], style transfer에 대한 연구는 가상(virtual) 데이터에서 실제 데이터로의 매핑을 학습하는 것을 목표로 합니다[12, 31].
+  - feature alignment에서의 이전 works은 domain-invariant features을 얻기 위해 source와 target domains사이에 불일치를 최소화한다.
+    - 이것은 
 
 
 
