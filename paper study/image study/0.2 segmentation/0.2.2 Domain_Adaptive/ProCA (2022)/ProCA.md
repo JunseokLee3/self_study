@@ -112,7 +112,8 @@ https://github.com/jiangzhengkai/ProCA
   - 그러므로 우리는 새로운 category-aware prototypical contrast adaptation을 제아한다. 
     - 이것은 contrstive manner에서 명시적으로 intra-class와 inter-class의 관계를 모델링하기 위해 multiple prototypes을 도입했다.
 
-- 
+- 이전에 유사한 state-of-the-art 방법들은, segmentation model은 supervised manner에서 sorce domian을 우선 훈련한다.
+  - 동시에 mul
 
 
 
