@@ -78,10 +78,41 @@ https://github.com/jiangzhengkai/ProCA
 ### 2.2 UDA for Semantic Segmentation
 
 - 기존 semantic segmentation의 UDA에서 크게 3가지로 나누어진다.
-  - style transfer, feature alignmnet 그리고 self-training
+  - **style transfer, feature alignmnet 그리고 self-training**
     - 최근 unpaired image-to-image translation 작업의 발전에 힘입어[55], style transfer에 대한 연구는 가상(virtual) 데이터에서 실제 데이터로의 매핑을 학습하는 것을 목표로 합니다[12, 31].
-  - feature alignment에서의 이전 works은 domain-invariant features을 얻기 위해 source와 target domains사이에 불일치를 최소화한다.
-    - 이것은 
+  - feature alignment에서의 이전 works은 **domain-invariant features을 얻기 위해 source와 target domains사이에 불일치를 최소화**한다.
+    - 이는 도메인별 레이어에 걸쳐 도메인 간 **MMD(Maximum Mean Discrepancy) 거리를 직접 최소화하거나 도메인 인식 판별 기능 생성을 방지하기 위해 판별자를 사용하여 적대적인 방식으로 모델을 학습**함으로써 달성할 수 있습니다[13].
+  - 또한 feature alignment안에 class-wise information을 쳬택하기 위해 몇가지 일을 시도한다.
+  - fine-grained adversarial learning framework는 discriminator안에 class information 을 합치기 위해 제안 되었다. 
+      - 이는 feature을 클래스 인식 방식으로 정렬하여 feature 적응(adaptation) 및 성능을 향상시키는 데 도움이 됩니다.
+  - self training에 대한 접근 방식(Approaches)은 주로 대상 도메인에 pseudo-labels을 할당(assigning)하는 데 중점을 둡니다.
+    - Iterative self-training method 제안되며[56] 유사 레이블(pseudo-labels)을 대안으로 생성하고 샘플링 모듈(sampling module)로 모델을 재학습(retraining)하여 범주 불균형 문제(category imbalanced issue)를 처리합니다.
+    - pseudo-label 생성을 수정하기 위해 Uncertainty estimation  [50]이 제안되었습니다. 일관성 기반 방법 [1]은 서로 다른 섭동의 예측 간의 일관성을 강화함으로써 채택되었습니다.
+  - [48]의 작업에서, prototype-based smaple-wise preudo-label correction 전략은 제안 되었고 segmentation performanc을 향상시키기 위해 복잡한 multi-stage training framework에 embede된다.
+- 그럼에도 불구하고 위에 있는 방법들은 명시적으로 다른 categories의 clusters 사이에서의 relationship의 modeling을 무시한다.
+  - 우리는 직접적으로 prototypical contrastive adaptation 에 의해 다른 category centroids의 여러 제한조건들을 탐험한다.
+  - 이러한 방법은 target domain에서의 비슷한 distribution에서의 categories을 쉽게 distinguish 할 수 있다. 또한 우수한 성능을 이끈다.
+
+
+### 2.3 Contrastive Learning
+
+- Contrastive learning은 self-supervised representation learning에서 주목할 만한 성능을 보인다.
+  - STC는 video instance segmentation task을 위해 연관된 embedding을 학습하기 위해 contrastive learning을 사용한다. 
+  - UDA semantic segmentation에서 CLST는 마지막에 적응된 feature representation을 학습하기 위해 contrastive learning을 활용을 시도한다.
+  - 동시 작업 SDCA[21]는 UDA segmentation을 위해 contrast adaptation을 수행하기 위해 highorder semantic information를 사용할 것을 제안하지만, 우리는 그것이 필요하지 않다는 것을 발견했습니다.
+  - 본 논문에서는 contrastive learning의 도움을 받아 서로 different categories와 pixel-wise features의 관계를 명시적으로 모델링하여 unsupervised domain adaptive seantic segmentaiton에 대한 domian-invaariant representation을 얻습니다.
+
+## 3 Methodology
+
+![Alt text](image-1.png)
+
+- source domain과 target domian 사이의 distribution 거리를 최소화함으로써 이전의 접근 방식은 domain adaptation problem에 대한 domain-invariante representations을 얻는 것을 목표로 합니다. 
+  - 그러나 inter-class structural 관계는 충분히 탐구되지 않았습니다.
+  - 그림 1의 (a)을 보면, two domain을 걸쳐 intra-class의 배열을 한 후, 그것은 different categories을 구별하기 위해 더 많은 문제점이 있다. 그 이유는 souce domain에서 확인된 desiction boundaries을 target domain 에서 유지하기가 어렵다.
+  - 그러므로 우리는 새로운 category-aware prototypical contrast adaptation을 제아한다. 
+    - 이것은 contrstive manner에서 명시적으로 intra-class와 inter-class의 관계를 모델링하기 위해 multiple prototypes을 도입했다.
+
+- 
 
 
 
