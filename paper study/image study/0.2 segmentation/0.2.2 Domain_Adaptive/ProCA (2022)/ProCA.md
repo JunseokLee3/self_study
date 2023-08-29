@@ -139,6 +139,14 @@ https://github.com/jiangzhengkai/ProCA
 ![Alt text](image-4.png)
 
 
+### 3.2 Prototypical Contrast Adaptation
+
+- 그림 2에 나와 있는 것처럼 여기 intra-class와 inter-class relation들은 prototypes-based contrastive learning에 의해 동시에 고려된다.
+  - 구체적으로 ProCA  세가시 stages로 포함된다. 
+    - 
+
+
+
 
 # 나의 의견
 ## 이해하는거 다시 정리중
