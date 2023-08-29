@@ -113,9 +113,30 @@ https://github.com/jiangzhengkai/ProCA
     - 이것은 contrstive manner에서 명시적으로 intra-class와 inter-class의 관계를 모델링하기 위해 multiple prototypes을 도입했다.
 
 - 이전에 유사한 state-of-the-art 방법들은, segmentation model은 supervised manner에서 sorce domian을 우선 훈련한다.
-  - 동시에 mul
+  - 동시에 multiple prototypes는 각각 category을 표현하기 위해 초기화 된다.
+  - 대조적 적응은 inter-class relationship을 제한하기 위해 쳬택 되었다.
+  - prototype은 domain-invariant representation을 향상시키기위해 source domain와 target domain 모두 업데이트 했다.
+  - 마지막으로 우리는 self-training을 위하여 class-aware adaptive thresholds을 가진 수정된 pseudo-label generation 을 표현했다. 이것은 새로우 sota를 달성했다.
 
 
+### 3.1 Preliminaries
+
+
+![Alt text](image-2.png)
+
+- 이전 works을 따르면, segmentation model은 예측 $p^s_n$와 C라는 주석이 달린 ground-truth label $Y_n^s \in \mathbb{L^{H * W}}, \mathbb{L} = \{1,2, ..., C\}$ , $x_n^s \in \mathbb{H * W}$으로 주어진 이미지.
+  - 우리는 standard cross-entropy loss를 쓴다.
+
+![Alt text](image-3.png)
+
+  - $N_s$는 source domian images의 수이다. 
+  - $H$와 $W$는 이미지의 높이와 넓이 이다.
+  - i,j는 pixel index의 높이와 넓이이다.
+  - C 는 catgories의 수이다.
+  - $p_n^s \in \mathbb{R^{H*W*C}}$는 image $x_n^s$의 예측된 확률이다. 이는 prediction $C(F(x_n^s))$이다.
+  - $y_n^s \in \{0, 1\}^{H*W*C}$는 ground-truth label $Y_n^s$의 one-hot 표현이다.
+
+![Alt text](image-4.png)
 
 
 
