@@ -142,8 +142,25 @@ https://github.com/jiangzhengkai/ProCA
 ### 3.2 Prototypical Contrast Adaptation
 
 - 그림 2에 나와 있는 것처럼 여기 intra-class와 inter-class relation들은 prototypes-based contrastive learning에 의해 동시에 고려된다.
-  - 구체적으로 ProCA  세가시 stages로 포함된다. 
-    - 
+  - 구체적으로 ProCA  세가지 stages로 포함된다. 
+    - **prototypes initialization, contrast adaptation, prototypes updating**
+  
+**Prototypes Initialization**
+- labeled source domain 에서 후련된 모델을 얻은 이후, class-aware prototypes는 계산 될 수 있다.
+![Alt text](image-5.png)
+  - $F^s_{n,i,j} \in \mathbb{R^d}$는 dimension d를 가진 source feature vectord가 추출된것이다. 
+  - c는 카테고리 ㅊ의 수의 인덱스이다.
+  - H와 W는 feature의 Height와 width을 나타낸다.
+  - $\mathbb{I}[Y^s_{n,i,j}=c]$는 함수를 나타낸다. 이것은 만약 $Y_{n,i,j}^s=c$ 이라면 1의 equals이다. 그리고 다른 경우는 0이다.
+  - Prototypes는 다양한 categories의 근사 표현된 centroid으로써 참조된다.
+
+**Contrast Adaptation.**
+- target domain의 주어진 이미지, 해당되는 feature $F_s^t$은 공유된 backbone network $\mathcal{F}$에 의해 추출된다. 
+  - 따라서 그것의 pseudo-label $y_n^{~t} \in \{0,1\}^{H * W * C}$는 source domina에서 classifier $\mathcal{C}$에의해 생산된다.
+  -  여기에, pseudo-label은 extrated features와 그것들의 해당되는 prototypes와 연결시킨다.
+  -  그러므로 우리는 features와 각 prototypes의 사이의 유사성을 계산할수 있다. ![Alt text](image-6.png)
+
+![Alt text](image-7.png)
 
 
 
@@ -166,3 +183,6 @@ https://github.com/jiangzhengkai/ProCA
   - 그러나 몇몇 intra-class 에서의 adversarial training은 source와 target domain 간 representational strucyture의 일관성을 독려하지 않았다.
   - target domain에서 multiple categories와 같은 group에서 잘 투영되고 같은 그룹은 반대로 source domain에서 잘 구별 된다.
     - 그러므로 intra-class distirvution alignment는 labeld source data로 부터 learned representation을 최고로 활용하는데 불충분 할 수 있다.
+
+
+- 그니깐 요약하자면 다른 것들은 intra-class에 잘 되지만 inter-class에는 강한 강점이 보이지 않은것이고 저자들은 prototypes를 이용하여 inter-class 까지 잘 구별 되는 모델을 만들었다는 말
