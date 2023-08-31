@@ -8,6 +8,7 @@ https://link.springer.com/chapter/10.1007/978-3-031-19830-4_3
 https://arxiv.org/pdf/2207.06654.pdf%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80%EF%BC%9Ahttps://github.com/jiangzhengkai/ProCA
 https://github.com/jiangzhengkai/ProCA
 
+[psedu에관련된 내용](/paper%20study/image%20study/0.0%20참고/0.0.1/psedu관련된%20내용.md)
 
 ## Abstract :
 
