@@ -162,8 +162,39 @@ https://github.com/jiangzhengkai/ProCA
 
 ![Alt text](image-7.png)
 
+![Alt text](image-8.png)
 
+**Prototypes Updating.**
+- prototypes의 domain-invariant representational 능력을 향상시키기 위해, 우리는 prototypes안에 target-related infromation을 통합하기 위해 훈련과 함께 prototype updatding의 두가지 전략을 제안한다.
+  - 하나는 global data의 엄격한 통계적 mean의 계산에 따른 update:
 
+![Alt text](image-9.png)
+
+- source domain class-wise prototypes 외에도, 우리는 또한 target feature을 활용하여 feature adaptation precoess 중에 prototypes을 업데이트합니다
+  - 이 mixed prototypes 전략은 two domains의 사이 연결로서 참조 될수 있다. 이는 서로간에 자연스러운 상호작용을 할 수 있다.
+  - 따라서 우리는 a mixed domain 전략으로 prototypes을 직접 업데이트하는 보다 안정적이고 강력한 대안을 제안합니다.
+
+![Alt text](image-10.png)
+
+  - m 은 hyper-parameter, 그리고 source와 target prototypes이 훈련하는 동안 updating의 일정한 rate로 정의된다.
+  - $p_c^{feat^s}$는 source prototypes을 평가된다.
+  - $p_c^{feat^t}$는 target prototypes으로 평가된다.
+
+**Label Space Adaptation.**
+- 이전 언급했다시피, prototypes은 초기화 되며, 계산된고, feature level에 updated 된다. 다시말해 backbone noetwork $\matcal{F}$의 output으로써
+  - 이와 별개로, label space에서 제안된 prototypical contrast adaptation 적용한다. 
+  - 다시말해 label space란 classifier $\mathcal{C}$의 output이다.
+  - 주된 차이점은 prototypes의 차원이 feature space안의 hidden channels이 아닌 categories의 수가 된다.
+  - 따라서 전체적인 prototypical contrast adaptation losses은 이렇다.:
+
+![Alt text](image-11.png)
+
+### 3.3 Combining ProCA with Self-Training
+
+- 제안된 category-aware prototypicl contrast adaptation은 self-training based mehtods에 orthogonal 하기 때문에, 우리는 이전 작업에 이어 self-training strategy을 통해 adaptation performacne 을 추가로 향상시켰다.
+
+**Class-wsie Adaptive Pseudo-Label Thresholds**
+- P
 
 # 나의 의견
 ## 이해하는거 다시 정리중
