@@ -195,7 +195,98 @@ https://github.com/jiangzhengkai/ProCA
 - 제안된 category-aware prototypicl contrast adaptation은 self-training based mehtods에 orthogonal 하기 때문에, 우리는 이전 작업에 이어 self-training strategy을 통해 adaptation performacne 을 추가로 향상시켰다.
 
 **Class-wsie Adaptive Pseudo-Label Thresholds**
-- P
+
+![Alt text](image-12.png)
+
+- 위의 self-training strategy 외에도 정확한 pseudo-label을 얻기 위해 프로토타입을 활용하는 ProDA과 같이 self-training 자체의 개선에 초점을 맞춘 일부 작업이다.
+  - 우리의 제안된 ProCA는 주로 feature adaptation process을 작업하기 때문에, 그것은 몇몇 self-training based와 orthogonal 하다
+
+![Alt text](image-13.png)
+
+## Experiments
+
+**Datasets and Evaluation Metrics:**
+- 이전 연구 [21, 43]에 따르면, 우리는 semantic egmentation benchmark의 공통 UDA인 GTA5 [35] → Cityscapes [4] 및 SYNTIA [36] → Cityscapes [4]에서 모델을 평가합니다. GTA5는 사진 편집 오픈 월드 컴퓨터 게임에 의해 합성된 이미지 데이터 세트입니다.
+  - Cityscapes 19개의 클래스를 공유합니다. 
+    - 해상도 1914 × 1052의 24,966개의 이미지를 가지고 있습니다. 
+  - (SYNTIA)는 합성 도시 장면 데이터 세트입니다. 
+    - 이전 작품 [40]에 이어, 우리는 시티스케이프와 16개의 공통 클래스를 공유하는 부분 집합 SYNTIA-RAND-CITESCAPES를 사용합니다. 
+    - 해상도 1280 × 760의 9400개의 이미지를 포함합니다. 
+  - Cityscapes는 독일 및 인근 도시 50개에서 수집한 실제 도시 장면 데이터 세트입니다.
+    - 2,975개의 훈련 영상, 500개의 유효성 검사 영상 및 1,525개의 테스트 영상이 있으며, 해상도는 2048 × 1024입니다. 
+    - category-wise interaction은 over Union(IoU)을 사용하여 도시 경관 유효성 검사 세트의 결과를 보고합니다. 
+      - 구체적으로, 우리는 GTA5 → 도시 경관 설정의 모든 19개 클래스의 평균 IoU(mIoU)와 SYNTIA → 도시 경관 설정의 16개 공통 범주를 보고합니다. 
+      - 또한, 일부 작품 [26, 40]에서는 SYNTIA → 도시 경관 설정의 13개 공통 범주에 대한 MioU만 보고하므로, 우리는 또한 MioU*로 표시된 13개의 공통 범주 성능을 보고합니다.
+
+
+**Implementation Details.**
+- 대부분의 이전 연구 [12, 21, 43]에 이어 공정한 비교를 위해 ResNet-101 [11] 인코더가 포함된 DeepLab-v2 프레임워크 [2]를 분할 모델로 사용합니다. 
+  - 모든 모델은 ImageNet [5]에서 사전 교육됩니다. 
+  - Atrous Spatial Pyramid Pooling(ASPP)[2]은 확장된 속도 {6, 12, 18, 24}의 마지막 인코더 층 다음에 삽입됩니다. 
+  - 마지막으로, 입력과 동일한 이미지 크기로 최종 픽셀당 예측을 얻기 위해 업샘플링 층을 사용합니다.
+
+### 4.1 Comparisons with State-of-the-Art Methods
+
+![Alt text](image-14.png)
+
+![Alt text](image-15.png)
+
+**Results on GTA5 → Cityscapes.**
+- 표 1과 같이, 우리의 접근 방식은 56.3% mIoU를 달성하여 이전 방법을 큰 폭으로 능가합니다. 
+  - 특히, 폴, 인물, 라이더, 바이크 및 트레인을 포함하여 [21]에 명시된 가장 도전적인 클래스는 이전 작업에 비해 상당한 개선을 얻습니다.
+  
+**Discussion with ProDA.**
+- 제안된 prototype contrastive learning은 공정한 비교 설정 하에서 두 전송 시나리오 모두에서 유사한 프로토타입 기반 방법 ProDA [48]를 능가합니다. 
+  - 특히, GTA5 → Cityscape에서 적응적 방법은 [48]을 1.4% mIOU라는 큰 차이로 능가합니다. 
+  - 이는 ProDA가 프로토타입만을 사용하여 의사 신호를 수정하거나 기능을 순수한 샘플 단위로 정렬하기 때문에 대상 도메인에서 이상치 또는 노이즈가 많은 샘플의 간섭에 더 취약하고, 파이프라인은 클래스 단위 관계를 샘플 대 모델 방식으로 직접 묘사하여 학습 프로세스를 보다 강력하고 도메인 간 전송에 우호적으로 만듭니다.
+
+**Discussion with Other Contrastive Learning based Methods.**
+- 또한 유사한 패치별 대조 학습 방법인 PWCL[23]과 비교하여, 우리의 접근 방식은 GTA5 → Cityscapes 및 SYNTIA → Cityscapes 모두에서 각각 4.2% 및 5.4%의 mIOU 향상이라는 우수성을 달성한다는 점에 유의해야 합니다. 
+  - 이는 PWCL이 대조적 특징 적응을 위해 패치별 특징만을 채택하기 때문에 클래스별 관계를 묘사하기에는 거칠고 훈련 과정 동안 세분화된 픽셀별 분포 변화를 무시하기 때문에 차별적이고 일반적인 표현이 덜하기 때문입니다.
+
+**How ProCA helps poor classes adaptation?**
+- 표 1과 같이 train 클래스의 성능은 최첨단 pseudo-label 방법 ProDA에 의해 향상될 수 없었습니다. 
+  - 초기화된 예측이 완전히 잘못되었기 때문에 ProDA가 열차 클래스에 대한 정확한 pseudo-label을 추정할 수 없었기 때문입니다. 
+  - ProDA와는 달리, ProCA는 먼저 train 클래스의 더 정확한 특징 표현을 점진적으로 얻는 다른 클래스 중심체로부터 push away를 통해 열차 클래스 예측을 수정합니다. 
+  - 서로 다른 클래스 간에 이러한 관계를 도입한 후, 제안된 방법은 self-training mehtod과 결합한 후 가장 높은 train class 성능을 달성합니다.
+  
+
+![Alt text](image-16.png)
+
+### 4.2 Ablation Studies
+
+**Effectiveness of Each Component.**
+- 우리는 각 구성 요소의 효과를 입증하기 위해 ablation 연구를 수행합니다. 
+  - 우리는 GTA5 → Cityscapes 적응을 위해 DeepLab-v2 분할이 있는 ResNet-101 백본을 사용합니다.
+  - 또한 제안된 prototypical constrast adaptation을 사용한 후 48.8% mIoU 점수를 달성합니다. 
+  - 마지막으로 class-aware adaptive thresholds을 사용한 self-training을 통해 성능을 55.1% mIoU로 향상시킬 수 있습니다. 
+  - 마지막으로 FADA [43]에 따른 다중 스케일 테스트를 통해 56.3% mIoU 점수를 얻습니다. 
+  - source-domain training 후 self-traiing을 직접 사용할 경우 55.1% mIoU 점수보다 11.2% 낮은 43.9% mIoU만 얻을 수 있어 ProCA의 효과를 입증했습니다.
+
+![Alt text](image-17.png)
+
+**Effectiveness of ProCA.**
+- ProCA의 효과를 검증하기 위해 inter-class modelling FADA 간 모델링 없이 class-wise adversarial training, semantic-distribution modeling with categorywise informinat 등 다른 기능 정렬 방법을 구현합니다. 
+  - 표 3과 같이 FADA는 adversarial 훈련의 효과를 나타내는 46.9% mIoU로 기준선을 개선합니다. 
+  - SDCA[21]는 의미 인식 기능 정렬을 고려하여 47.2% mIoU를 얻습니다. 
+  - Memory back는 픽셀 단위 대조 적응을 도입하여 47.6% mIoU를 얻는데, 이는 이미 FADA 및 SDCA보다 우수한 성능을 달성했습니다. 
+  - 위의 방법과 비교하여 ProCA는 최고의 mIoU 점수 48.8%를 달성하여 pixel-wise memory bacnk scheme보다 제안된 클래스 인식 prototypical contrast adaptation의 우수성을 입증합니다.
+
+![Alt text](image-18.png)
+
+
+**Effectiveness of Mixed Updating.**
+- 우리는 prototypes에 대한 혼합 업데이트의 효과를 검증하기 위한 ablation study를 수행합니다.
+  -  5와 같이, naive fixed prototypes 방식은 47.8% mIoU만 달성하는 반면, 소스 도메인에서만 중심 업데이트 방식은 고정 prototypes 방식에 비해 0.5% 증가한 48.3% mIoU를 얻습니다.
+  -  Mixed updating sheme식은 최상의 48.8% mIoU 점수를 달성하여 training 중 최신 기능의 효과를 보여줍니다.
+
+## Conclution
+- 본 논문에서는 class-wise prototypes을 활용하여 기능을 세분화된 방식으로 정렬하는 ProCA를 제안합니다.
+  - feature-level adaptation 외에도 출력 수준 프로토타입을 활용하여 적응 성능을 향상시킵니다. 
+  - 제안된 방법은 까다로운 벤치마크에서 최첨단 성능을 달성하여 이전 방법을 큰 폭으로 능가합니다. 
+  - 정교한 절제 연구는 ProCA의 발전을 보여줍니다. 
+  - 제안된 prototypical contrast adaptation이 객체 감지 및 인스턴스 분할과 같은 더 많은 작업으로 확장될 수 있기를 바랍니다.
+
 
 # 나의 의견
 ## 이해하는거 다시 정리중
