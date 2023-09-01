@@ -2,7 +2,7 @@
 
 ## 저널 및 학회 : ECCV 2022, 거의 q1급
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 https://link.springer.com/chapter/10.1007/978-3-031-19830-4_3
 https://arxiv.org/pdf/2207.06654.pdf%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80%EF%BC%9Ahttps://github.com/jiangzhengkai/ProCA
@@ -105,7 +105,7 @@ https://github.com/jiangzhengkai/ProCA
 
 ## 3 Methodology
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 - source domain과 target domian 사이의 distribution 거리를 최소화함으로써 이전의 접근 방식은 domain adaptation problem에 대한 domain-invariante representations을 얻는 것을 목표로 합니다. 
   - 그러나 inter-class structural 관계는 충분히 탐구되지 않았습니다.
@@ -123,12 +123,12 @@ https://github.com/jiangzhengkai/ProCA
 ### 3.1 Preliminaries
 
 
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 - 이전 works을 따르면, segmentation model은 예측 $p^s_n$와 C라는 주석이 달린 ground-truth label $Y_n^s \in \mathbb{L^{H * W}}, \mathbb{L} = \{1,2, ..., C\}$ , $x_n^s \in \mathbb{H * W}$으로 주어진 이미지.
   - 우리는 standard cross-entropy loss를 쓴다.
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 
   - $N_s$는 source domian images의 수이다. 
   - $H$와 $W$는 이미지의 높이와 넓이 이다.
@@ -137,7 +137,7 @@ https://github.com/jiangzhengkai/ProCA
   - $p_n^s \in \mathbb{R^{H*W*C}}$는 image $x_n^s$의 예측된 확률이다. 이는 prediction $C(F(x_n^s))$이다.
   - $y_n^s \in \{0, 1\}^{H*W*C}$는 ground-truth label $Y_n^s$의 one-hot 표현이다.
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
 
 
 ### 3.2 Prototypical Contrast Adaptation
@@ -148,7 +148,7 @@ https://github.com/jiangzhengkai/ProCA
   
 **Prototypes Initialization**
 - labeled source domain 에서 후련된 모델을 얻은 이후, class-aware prototypes는 계산 될 수 있다.
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
   - $F^s_{n,i,j} \in \mathbb{R^d}$는 dimension d를 가진 source feature vectord가 추출된것이다. 
   - c는 카테고리 ㅊ의 수의 인덱스이다.
   - H와 W는 feature의 Height와 width을 나타낸다.
@@ -159,23 +159,23 @@ https://github.com/jiangzhengkai/ProCA
 - target domain의 주어진 이미지, 해당되는 feature $F_s^t$은 공유된 backbone network $\mathcal{F}$에 의해 추출된다. 
   - 따라서 그것의 pseudo-label $y_n^{~t} \in \{0,1\}^{H * W * C}$는 source domina에서 classifier $\mathcal{C}$에의해 생산된다.
   -  여기에, pseudo-label은 extrated features와 그것들의 해당되는 prototypes와 연결시킨다.
-  -  그러므로 우리는 features와 각 prototypes의 사이의 유사성을 계산할수 있다. ![Alt text](image-6.png)
+  -  그러므로 우리는 features와 각 prototypes의 사이의 유사성을 계산할수 있다. ![Alt text](images/image-6.png)
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
-![Alt text](image-8.png)
+![Alt text](images/image-8.png)
 
 **Prototypes Updating.**
 - prototypes의 domain-invariant representational 능력을 향상시키기 위해, 우리는 prototypes안에 target-related infromation을 통합하기 위해 훈련과 함께 prototype updatding의 두가지 전략을 제안한다.
   - 하나는 global data의 엄격한 통계적 mean의 계산에 따른 update:
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 
 - source domain class-wise prototypes 외에도, 우리는 또한 target feature을 활용하여 feature adaptation precoess 중에 prototypes을 업데이트합니다
   - 이 mixed prototypes 전략은 two domains의 사이 연결로서 참조 될수 있다. 이는 서로간에 자연스러운 상호작용을 할 수 있다.
   - 따라서 우리는 a mixed domain 전략으로 prototypes을 직접 업데이트하는 보다 안정적이고 강력한 대안을 제안합니다.
 
-![Alt text](image-10.png)
+![Alt text](images/image-10.png)
 
   - m 은 hyper-parameter, 그리고 source와 target prototypes이 훈련하는 동안 updating의 일정한 rate로 정의된다.
   - $p_c^{feat^s}$는 source prototypes을 평가된다.
@@ -188,7 +188,7 @@ https://github.com/jiangzhengkai/ProCA
   - 주된 차이점은 prototypes의 차원이 feature space안의 hidden channels이 아닌 categories의 수가 된다.
   - 따라서 전체적인 prototypical contrast adaptation losses은 이렇다.:
 
-![Alt text](image-11.png)
+![Alt text](images/image-11.png)
 
 ### 3.3 Combining ProCA with Self-Training
 
@@ -196,12 +196,12 @@ https://github.com/jiangzhengkai/ProCA
 
 **Class-wsie Adaptive Pseudo-Label Thresholds**
 
-![Alt text](image-12.png)
+![Alt text](images/image-12.png)
 
 - 위의 self-training strategy 외에도 정확한 pseudo-label을 얻기 위해 프로토타입을 활용하는 ProDA과 같이 self-training 자체의 개선에 초점을 맞춘 일부 작업이다.
   - 우리의 제안된 ProCA는 주로 feature adaptation process을 작업하기 때문에, 그것은 몇몇 self-training based와 orthogonal 하다
 
-![Alt text](image-13.png)
+![Alt text](images/image-13.png)
 
 ## Experiments
 
@@ -227,9 +227,9 @@ https://github.com/jiangzhengkai/ProCA
 
 ### 4.1 Comparisons with State-of-the-Art Methods
 
-![Alt text](image-14.png)
+![Alt text](images/image-14.png)
 
-![Alt text](image-15.png)
+![Alt text](images/image-15.png)
 
 **Results on GTA5 → Cityscapes.**
 - 표 1과 같이, 우리의 접근 방식은 56.3% mIoU를 달성하여 이전 방법을 큰 폭으로 능가합니다. 
@@ -251,7 +251,7 @@ https://github.com/jiangzhengkai/ProCA
   - 서로 다른 클래스 간에 이러한 관계를 도입한 후, 제안된 방법은 self-training mehtod과 결합한 후 가장 높은 train class 성능을 달성합니다.
   
 
-![Alt text](image-16.png)
+![Alt text](images/image-16.png)
 
 ### 4.2 Ablation Studies
 
@@ -263,7 +263,7 @@ https://github.com/jiangzhengkai/ProCA
   - 마지막으로 FADA [43]에 따른 다중 스케일 테스트를 통해 56.3% mIoU 점수를 얻습니다. 
   - source-domain training 후 self-traiing을 직접 사용할 경우 55.1% mIoU 점수보다 11.2% 낮은 43.9% mIoU만 얻을 수 있어 ProCA의 효과를 입증했습니다.
 
-![Alt text](image-17.png)
+![Alt text](images/image-17.png)
 
 **Effectiveness of ProCA.**
 - ProCA의 효과를 검증하기 위해 inter-class modelling FADA 간 모델링 없이 class-wise adversarial training, semantic-distribution modeling with categorywise informinat 등 다른 기능 정렬 방법을 구현합니다. 
@@ -272,7 +272,7 @@ https://github.com/jiangzhengkai/ProCA
   - Memory back는 픽셀 단위 대조 적응을 도입하여 47.6% mIoU를 얻는데, 이는 이미 FADA 및 SDCA보다 우수한 성능을 달성했습니다. 
   - 위의 방법과 비교하여 ProCA는 최고의 mIoU 점수 48.8%를 달성하여 pixel-wise memory bacnk scheme보다 제안된 클래스 인식 prototypical contrast adaptation의 우수성을 입증합니다.
 
-![Alt text](image-18.png)
+![Alt text](images/image-18.png)
 
 
 **Effectiveness of Mixed Updating.**
