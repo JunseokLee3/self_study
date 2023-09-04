@@ -8,6 +8,8 @@ https://openaccess.thecvf.com/content/ICCV2021/papers/Liu_Swin_Transformer_Hiera
 
 ## [Swin Transformer 자세한 설명](./Swin%20Transformer%20(2021).md)
 
+## [자세한 설명](C:\Users\abc\Desktop\junseok\github\self_study\paper study\image study\0.1 BackBone\0.1.2 Transformer\Swin Transformer (2021)\Swin Transformer (2021).md)
+
 Swin Transformer는 컴퓨터 비전 분야의 일반적인 목적을 위한 새로운 비전 Transformer입니다. 이는 이미지 분류, 객체 감지, 의미론적 분할과 같은 다양한 비전 작업과 호환됩니다. Swin Transformer의 주요 구성 요소와 특징은 다음과 같습니다.
 
 ### 1. **개요**
