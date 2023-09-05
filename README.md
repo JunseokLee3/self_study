@@ -14,12 +14,12 @@ self study
 ```
 
 ```
-Total paper: 16 
+Total paper: 19       
 
-Subdirectory counts:
+Subdirectory counts:  
 0.1 diffusion model: 1
-0.1 BackBone: 3
-0.2 segmentation: 7
+0.1 BackBone: 4       
+0.2 segmentation: 9   
 0.3 image capture: 1
 0.3 ZSL: 4
 ```
