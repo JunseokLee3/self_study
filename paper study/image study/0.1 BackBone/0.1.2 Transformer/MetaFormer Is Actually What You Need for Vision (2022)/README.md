@@ -6,12 +6,12 @@ https://openaccess.thecvf.com/content/CVPR2022/papers/Yu_MetaFormer_Is_Actually_
 
 https://github.com/sail-sg/poolformer
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 ## [자세한 설명](./MetaFormer%20Is%20Actually%20What%20You%20Need%20for%20Vision%20(2022).md)
 
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 
 **요약**  
 트랜스포머는 컴퓨터 비전 작업에서 중요한 잠재력을 보여왔습니다. 트랜스포머 내의 attention 기반 토큰 믹서가 그들의 능력에 가장 크게 기여한다고 생각되었지만, 최근의 연구들은 공간 MLPs가 attention 기반 모듈을 대체하고도 잘 수행될 수 있다고 보여주었습니다. 이 논문은 토큰 믹서를 구체적으로 지정하지 않고 트랜스포머에서 추상화된 "MetaFormer"라는 일반 아키텍처 개념을 소개합니다. 논문은 MetaFormer 아키텍처가 특정 토큰 믹서보다 성능에 중요하다는 것을 보여줍니다. 제안된 모델인 PoolFormer는 토큰 믹싱을 위해 간단한 공간 풀링 연산자를 사용하며 다양한 컴퓨터 비전 작업에서 경쟁력 있는 성능을 달성합니다.
@@ -52,3 +52,13 @@ https://github.com/sail-sg/poolformer
 ---
 
 이 논문은 MetaFormer라는 개념을 소개하며, 특정 토큰 믹싱 방법보다 아키텍처가 더 중요하다는 것을 강조합니다. 제안된 PoolFormer 모델은 토큰 믹싱을 위해 간단한 풀링을 사용하여 경쟁력 있는 성능을 보여줍니다.
+
+# 나의 의견
+- 첫번째로 놀란것은 Transformer을 이런식으로 분해해서 실험하고 주장한다는 것이 굉장히 신선한게 다가왔다.
+  - Convnext역시 backbone의 근간이 되는것을 질문하고 찾아가는 느낌이다.
+  - 이런논문을 쓰기 위해서 한상 얼마나 많은 것들을 읽고 자기 생각을 천천히 정리 해야 하는지 가흠으 안잡힌다.
+  - 이들은 어떻게 실험을 했으며 이런 아이디어를 만들어 냈을까?
+  - 잘 모르겠다.
+  -  나역시 천천히 나의 생각을 정리하며 가지만, 아직 어디서 contribution을 만들어하며 어디를 수정해야 할지, 어떤 문제를 해결할지 날  모르곘다.
+  -  일단 cvpr 같은 논문을 읽으며 생각을 정리하고 그리고 그을 꾸준히 쓰면서 하나씩 해야 겠다.
+  -  노력과 연습의 양(시간) 그리고 올바른 방법이 필요한데, 올바른 방법은 유튜브에서 그들의 실험 방법을 보면서 배울수 밖에 없는것 같다.
