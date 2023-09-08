@@ -8,6 +8,9 @@
 
 [Rendering](/paper%20study/image%20study/0.0%20참고/0.0.1/rendering.md)
 
+공식 사이트 : https://www.matthewtancik.com/nerf
+한국인이 만든거 https://modulabs.co.kr/blog/nerf-from-2d-to-3d/
+
 **요약**
 - 이 논문은 희소한 입력 뷰를 사용하여 연속적인 부피 장면 함수를 최적화함으로써 복잡한 장면의 새로운 뷰를 합성하는 방법을 소개합니다.
 - 장면은 연속적인 5D 좌표(공간 위치 및 시청 방향)를 입력으로 사용하고 해당 위치에서의 부피 밀도와 시청 방향에 따른 방사된 라디언스를 출력하는 완전 연결된 딥 네트워크를 사용하여 표현됩니다.
