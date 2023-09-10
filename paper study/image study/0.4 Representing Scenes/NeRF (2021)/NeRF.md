@@ -13,6 +13,8 @@
 
 [Rendering](/paper%20study/image%20study/0.0%20참고/0.0.1/rendering.md)
 
+[Radiance Field](/paper%20study/image%20study/0.0%20참고/0.0.1/Radiance%20Field.md)
+
 ## abstrct:
 - sparse 입력 view 세트을 사용하여 기본적인 continuous volumetrice(연속 체적) scene function을 최적화함으로써 complex scene의 새로운 view을 합성하기 위해 최첨단 성능 달성했다.
   - algorithm에  a scene에 fully-connected deep network(non-colvolutional) 을 사용하여 표현 했다.
@@ -147,8 +149,58 @@
 ![Alt text](image-2.png)
 
 
---------
+```
+Fig. 3: 시야 방향에 따라 변하는 발광의 시각화입니다. 우리의 신경 radiance field representation은 공간 위치 x와 시야 방향 d를 포함한 5D 함수로 RGB 색상을 출력합니다. 여기서는 우리의 "Ship" 장면에 대한 신경 표현에서 두 공간 위치에 대한 예시적인 방향 색상 분포를 시각화합니다.
+
+(a)와 (b)에서는 두 다른 카메라 위치에서 두 개의 고정된 3D 점의 모습을 보여줍니다: 배의 한쪽면에서 (주황색 삽입 그림)과 물의 표면에서 (파란색 삽입 그림). 우리의 방법은 이 두 3D 점의 변하는 광택 모습을 예측하며, (c)에서는 이러한 행동이 전체 시야 방향의 반구에 걸쳐 연속적으로 어떻게 일반화되는지 보여줍니다.
+
+- 간단히 말해, Fig. 3은 신경 래디언스 필드 표현이 어떻게 공간 위치와 시야 방향의 함수로서 RGB 색상을 출력하는지를 보여주며, 배와 물의 특정 점에서 빛의 광택 반사가 어떻게 변하는지를 시각적으로 설명하고 있습니다.
+```
 
 
+## 4 Volume Rendering with Radiance Fields
+
+
+- 우리의 5D 신경 radiance field는 공간의 어느 지점에서든 볼륨 밀도와 방향별 발광을 사용하여 장면을 표현합니다. 
+  - 우리는 고전적인 볼륨 렌더링 원칙을 사용하여 장면을 통과하는 어떤 광선의 색상도 렌더링합니다. 
+  - 볼륨 밀도 \( \sigma(\mathbf{x}) \)는 위치 \( \mathbf{x} \)에서의 미세한 입자에서 광선이 종료될 차등 확률로 해석될 수 있습니다. 
+  - 카메라 광선 \( \mathbf{r}(t) = \mathbf{o} + t\mathbf{d} \)의 예상 색상 \( C(\mathbf{r}) \)는 근거리와 원거리 범위 \( t_{\text{near}} \)와 \( t_{\text{far}} \) 내에서 다음과 같습니다:
+
+  
+\[ 
+C_{\text{true}} = \int_{t_{\text{near}}}^{t_{\text{far}}} T(t) \sigma(\mathbf{r}(t)) \mathbf{c}(\mathbf{r}(t), \mathbf{d}) \, dt \, , \text{ where } 
+T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \right) 
+\]
+
+
+
+- 함수 \(T(t)\)는 광선이 \(t_n\)부터 \(t\)까지 진행되면서 누적된 투과도(transmittance)를 나타냅니다. 
+  - 다시 말해서, 이것은 광선이 \(t_n\)부터 \(t\)까지 다른 어떠한 입자에도 충돌하지 않고 이동하는 확률을 나타냅니다. 
+  - 우리의 연속적인 신경 방사장을 통해 렌더링된 뷰를 표현하려면, 원하는 가상 카메라의 각 픽셀을 통해 추적된 카메라 광선에 대해 이 적분 \(C(t)\)을 추정해야 합니다.
+
+
+
+- 이 연속적인 적분(continuous integral)을 숫자적으로 추정하기 위해 쿼드라처 (quadrature)를 사용합니다. 
+  - 일반적으로 discretized voxel grids를 렌더링하기 위해 사용되는 결정론적 쿼드라처를 사용하면, MLP (멀티 레이어 퍼셉트론)는 고정된 이산 위치 집합(a fixed discrete set of locations)에서만 쿼리될 수 있기 때문에 우리의 표현의 해상도가 실질적으로 제한됩니다. [왜?]()
+  - 대신, 우리는 계층화된 샘플링 방법을 사용하여 \( [t_n, t_f] \)을 \(N \)개의 균일한 간격의 구간으로 나누고, 각 구간 내에서 균일하게 무작위로 한 샘플을 추출합니다:
+  - [quadrature](/paper%20study/image%20study/0.0%20참고/0.0.1/Quadrature.md)
+  - [discretized voxel grids](./참고/discretized%20Voxel%20Grids.md)
+
+![Alt text](image-3.png)
+
+- 여기서, \( t_i \)는 \( i \)번째 샘플링 지점을 나타내며, \( \mathcal{U} \)는 균일 분포를 의미합니다.
+  -  이 방법은 각 구간에서 샘플링 지점을 무작위로 선택하므로, MLP에서 균일하지 않은 위치 집합을 쿼리할 수 있게 해줍니다. 
+  -  이를 통해 더 높은 해상도와 다양성을 얻을 수 있습니다.
+
+
+- 우리는 적분 값을 근사하기 위해 이산 샘플 집합을 사용하지만, 계층화된 샘플링(stratified sampling)은 최적화 과정 중 MLP가 연속적인 위치에서 평가되기 때문에 연속적인 장면 표현을 나타낼 수 있습니다. [Stratified Sampling](./참고/Stratified%20Sampling.md)
+  - 우리는 Max에 의해 검토된 볼륨 렌더링 리뷰에서 논의된 쿼드라처 규칙을 사용하여 \(C(t)\)를 근사합니다:
+
+![Alt text](image-4.png)
+
+
+- 여기서 `delta_time_i = t_(i+1) - t_i`는 인접한 샘플 간의 거리입니다. 
+  - 이 함수는 `(c_i, abs_rp_i)` 값 집합에서 `C_hat(r)`를 계산하기 위해 사용되며, 쉽게 미분 가능하다.
+  -  또한, 알파 값 `alpha_i = 1 - exp(-abs_rp_i * delta_time_i)`을 사용하여 전통적인 알파 합성(alpha compositing)으로 간소화됩니다.
 
 
