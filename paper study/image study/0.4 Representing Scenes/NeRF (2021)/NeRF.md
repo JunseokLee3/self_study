@@ -187,6 +187,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - [discretized voxel grids](./참고/discretized%20Voxel%20Grids.md)
 
 ![Alt text](image-3.png)
+[공식2]
 
 - 여기서, \( t_i \)는 \( i \)번째 샘플링 지점을 나타내며, \( \mathcal{U} \)는 균일 분포를 의미합니다.
   -  이 방법은 각 구간에서 샘플링 지점을 무작위로 선택하므로, MLP에서 균일하지 않은 위치 집합을 쿼리할 수 있게 해줍니다. 
