@@ -4,7 +4,7 @@
 ## 저널 : 2021년 q1, if 14.065, 0.81
 
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 [Rendering](/paper%20study/image%20study/0.0%20참고/0.0.1/rendering.md)
 

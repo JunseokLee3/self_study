@@ -4,7 +4,7 @@
 ## 저널 : 2021년 q1, if 14.065, 0.81
 
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 공식 사이트 : https://www.matthewtancik.com/nerf
 한국인이 만든거 https://modulabs.co.kr/blog/nerf-from-2d-to-3d/
@@ -40,7 +40,7 @@
   - 여러 뷰에서 이 오차를 최소화(minimize)하면 네트워크가 실제 장면 내용을 포함하는 위치에 높은 부피 밀도와 정확한 색상을 할당함으로써 장면의 일관된(coherent) 모델을 예측하도록 권장합니다.
   -  그림 2는 이 전체 파이프라인을 시각화합니다.
 
-![Alt text](image-1.png)
+![Alt text](images/image-1.png)
 ```
 이 설명은 어떻게 신경 라디언스 필드가 장면을 표현하고 이미지를 렌더링하는지에 대한 과정을 개요로 보여주는 것입니다.
 (a): 카메라의 광선을 따라 3D 공간의 특정 위치와 그 위치에서의 시야 방향(5D 좌표)을 샘플링합니다.
@@ -146,7 +146,7 @@
 
 
 ----
-![Alt text](image-2.png)
+![Alt text](images/image-2.png)
 
 
 ```
@@ -186,7 +186,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - [quadrature](/paper%20study/image%20study/0.0%20참고/0.0.1/Quadrature.md)
   - [discretized voxel grids](./참고/discretized%20Voxel%20Grids.md)
 
-![Alt text](image-3.png)
+![Alt text](images/image-3.png)
 [공식2](./참고/공식2.md)
 
 - 여기서, \( t_i \)는 \( i \)번째 샘플링 지점을 나타내며, \( \mathcal{U} \)는 균일 분포를 의미합니다.
@@ -197,7 +197,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
 - 우리는 적분 값을 근사하기 위해 이산 샘플 집합을 사용하지만, 계층화된 샘플링(stratified sampling)은 최적화 과정 중 MLP가 연속적인 위치에서 평가되기 때문에 연속적인 장면 표현을 나타낼 수 있습니다. [Stratified Sampling](./참고/Stratified%20Sampling.md)
   - 우리는 Max에 의해 검토된 볼륨 렌더링 리뷰에서 논의된 쿼드라처 규칙을 사용하여 \(C(t)\)를 근사합니다:
 
-![Alt text](image-4.png)
+![Alt text](images/image-4.png)
 
 - 이 수식은 주어진 샘플 세트 \(\mathbf{c}_i,\),\(absrp_i\)에서 \(\hat{C}(\mathbf{r})\) 값을 계산하는 함수를 설명합니다. 
   - 여기서 \(\mathbf{c}_i\)는 i번째 샘플의 색상이며, \(\alpha_i\)는 i번째 샘플의 흡수율입니다.
@@ -260,7 +260,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - 투영으로부터 3D 단백질 구조를 모델링하는 관련 문제에 대한 동시 연구 [51]도 유사한 입력 좌표 매핑을 활용합니다.
 
 
-![Alt text](image-5.png)
+![Alt text](images/image-5.png)
 ``
 ### 5.2 Hierarchical volume sampling
 
@@ -273,7 +273,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - 이 "대략적인" 네트워크의 출력을 기반으로, 우리는 각 광선을 따라서 샘플들이 볼륨의 관련 부분에 편향되도록 더 잘 알려진 포인트들의 샘플링을 생성합니다. 
   - 이를 위해, 우리는 대략적인 네트워크에서의 알파 합성된 색상 \( \hat{C}_c(r) \)를 광선을 따라 샘플링된 모든 색상 \( c_i \)의 가중치 합으로 다시 작성합니다:
   
-![Alt text](image-6.png)
+![Alt text](images/image-6.png)
 [공식4](./참고/공식4.md)
 
 - 이러한 가중치를 정규화하면 광선을 따라 조각별로 일정한(piecewise-constant) 확률밀도함수(PDF)가 생성됩니다.
@@ -281,7 +281,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - 이 절차는 우리가 보이는 내용을 포함하고 있다고 예상하는 지역에 더 많은 샘플을 할당합니다. 
   - 이것은 중요도 샘플링(importance sampling)과 유사한 목표를 추구하지만, 우리는 전체 통합 도메인의 비균일적인(nonuniform) 이산화(discretization)로 샘플된 값을 사용하며 각 샘플을 전체 적분(integration)의 독립적인 확률적 추정으로 취급하지 않습니다.
 
-![Alt text](image-8.png)
+![Alt text](images/image-8.png)
 ```
 그림 4: 여기에서 우리는 시야에 따른 방사된 밝기를 표현하고 입력 좌표를 고주파 위치 인코딩을 통과시키는 것으로 우리의 전체 모델이 어떻게 혜택을 받는지 시각화하여 보여줍니다. 시야의 의존성을 제거하면 모델이 불도저 트레드에 있는 반사 빛을 재생성하는 것을 방지합니다. 위치 인코딩을 제거하면 모델의 고주파 기하학과 질감을 표현하는 능력이 크게 감소하여 과도하게 부드러운 외관이 나타납니다.
 ```
@@ -294,7 +294,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - 그런 다음, Sec. 4에서 설명한 볼륨 렌더링 절차를 사용하여 두 샘플 집합으로부터 각 광선의 색상을 렌더링합니다. 
   - 우리의 손실 함수는 단순히 렌더링된 픽셀 색상과 실제 픽셀 색상 간의 총 제곱 오차로, 대략적인 렌더링과 정밀한 렌더링 모두에 대해 계산됩니다.
 
-![Alt text](image-7.png)
+![Alt text](images/image-7.png)
 
 - \(R\)는 각 배치에 있는 광선들의 집합을 나타냅니다.
   - - \(C_(r)\), \(\hat{C}_c (r)\), 그리고 \(\hat{C}_f (r)\)은 각각 광선 \( r\)에 대한 실제 RGB 색상, 대략적 네트워크에서 예측된 볼륨의 RGB 색상, 그리고 정밀한 네트워크에서 예측된 볼륨의 RGB 색상을 나타냅니다.
@@ -302,7 +302,7 @@ T(t) = \exp \left( -\int_{t_{\text{near}}}^{t} \sigma(\mathbf{r}(s)) \, ds \righ
   - 이렇게 함으로써 대략적 네트워크에서의 가중치 분포를 사용하여 정밀한 네트워크에서 샘플을 할당할 수 있습니다.
 
 
-![Alt text](image-9.png)
+![Alt text](images/image-9.png)
 ```
 우리의 방법은 합성 이미지와 실제 이미지의 데이터셋 모두에서 이전 연구보다 양적으로 더 우수한 성능을 보입니다. 우리는 PSNR/SSIM (높을수록 좋음) 및 LPIPS [50] (낮을수록 좋음)을 보고합니다. DeepVoxels [41] 데이터셋은 단순한 기하학적 형태의 4개의 디퓨즈 객체로 구성되어 있습니다. 우리의 현실적인 합성 데이터셋은 복잡한 비-램버트 소재로 구성된 8개의 기하학적으로 복잡한 객체의 경로 추적 렌더링으로 구성되어 있습니다. 실제 데이터셋은 8개의 실제 세계 장면의 손으로 들고 있는 전방향 캡처로 구성되어 있습니다 (NV는 경계된 부피 내의 객체만 재구성하기 때문에 이 데이터에서 평가될 수 없습니다). 비록 LLFF가 약간 더 좋은 LPIPS를 달성하지만, 우리는 독자들에게 우리의 보충 비디오를 보기를 권장합니다. 여기서 우리의 방법은 모든 기본선보다 더 나은 다중 시점 일관성을 달성하고 더 적은 아티팩트를 생성합니다.
 ```

@@ -34,8 +34,8 @@ def count_md_files(directory):
 
     for root, dirs, files in os.walk(directory):
         count = 0
-        if "0.0 참고" in root: # "0.0 참고" 디렉터리는 건너뜁니다.
-            continue
+        if "참고" in root: # "0.0 참고" 디렉터리는 건너뜁니다.
+            continue      
 
         for file in files:
             if file.endswith('.md') and file != 'README.md':
@@ -45,7 +45,8 @@ def count_md_files(directory):
         total_count += count
 
         # "0.1 Backbone", "0.2 segmentation" 등의 키에 대한 카운트를 업데이트 합니다.
-        for key in ["0.1 diffusion model","0.1 BackBone", "0.2 segmentation", "0.3 image capture", "0.3 ZSL"]:
+        for key in ["0.1 diffusion model","0.1 BackBone", 
+                    "0.2 segmentation", "0.3 image capture", "0.3 ZSL", "0.4 Representing Scenes"]:
             if key in root:
                 subdirectory_summary[key] = subdirectory_summary.get(key, 0) + count
 
@@ -54,6 +55,8 @@ def count_md_files(directory):
     for key, count in subdirectory_summary.items():
         print(f"{key}: {count}")
     return total_count
+
+
 
 
 # 원하는 디렉터리 경로 지정
