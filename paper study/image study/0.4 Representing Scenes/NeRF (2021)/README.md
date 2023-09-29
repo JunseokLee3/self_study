@@ -4,12 +4,14 @@
 ## 저널 : 2021년 q1, if 14.065, 0.81
 
 
-## 저자 : ![Alt text](image.png)
+## 저자 : ![Alt text](images/image.png)
 
 [Rendering](/paper%20study/image%20study/0.0%20참고/0.0.1/rendering.md)
 
 공식 사이트 : https://www.matthewtancik.com/nerf
 한국인이 만든거 https://modulabs.co.kr/blog/nerf-from-2d-to-3d/
+
+[자세한설명](./NeRF.md)
 
 **요약**
 - 이 논문은 희소한 입력 뷰를 사용하여 연속적인 부피 장면 함수를 최적화함으로써 복잡한 장면의 새로운 뷰를 합성하는 방법을 소개합니다.
