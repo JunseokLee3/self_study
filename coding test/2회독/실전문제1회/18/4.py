@@ -41,4 +41,13 @@ for i in range(n - 1):
 
 edges.sort()
 
+for edge in edges:
+    cost, a, b = edge
+    if find_parent(parent,a) != find_parent(parent,b):
+        union_parent(parent, a, b)
+        result += cost
+
+print(result)
+
+
 
