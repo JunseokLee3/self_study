@@ -49,3 +49,5 @@ def solution(p):
                 u[i] = ')'
             else:
                 u[i] = '('
+        answer += "".join(u)
+    return answer
