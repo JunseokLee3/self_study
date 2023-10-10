@@ -13,3 +13,5 @@ for _ in range(l):
     info.append((int(x), c))
 
 dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
+
