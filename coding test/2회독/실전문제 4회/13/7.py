@@ -47,4 +47,5 @@ while True:
     if index == n * n:
         break
     total_count +=1
-    
+
+print(total_count)

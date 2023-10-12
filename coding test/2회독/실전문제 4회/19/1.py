@@ -58,3 +58,8 @@ while True:
     else:
         now_x, now_y = value[0], value[1]
         result += value[2]
+        array[now_x][now_y] = 0
+        ate += 1
+        if ate >= now_size:
+            now_size += 1
+            ate= 0

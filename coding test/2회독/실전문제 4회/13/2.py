@@ -43,4 +43,13 @@ def dfs(count):
 
     for i in range(n):
         for j in range(m):
+            if data[i][j] == 0:
+                data[i][j] = 1
+                count += 1
+                dfs(count)
+                data[i][j] = 0
+                count -= 1
+
+dfs(0)
+print(result)
 

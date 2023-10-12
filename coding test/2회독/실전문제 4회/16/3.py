@@ -18,4 +18,5 @@ for i in range(n -1 , -1, -1):
 
     else:
         dp[i] = max_value
-        
+
+print(max_value)
