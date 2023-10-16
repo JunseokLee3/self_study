@@ -4,21 +4,21 @@ n, l, r = map(int, input().split())
 
 graph = []
 for _ in range(n):
-    graph.append(list(map( int, input().split())))
+    graph.append(list(map(int, input().split())))
 
 dx = [-1, 0, 1, 0]
 dy = [0, -1, 0, 1]
 
 def process(x, y, index):
-    united = []
-    united.append((x, y))
+    united= []
+    united.append((x,y))
     q = deque()
-    q.append((x, y))
+    q.append((x,y))
     union[x][y] = index
     summary = graph[x][y]
     count = 1
     while q:
-        x, y= q.popleft()
+        x, y = q.popleft()
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
@@ -26,8 +26,8 @@ def process(x, y, index):
                 if l <= abs(graph[nx][ny] - graph[x][y]) <= r:
                     q.append((nx,ny))
                     union[nx][ny] = index
-                    count += 1
                     summary += graph[nx][ny]
+                    count += 1
                     united.append((nx,ny))
     for i, j in united:
         graph[i][j] = summary // count
