@@ -14,7 +14,7 @@ for i in range(n):
         # 총이 놓여 있는 칸입니다.
         if nums[j] != 0:
             gun[i][j].append(nums[j])
-
+            
 # 각 칸마다 플레이어 정보를 관리합니다.
 # 순서대로 (num, x, y, d, s, a) 정보를 관리합니다.
 # (x, y)위치에서 방향 d를 보고 있으며
