@@ -8,28 +8,26 @@ board = [
 ]
 
 rec = [
-    [0] * m 
+    [0] * m
     for _ in range(n)
 ]
 
 dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
-dxs2 = [0, 0, 0, -1, -1, -1, 1, 1, 1]
-dys2 = [0, -1, 1, 0, -1, 1, 0, -1, 1]
+dxs2, dys2 = [0, 0, 0, -1, -1, -1, 1, 1, 1], [0, -1, 1, 0, -1, 1, 0, -1, 1]
 
 turn = 0
-
 vis = [
-    [0] * m 
+    [0] * m
     for _ in range(n)
 ]
 
 back_x = [
-    [0] * m 
+    [0] * m
     for _ in range(n)
 ]
 
 back_y = [
-    [0] * m
+    [0] * m 
     for _ in range(n)
 ]
 
@@ -38,76 +36,73 @@ is_active = [
     for _ in range(n)
 ]
 
+
 class Turrent:
     def __init__(self, x, y, r, p):
-        self.x =x 
+        self.x = x
         self.y = y
         self.r = r
         self.p = p
 
-live_turret = []
+live_turrent = []
 
 def init():
     global turn
     turn += 1
-
     for i in range(n):
         for j in range(m):
             vis[i][j] = False
             is_active[i][j] = False
 
 def awake():
-    live_turret.sort(key = lambda x : (x.p, -x.r, -(x.x + x.y ), -x.y))
-
-    weak_turret = live_turret[0]
-    x = weak_turret.x
-    y = weak_turret.y
+    live_turrent.sort(key=lambda x : (x.p, -x.r, -(x.x + x.y), -x.y))
+    weak_turrent = live_turrent[0]
+    x = weak_turrent.x
+    y = weak_turrent.y
 
     board[x][y] += n + m
     rec[x][y] = turn
-    weak_turret.p = board[x][y]
-    weak_turret.r = rec[x][y]
-    power = weak_turret.p
-    live_turret[0] = weak_turret
+    weak_turrent.p = board[x][y]
+    weak_turrent.r = rec[x][y]
+    is_active[x][y] = True
+    live_turrent[0] = weak_turrent
 
 
 def laser_attack():
-    weak_turret =  live_turret[0]
-    sx = weak_turret.x
-    sy = weak_turret.y
-    power = weak_turret.p
+    weak_turrent = live_turrent[0]
+    sx = weak_turrent.x
+    sy = weak_turrent.y
+    power = weak_turrent.p
 
-    strong_turret = live_turret[-1]
-    ex = strong_turret.x
-    ey = strong_turret.y
+    strong_turrent= live_turrent[-1]
+    ex = strong_turrent.x
+    ey = strong_turrent.y
 
     q = deque()
     vis[sx][sy] = True
     q.append((sx, sy))
 
     can_attack = False
-    while q:
-        x, y = q.popleft()
 
+    while q:
+        x, y=  q.popleft()
         if x == ex and y == ey:
-            can_attack = True
+            can_attack =True
             break
 
         for dx, dy in zip(dxs, dys):
             nx = (x + dx + n) % n
-            ny = ( y + dy + n) % n
-
+            ny = (y + dy + y) % m
+            
             if vis[nx][ny]:
                 continue
 
             if board[nx][ny] == 0:
                 continue
-
             vis[nx][ny] = True
             back_x[nx][ny] = x
-            back_y[ny][ny] = y
-            q.append((nx,ny))
-
+            back_y[nx][ny] = y
+            q.append((nx, ny))
     if can_attack:
         board[ex][ey] -= power
         if board[ex][ey] < 0:
@@ -118,7 +113,7 @@ def laser_attack():
         cy = back_y[ex][ey]
 
         while not (cx == sx and cy == sy):
-            board[cx][cy] -=  power //2
+            board[cx][cy] -= power // 2
             if board[cx][cy] < 0:
                 board[cx][cy] = 0
             is_active[cx][cy] = True
@@ -129,21 +124,21 @@ def laser_attack():
             cx = next_cx
             cy = next_cy
 
-    return can_attack
+        return can_attack
 
 def bomb_attack():
-    weak_turret = live_turret[0]
-    sx = weak_turret.x
-    sy = weak_turret.y
-    power = weak_turret.p
+    weak_turrent = live_turrent[0]
+    sx = weak_turrent.x
+    sy = weak_turrent.y
+    power = weak_turrent.p
 
-    strong_turret = live_turret[-1]
-    ex = strong_turret.x
-    ey = strong_turret.y
+    strong_turrent = live_turrent[-1]
+    ex = strong_turrent.x
+    ey = strong_turrent.y
 
     for dx2, dy2 in zip(dxs2, dys2):
-        nx = (ex + dx2 + n) % n
-        ny = (ey + dy2 + m) % m
+        nx = (ex + dx2 + n) %n
+        ny = (ey + dy2 + n) %m
 
         if nx == sx and ny == sy:
             continue
@@ -165,27 +160,29 @@ def reserve():
         for j in range(m):
             if is_active[i][j]:
                 continue
+
             if board[i][j] == 0:
                 continue
-            board[i][j] += 1
+
+            board[i][j] +=1
+            
 
 for _ in range(k):
-    live_turret = []
+    live_turrent  =[]
     for i in range(n):
         for j in range(m):
             if board[i][j]:
-                new_turret = Turrent(i, j, rec[i][j], board[i][j])
-                live_turret.append(new_turret)
-    if len(live_turret) <= 1:
+                new_turrent = Turrent(i, j, rec[i][j], board[i][j])
+                live_turrent.append(new_turrent)
+
+    if len(live_turrent) <= 1:
         break
 
     init()
-
     awake()
-
     is_suc = laser_attack()
     if not is_suc:
-        bomb_attack
+        bomb_attack()
 
     reserve()
 
