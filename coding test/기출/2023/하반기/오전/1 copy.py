@@ -17,11 +17,10 @@ nc = [0 for _ in range(MAX_N)]
 dmg = [0 for _ in range(MAX_N)]
 is_moved = [False for _ in range(MAX_N)]
 
-
 def try_movement(idx, dir):
     q = deque()
     is_pos = True
-    
+
     for i in range(1, n + 1):
         dmg[i] = 0
         is_moved[i] = False
@@ -29,7 +28,7 @@ def try_movement(idx, dir):
         nc[i] = c[i]
 
     q.append(idx)
-    is_moved[idx] = True
+    is_moved[idx]  = True
 
     while q:
         x = q.popleft()
@@ -37,14 +36,14 @@ def try_movement(idx, dir):
         nr[x] += dx[dir]
         nc[x] += dy[dir]
 
-        if nr[x] < 1 or nc[x] < 1 or nr[x] + h[x] -1 >l or nc[x] + w[x] -1 >l:
+        if nr[x] < 1 or nc[x] < 1 or nr[x] + h[x] -1 > l or nc[x] + w[x] -1 > l:
             return False
         
         for i in range(nr[x], nr[x] + h[x]):
             for j in range(nc[x], nc[x] + w[x]):
-                if info[i][j]  == 1:
+                if info[i][j] == 1:
                     dmg[x] += 1
-                if info[i][j] ==2:
+                if info[i][h] == 2:
                     return False
                 
         for i in range(1, n + 1):
@@ -57,14 +56,13 @@ def try_movement(idx, dir):
 
             is_moved[i] = True
             q.append(i)
-
     dmg[idx] = 0
     return True
 
 def move_piece(idx, move_dir):
     if k[idx] <= 0:
         return
-
+    
     if try_movement(idx, move_dir):
         for i in range(1, n + 1):
             r[i] = nr[i]
@@ -82,5 +80,5 @@ for _ in range(q):
     idx, d = map(int, input().split())
     move_piece(idx, d)
 
-ans = sum([bef_k[i] - k[i] for i in range(1, n + 1) if k[i] > 0])
+ans = sum([bef_k[i] - k[i] for i in range(1, n + 1) if k[i]> 0])
 print(ans)
